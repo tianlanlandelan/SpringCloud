@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="base64.js"></script>
+</head>
+<body>
+    <script>
+        var ss1 = "7";
+        var ss2 = "6";
+        var ss3 = "ProxyTestUpdated";
+        var ss4 = "代理组件添加的角色(已修改)";
+        var str1 = Base64.encode(ss1);
+        var str2 = Base64.encode(ss2);
+        var str3 = Base64.encode(ss3);
+        var str4 = Base64.encode(ss4);
+        var s1 = Base64.decode(str1);
+        var s2 = Base64.decode(str2);
+        var s3 = Base64.decode(str3);
+        var s4 = Base64.decode(str4);
+
+        console.log(ss1,str1,s1);
+        console.log(ss2,str2,s2);
+        console.log(ss3,str3,s3);
+        console.log(ss4,str4,s4);
+
+        window.sessionStorage.getItem("userId");
+    </script>
+</body>
+</html>
