@@ -11,7 +11,11 @@ import org.springframework.web.client.RestTemplate;
 
 import java.nio.charset.Charset;
 
-//@EnableDiscoveryClient
+/**
+ * @author 杨凯乐
+ * @date 2018-09-25 09:33:23
+ */
+@EnableDiscoveryClient
 @EnableEurekaServer
 @SpringBootApplication
 public class ServiceregistycenterApplication {
