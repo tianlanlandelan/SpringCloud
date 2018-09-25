@@ -2,17 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7cce02ad-eeb5-4c46-9484-b91ac3771892" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/logcenter/src/main/resources/application-dev.properties" beforeDir="false" afterPath="$PROJECT_DIR$/logcenter/src/main/resources/application-dev.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proxycenter/src/main/resources/application-dev.properties" beforeDir="false" afterPath="$PROJECT_DIR$/proxycenter/src/main/resources/application-dev.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/publicservicecenter/src/main/resources/application-dev.properties" beforeDir="false" afterPath="$PROJECT_DIR$/publicservicecenter/src/main/resources/application-dev.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serviceregistycenter/lib/common.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/serviceregistycenter/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/serviceregistycenter/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serviceregistycenter/serviceregistycenter.iml" beforeDir="false" afterPath="$PROJECT_DIR$/serviceregistycenter/serviceregistycenter.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serviceregistycenter/src/main/java/com/originaldreams/serviceregistycenter/ServiceregistycenterApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/serviceregistycenter/src/main/java/com/originaldreams/serviceregistycenter/ServiceregistycenterApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/serviceregistycenter/src/main/resources/application-dev.properties" beforeDir="false" afterPath="$PROJECT_DIR$/serviceregistycenter/src/main/resources/application-dev.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/usermanagercenter/src/main/resources/application-dev.properties" beforeDir="false" afterPath="$PROJECT_DIR$/usermanagercenter/src/main/resources/application-dev.properties" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/common/target/" />
     <ignored path="$PROJECT_DIR$/logcenter/target/" />
@@ -29,6 +20,15 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name=".gitignore" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/.gitignore">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="75">
+              <caret line="5" column="7" selection-start-line="5" selection-start-column="7" selection-end-line="5" selection-end-column="7" />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="application-prod.properties" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/publicservicecenter/src/main/resources/application-prod.properties">
           <provider selected="true" editor-type-id="text-editor">
@@ -65,7 +65,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="application-dev.properties" pinned="false" current-in-tab="true">
+      <file leaf-file-name="application-dev.properties" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/publicservicecenter/src/main/resources/application-dev.properties">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="225">
@@ -107,7 +107,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/.gitignore" />
         <option value="$PROJECT_DIR$/serviceregistycenter/src/main/java/com/originaldreams/serviceregistycenter/utils.java" />
         <option value="$PROJECT_DIR$/serviceregistycenter/src/main/java/com/originaldreams/serviceregistycenter/CacheUtils.java" />
         <option value="$PROJECT_DIR$/serviceregistycenter/src/main/java/com/originaldreams/serviceregistycenter/controller/HttpController.java" />
@@ -124,6 +123,7 @@
         <option value="$PROJECT_DIR$/logcenter/src/main/resources/application-dev.properties" />
         <option value="$PROJECT_DIR$/publicservicecenter/src/main/resources/application-prod.properties" />
         <option value="$PROJECT_DIR$/publicservicecenter/src/main/resources/application-dev.properties" />
+        <option value="$PROJECT_DIR$/.gitignore" />
       </list>
     </option>
   </component>
@@ -315,15 +315,16 @@
       <option name="presentableId" value="Default" />
       <updated>1537674154739</updated>
       <workItem from="1537674158336" duration="899000" />
-      <workItem from="1537837209349" duration="4362000" />
+      <workItem from="1537837209349" duration="4702000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="5261000" />
+    <option name="totallyTimeSpent" value="5601000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="1680" height="947" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
@@ -343,9 +344,9 @@
       <window_info anchor="bottom" id="Java Enterprise" order="7" />
       <window_info anchor="right" id="Capture Analysis" order="3" />
       <window_info anchor="bottom" id="Version Control" order="7" weight="0.32941177" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.2835294" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.2835294" />
       <window_info anchor="bottom" id="Spring" order="7" />
-      <window_info anchor="bottom" id="Terminal" order="7" weight="0.17067583" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.44117647" />
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.23748474" />
       <window_info anchor="right" id="Bean Validation" order="3" />
       <window_info id="Web" order="2" side_tool="true" />
@@ -371,13 +372,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="9" selection-start-line="4" selection-start-column="9" selection-end-line="4" selection-end-column="9" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -577,6 +571,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
           <caret line="15" column="39" selection-start-line="15" selection-start-column="39" selection-end-line="15" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="7" selection-start-line="5" selection-start-column="7" selection-end-line="5" selection-end-column="7" />
         </state>
       </provider>
     </entry>
