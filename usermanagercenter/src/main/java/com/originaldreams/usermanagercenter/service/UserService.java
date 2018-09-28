@@ -2,6 +2,7 @@ package com.originaldreams.usermanagercenter.service;
 
 import com.originaldreams.common.encryption.MyMD5Utils;
 import com.originaldreams.common.response.MyServiceResponse;
+import com.originaldreams.common.router.MyLogRouter;
 import com.originaldreams.common.router.MyRouter;
 import com.originaldreams.common.util.ResponseUtils;
 import com.originaldreams.usermanagercenter.entity.UserInfo;
@@ -104,7 +105,7 @@ public class UserService {
                         map.put("ip","ddd");
 
                         //记录登录日志
-                        ResponseEntity<String> responseEntity = restTemplate.postForEntity(MyRouter.LOG_LOGON_LOG_INSERT +
+                        ResponseEntity<String> responseEntity = restTemplate.postForEntity(MyLogRouter.getInstance().LOG_LOGON_LOG_INSERT +
                                 "?userId={userId}&type={type}&way={way}&ip={ip}",null,String.class,map);
                         logger.info("logonLog Ok: " + responseEntity.getBody());
                     }else {
@@ -156,7 +157,7 @@ public class UserService {
         map.put("phone",user.getPhone());
         map.put("codeStr",verificationCode);
         //验证短信验证码
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity(MyRouter.LOG_SMSLOG_CHECK_AND_UPDATE_STATE +
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity( MyLogRouter.getInstance().LOG_SMSLOG_CHECK_AND_UPDATE_STATE +
                 "?phone={phone}&codeStr={codeStr}",String.class,map);
         if(ResponseUtils.isSuccess(responseEntity)){
             return register(user);

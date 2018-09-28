@@ -7,9 +7,9 @@ import java.util.Map;
  * @author yangkaile
  * @date 2018-09-18 14:51:31
  */
-public class Routers {
+public class MyRouters {
     public static Map<String, MyRouterObject> routerMap = new HashMap<>();
-    public Routers(){
+    public MyRouters(){
         MyUserManagerRouter.getInstance().init();
         MyLogRouter.getInstance().init();
         MyPublicServiceRouter.getInstance().init();
@@ -18,8 +18,8 @@ public class Routers {
 
 
     public static void main(String[] arges){
-        Routers routers = new Routers();
-        for(MyRouterObject object :Routers.routerMap.values()){
+        MyRouters routers = new MyRouters();
+        for(MyRouterObject object :MyRouters.routerMap.values()){
             System.out.println(object);
         }
     }
