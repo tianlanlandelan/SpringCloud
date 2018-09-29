@@ -2,6 +2,7 @@ package com.originaldreams.publicservicecenter.controller;
 
 import com.originaldreams.common.response.MyResponse;
 import com.originaldreams.common.response.MyServiceResponse;
+import com.originaldreams.common.router.MyLogRouter;
 import com.originaldreams.common.router.MyRouter;
 import com.originaldreams.publicservicecenter.entity.SMSEntity;
 import com.originaldreams.publicservicecenter.utils.SendSMSUtils;
@@ -17,7 +18,10 @@ import org.springframework.web.client.RestTemplate;
 import java.util.HashMap;
 import java.util.Map;
 
-
+/**
+ * @author yangkaile
+ * @date 2018-09-29 14:07:35
+ */
 @RestController
 @RequestMapping("/SMS")
 public class SMSController {
@@ -49,7 +53,7 @@ public class SMSController {
         map.put("minuteStr",entity.getMinuteStr());
         map.put("result",entity.getResult());
         map.put("statusCode",entity.getStatusCode());
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity(MyRouter.LOG_SMS_LOG_INSERT +
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(MyLogRouter.getInstance().LOG_SMS_LOG_INSERT.getRouterUrl() +
                 "?phone={phone}&type={type}&templateId={templateId}&codeStr={codeStr}" +
                 "&minuteStr={minuteStr}&result={result}&statusCode={statusCode}",null,String.class,map);
         logger.info("smsLog Ok  Response:" + responseEntity.getBody() + " entity:" + entity);
