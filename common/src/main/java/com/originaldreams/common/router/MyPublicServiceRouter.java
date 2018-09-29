@@ -6,7 +6,7 @@ import com.originaldreams.common.util.ConfigUtils;
  * @author yangkaile
  * @date 2018-09-18 14:51:05
  */
-public class MyPublicServiceRouter extends MyNewRouter{
+public class MyPublicServiceRouter extends MyRouter {
 
     @Override
     public int getServiceRouterId(){

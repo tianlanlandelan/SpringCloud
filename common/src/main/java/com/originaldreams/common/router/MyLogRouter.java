@@ -6,7 +6,7 @@ import com.originaldreams.common.util.ConfigUtils;
  * @author yangkaile
  * @date 2018-09-18 13:41:49
  */
-public class MyLogRouter extends MyNewRouter {
+public class MyLogRouter extends MyRouter {
     @Override
     public int getServiceRouterId(){
         return ConfigUtils.ROUTER_ID_LOG;

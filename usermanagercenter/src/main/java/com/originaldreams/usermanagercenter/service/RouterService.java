@@ -1,7 +1,7 @@
 package com.originaldreams.usermanagercenter.service;
 
 import com.originaldreams.common.response.MyServiceResponse;
-import com.originaldreams.common.router.MyRouter;
+import com.originaldreams.common.router.MyRouters;
 import com.originaldreams.common.router.MyRouterObject;
 import com.originaldreams.usermanagercenter.cache.MyCache;
 import com.originaldreams.usermanagercenter.entity.RoleRouters;
@@ -16,6 +16,10 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author yangkaile
+ * @date 2018-09-28 15:04:58
+ */
 @Service
 public class RouterService {
     @Autowired
@@ -31,21 +35,14 @@ public class RouterService {
      *
      */
     public void initRouters(){
-        List<MyRouterObject> list = new ArrayList(MyRouter.routerMapGet.values());
+        List<MyRouterObject> list = new ArrayList(MyRouters.routerMap.values());
         routerMapper.deleteAll();
-        insert(list,"GET");
-        list = new ArrayList(MyRouter.routerMapPost.values());
-        insert(list,"POST");
-        list = new ArrayList(MyRouter.routerMapDelete.values());
-        insert(list,"DELETE");
-        list = new ArrayList(MyRouter.routerMapPut.values());
-        insert(list,"PUT");
+        insert(list);
         logger.trace("initRouters OK");
     }
-    private void insert(List<MyRouterObject> list,String method){
+    private void insert(List<MyRouterObject> list){
         for(MyRouterObject routerObject :list){
-            Router router = Router.parseRouter(routerObject);
-            router.setRequestMethod(method);
+            Router router = new Router(routerObject);
             MyCache.routerMap.put(router.getId(),router);
             routerMapper.insert(router);
         }
@@ -83,13 +80,6 @@ public class RouterService {
         return routerMapper.insert(router);
     }
 
-    public Integer deleteById(Integer id){
-        return routerMapper.deleteById(id);
-    }
-
-    public Integer update(Router router){
-        return routerMapper.update(router);
-    }
 
 
 }

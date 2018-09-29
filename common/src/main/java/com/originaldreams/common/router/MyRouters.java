@@ -7,19 +7,20 @@ import java.util.Map;
  * @author yangkaile
  * @date 2018-09-18 14:51:31
  */
-public class Routers {
+public class MyRouters {
     public static Map<String, MyRouterObject> routerMap = new HashMap<>();
-    public Routers(){
+    static {
         MyUserManagerRouter.getInstance().init();
         MyLogRouter.getInstance().init();
         MyPublicServiceRouter.getInstance().init();
-
     }
 
+    public static MyRouterObject getRouterObject(String key){
+        return routerMap.get(key);
+    }
 
     public static void main(String[] arges){
-        Routers routers = new Routers();
-        for(MyRouterObject object :Routers.routerMap.values()){
+        for(MyRouterObject object :MyRouters.routerMap.values()){
             System.out.println(object);
         }
     }

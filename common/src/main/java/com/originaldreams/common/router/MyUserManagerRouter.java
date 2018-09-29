@@ -6,7 +6,7 @@ import com.originaldreams.common.util.ConfigUtils;
  * @author yangkaile
  * @date 2018-09-18 13:46:58
  */
-public class MyUserManagerRouter  extends  MyNewRouter{
+public class MyUserManagerRouter  extends MyRouter {
 
     @Override
     public int getServiceRouterId(){
@@ -168,7 +168,7 @@ public class MyUserManagerRouter  extends  MyNewRouter{
      * roleId:Integer notNull
      */
     public final MyRouterObject USER_MANAGER_PERMISSION_MANAGER_ADD_ROLE_FOR_USER =
-            new MyRouterObject(20002,
+            new MyRouterObject(getRouterId(10),
                     "USER_MANAGER_PERMISSION_MANAGER_ADD_ROLE_FOR_USER",
                     getUrl( "/permissionManager/addRoleForUser"),
                     ConfigUtils.REQUEST_METHOD_POST);
@@ -180,7 +180,7 @@ public class MyUserManagerRouter  extends  MyNewRouter{
      * routerId:Integer notNull
      */
     public final MyRouterObject USER_MANAGER_PERMISSION_MANAGER_ADD_ROUTER_FOR_ROLE =
-            new MyRouterObject(getRouterId(10),
+            new MyRouterObject(getRouterId(11),
                     "USER_MANAGER_PERMISSION_MANAGER_ADD_ROUTER_FOR_ROLE",
                     getUrl( "/permissionManager/addRouterForRole"),
                     ConfigUtils.REQUEST_METHOD_POST);
@@ -191,7 +191,7 @@ public class MyUserManagerRouter  extends  MyNewRouter{
      * id:Integer notNull
      */
     public final  MyRouterObject USER_MANAGER_PERMISSION_MANAGER_DELETE_ROLE_BY_ID =
-            new MyRouterObject(getRouterId(11),
+            new MyRouterObject(getRouterId(12),
                     "USER_MANAGER_PERMISSION_MANAGER_DELETE_ROLE_BY_ID",
                     getUrl( "/permissionManager/deleteRoleById"),
                     ConfigUtils.REQUEST_METHOD_DELETE);
@@ -204,21 +204,21 @@ public class MyUserManagerRouter  extends  MyNewRouter{
      * description:String null
      */
     public final MyRouterObject USER_MANAGER_PERMISSION_MANAGER_UPDATE_ROLE =
-            new MyRouterObject(getRouterId(12),
+            new MyRouterObject(getRouterId(13),
                     "USER_MANAGER_PERMISSION_MANAGER_UPDATE_ROLE",
                     getUrl("/permissionManager/updateRole"),
                     ConfigUtils.REQUEST_METHOD_PUT);
 
 
     public final MyRouterObject USER_MANAGER_PERMISSION_GET_ALL_USERNAME_AND_ROLENAME =
-            new MyRouterObject(getRouterId(13),
+            new MyRouterObject(getRouterId(14),
                     "USER_MANAGER_PERMISSION_GET_ALL_USERNAME_AND_ROLENAME",
                     getUrl( "/permission/getAllUserNameAndRoleName"),
                     ConfigUtils.REQUEST_METHOD_GET);
 
 
     public final MyRouterObject USER_MANAGER_USER_INFO_GET =
-            new MyRouterObject(getRouterId(14),
+            new MyRouterObject(getRouterId(15),
                     "USER_MANAGER_USER_INFO_GET",
                     getUrl( "/userInfo/get"),
                     ConfigUtils.REQUEST_METHOD_GET);
