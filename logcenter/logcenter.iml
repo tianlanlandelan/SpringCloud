@@ -179,6 +179,6 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-jcl:5.0.7.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework:spring-test:5.0.7.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.xmlunit:xmlunit-core:2.5.1" level="project" />
-    <orderEntry type="library" name="Maven: com.originaldreams:common:0.0.5" level="project" />
+    <orderEntry type="library" name="Maven: com.originaldreams:common:0.1.6" level="project" />
   </component>
 </module>

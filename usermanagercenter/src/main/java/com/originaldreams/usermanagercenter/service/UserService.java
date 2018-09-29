@@ -105,7 +105,8 @@ public class UserService {
                         map.put("ip","ddd");
 
                         //记录登录日志
-                        ResponseEntity<String> responseEntity = restTemplate.postForEntity(MyLogRouter.getInstance().LOG_LOGON_LOG_INSERT +
+                        ResponseEntity<String> responseEntity = restTemplate.postForEntity(
+                                MyLogRouter.getInstance().LOG_LOGON_LOG_INSERT.getRouterUrl() +
                                 "?userId={userId}&type={type}&way={way}&ip={ip}",null,String.class,map);
                         logger.info("logonLog Ok: " + responseEntity.getBody());
                     }else {
@@ -157,7 +158,8 @@ public class UserService {
         map.put("phone",user.getPhone());
         map.put("codeStr",verificationCode);
         //验证短信验证码
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity( MyLogRouter.getInstance().LOG_SMSLOG_CHECK_AND_UPDATE_STATE +
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(
+                MyLogRouter.getInstance().LOG_SMSLOG_CHECK_AND_UPDATE_STATE.getRouterUrl() +
                 "?phone={phone}&codeStr={codeStr}",String.class,map);
         if(ResponseUtils.isSuccess(responseEntity)){
             return register(user);

@@ -15,6 +15,9 @@ public class MyRouters {
         MyPublicServiceRouter.getInstance().init();
     }
 
+    public static MyRouterObject getRouterObject(String key){
+        return routerMap.get(key);
+    }
 
     public static void main(String[] arges){
         for(MyRouterObject object :MyRouters.routerMap.values()){
