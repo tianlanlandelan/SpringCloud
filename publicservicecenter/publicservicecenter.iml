@@ -181,7 +181,7 @@
     <orderEntry type="library" scope="TEST" name="Maven: org.xmlunit:xmlunit-core:2.5.1" level="project" />
     <orderEntry type="library" name="Maven: javax.mail:mail:1.4.7" level="project" />
     <orderEntry type="library" name="Maven: javax.activation:activation:1.1" level="project" />
-    <orderEntry type="library" name="Maven: com.originaldreams:common:0.1.0" level="project" />
+    <orderEntry type="library" name="Maven: com.originaldreams:common:0.1.6" level="project" />
     <orderEntry type="library" name="Maven: com.originaldreams:smssdk:2.6.3" level="project" />
   </component>
 </module>
