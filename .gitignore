@@ -3,4 +3,4 @@
 /*/src/main/resources/application-prod.properties
 /*/target/
 .DS_Store
-./idea/
+.idea
