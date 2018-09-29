@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author yangkaile 
+ * @author yangkaile
  * @date 2018-09-28 15:04:58
  */
 @Service
@@ -80,13 +80,6 @@ public class RouterService {
         return routerMapper.insert(router);
     }
 
-    public Integer deleteById(Integer id){
-        return routerMapper.deleteById(id);
-    }
-
-    public Integer update(Router router){
-        return routerMapper.update(router);
-    }
 
 
 }

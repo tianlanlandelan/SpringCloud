@@ -9,16 +9,14 @@ import java.util.Map;
  */
 public class MyRouters {
     public static Map<String, MyRouterObject> routerMap = new HashMap<>();
-    public MyRouters(){
+    static {
         MyUserManagerRouter.getInstance().init();
         MyLogRouter.getInstance().init();
         MyPublicServiceRouter.getInstance().init();
-
     }
 
 
     public static void main(String[] arges){
-        MyRouters routers = new MyRouters();
         for(MyRouterObject object :MyRouters.routerMap.values()){
             System.out.println(object);
         }
