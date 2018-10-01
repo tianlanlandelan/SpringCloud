@@ -99,8 +99,6 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
         </plugins>
-        <finalName>publicservice</finalName>
+        <finalName>publicService</finalName>
     </build>
-
-
 </project>

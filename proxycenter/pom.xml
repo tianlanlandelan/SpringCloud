@@ -83,6 +83,4 @@
         </plugins>
         <finalName>proxy</finalName>
     </build>
-
-
 </project>

@@ -80,6 +80,4 @@
         </plugins>
         <finalName>log</finalName>
     </build>
-
-
 </project>
