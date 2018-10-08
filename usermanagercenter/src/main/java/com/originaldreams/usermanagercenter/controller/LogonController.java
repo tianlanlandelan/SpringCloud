@@ -7,6 +7,7 @@ import com.originaldreams.common.util.StringUtils;
 import com.originaldreams.common.util.ValidUserName;
 import com.originaldreams.usermanagercenter.entity.User;
 import com.originaldreams.usermanagercenter.service.UserService;
+import com.originaldreams.usermanagercenter.utils.RouterAttribute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,8 +43,9 @@ public class LogonController {
      * @param password
      * @return
      */
+    @RouterAttribute(id = 1 ,description = "登录接口")
     @RequestMapping(value = "/logon",method = RequestMethod.POST)
-    ResponseEntity logon(String userName,String phone,String wxId,String email,String password){
+    public ResponseEntity logon(String userName,String phone,String wxId,String email,String password){
         logger.info(userName + "--" + phone + "--" + email + "--" + password);
         if(userName == null && phone == null && email == null && password == null){
             return MyResponse.badRequest();
@@ -68,6 +70,7 @@ public class LogonController {
      * @param verificationCode 验证码
      * @return
      */
+    @RouterAttribute(id = 2 ,description = "注册接口")
     @RequestMapping(value = "/register" , method = RequestMethod.POST)
     public ResponseEntity register(String userName,String password,String verificationCode) {
         try {
