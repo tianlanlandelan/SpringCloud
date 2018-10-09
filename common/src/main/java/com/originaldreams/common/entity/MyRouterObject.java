@@ -1,4 +1,4 @@
-package com.originaldreams.common.router;
+package com.originaldreams.common.entity;
 
 /**
  * @author 杨凯乐

@@ -1,12 +1,12 @@
 package com.originaldreams.common.service;
 
 import com.originaldreams.common.mapper.RouterMapper;
-import com.originaldreams.common.router.MyRouterObject;
+import com.originaldreams.common.entity.MyRouterObject;
+import com.originaldreams.common.router.MyRouters;
 import com.originaldreams.common.router.MyServiceName;
 import com.originaldreams.common.router.RouterAttribute;
 import com.originaldreams.common.util.ConfigUtils;
 import com.originaldreams.common.util.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -94,7 +94,7 @@ public class RouterService {
                 }
             }
         }
-
+        MyRouters.getInstance().initRouterMap(list);
         return list;
     }
 

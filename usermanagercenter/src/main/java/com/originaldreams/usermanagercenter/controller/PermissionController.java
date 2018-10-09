@@ -2,7 +2,6 @@ package com.originaldreams.usermanagercenter.controller;
 
 import com.originaldreams.common.response.MyResponse;
 import com.originaldreams.usermanagercenter.service.*;
-import com.originaldreams.usermanagercenter.utils.RouterAttribute;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +33,6 @@ public class PermissionController {
      * 查询所有角色
      * @return
      */
-    @RouterAttribute(id = 1 ,description = "getAllRoles")
     @RequestMapping(value = "/getAllRoles" , method = RequestMethod.GET)
     public ResponseEntity getAllRoles(){
         return MyResponse.ok(roleService.getAll());
@@ -45,7 +43,6 @@ public class PermissionController {
      * @param userId
      * @return
      */
-    @RouterAttribute(id = 2 ,description = "getRoleByUserId")
     @RequestMapping(value = "/getRoleByUserId" , method = RequestMethod.GET)
     public ResponseEntity getRoleByUserId(Integer userId){
         if(userId == null || userId < 0){

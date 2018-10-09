@@ -3,7 +3,6 @@ package com.originaldreams.usermanagercenter;
 import com.originaldreams.usermanagercenter.controller.LogonController;
 import com.originaldreams.usermanagercenter.controller.PermissionController;
 import com.originaldreams.usermanagercenter.utils.MyRouterObject;
-import com.originaldreams.usermanagercenter.utils.RouterUtils;
 import org.junit.Test;
 import java.lang.reflect.Method;
 import java.util.List;

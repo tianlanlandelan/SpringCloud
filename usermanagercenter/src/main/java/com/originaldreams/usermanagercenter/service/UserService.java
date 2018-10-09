@@ -3,7 +3,7 @@ package com.originaldreams.usermanagercenter.service;
 import com.originaldreams.common.encryption.MyMD5Utils;
 import com.originaldreams.common.response.MyServiceResponse;
 import com.originaldreams.common.router.MyLogRouter;
-import com.originaldreams.common.router.MyRouter;
+import com.originaldreams.common.router.MyRouters;
 import com.originaldreams.common.util.ResponseUtils;
 import com.originaldreams.usermanagercenter.entity.UserInfo;
 import com.originaldreams.usermanagercenter.mapper.UserInfoMapper;
@@ -17,6 +17,7 @@ import com.originaldreams.usermanagercenter.entity.User;
 import com.originaldreams.usermanagercenter.mapper.UserMapper;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,10 +28,10 @@ import java.util.Map;
  */
 @Service
 public class UserService {
-    @Autowired
+    @Resource
     private UserMapper userMapper;
 
-    @Autowired
+    @Resource
     private UserInfoMapper userInfoMapper;
 
     @Autowired
@@ -106,7 +107,7 @@ public class UserService {
 
                         //记录登录日志
                         ResponseEntity<String> responseEntity = restTemplate.postForEntity(
-                                MyLogRouter.getInstance().LOG_LOGON_LOG_INSERT.getRouterUrl() +
+                                MyRouters.getInstance().routerMap.get(MyLogRouter.INSERT_LOGON_LOG).getRouterUrl() +
                                 "?userId={userId}&type={type}&way={way}&ip={ip}",null,String.class,map);
                         logger.info("logonLog Ok: " + responseEntity.getBody());
                     }else {
@@ -157,9 +158,9 @@ public class UserService {
         Map<String, Object> map = new HashMap<>();
         map.put("phone",user.getPhone());
         map.put("codeStr",verificationCode);
-        //验证短信验证码
+        //验证短信验证码 TODO
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(
-                MyLogRouter.getInstance().LOG_SMSLOG_CHECK_AND_UPDATE_STATE.getRouterUrl() +
+                MyRouters.getInstance().routerMap.get(MyLogRouter.CHECK_SMS) +
                 "?phone={phone}&codeStr={codeStr}",String.class,map);
         if(ResponseUtils.isSuccess(responseEntity)){
             return register(user);
