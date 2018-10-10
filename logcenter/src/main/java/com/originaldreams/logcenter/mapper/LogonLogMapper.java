@@ -48,10 +48,10 @@ public interface LogonLogMapper {
          " FROM " +
          tableName +
          " <where> " +
-         "<if test=\"entity != null and entity.type != null\"> AND type= #{entity.type}  </if>" +
-         "<if test=\"entity != null and entity.way != null\"> AND way= #{entity.way}  </if>" +
-         "<if test=\"entity != null and entity.ip != null\"> AND ip= #{entity.ip}  </if>" +
-         "<if test=\"entity != null and entity.userId != null\"> AND userId= #{entity.userId}  </if>" +
+         "<if test=\"com.originaldreams.serviceregistycenter.entity != null and com.originaldreams.serviceregistycenter.entity.type != null\"> AND type= #{com.originaldreams.serviceregistycenter.entity.type}  </if>" +
+         "<if test=\"com.originaldreams.serviceregistycenter.entity != null and com.originaldreams.serviceregistycenter.entity.way != null\"> AND way= #{com.originaldreams.serviceregistycenter.entity.way}  </if>" +
+         "<if test=\"com.originaldreams.serviceregistycenter.entity != null and com.originaldreams.serviceregistycenter.entity.ip != null\"> AND ip= #{com.originaldreams.serviceregistycenter.entity.ip}  </if>" +
+         "<if test=\"com.originaldreams.serviceregistycenter.entity != null and com.originaldreams.serviceregistycenter.entity.userId != null\"> AND userId= #{com.originaldreams.serviceregistycenter.entity.userId}  </if>" +
          "<if test=\"startDate != null\"> AND createDatetime &gt; #{startDate}  </if>" +
          "<if test=\"endDate != null\"> AND createDatetime  &lt; #{endDate}  </if>" +
          " </where> " +

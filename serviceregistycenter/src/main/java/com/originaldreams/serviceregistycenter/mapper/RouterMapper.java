@@ -1,6 +1,6 @@
-package com.originaldreams.common.mapper;
+package com.originaldreams.serviceregistycenter.mapper;
 
-import com.originaldreams.common.entity.MyRouterObject;
+import com.originaldreams.serviceregistycenter.entity.MyRouterObject;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;

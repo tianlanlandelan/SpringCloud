@@ -9,19 +9,21 @@ import org.springframework.stereotype.Service;
 import com.originaldreams.usermanagercenter.entity.Role;
 import com.originaldreams.usermanagercenter.mapper.RoleMapper;
 
+import javax.annotation.Resource;
+
 /**
  * @author yangkaile
  * @date 2018-09-05 08:54:10
  */
 @Service
 public class RoleService {
-    @Autowired
+    @Resource
     private RoleMapper roleMapper;
 
-    @Autowired
+    @Resource
     private UserRolesMapper userRolesMapper;
 
-    @Autowired
+    @Resource
     private RoleRoutersMapper roleRoutersMapper;
 
     public MyServiceResponse getAll(){

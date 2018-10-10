@@ -56,7 +56,7 @@ public class SMSController {
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(MyLogRouter.getInstance().LOG_SMS_LOG_INSERT.getRouterUrl() +
                 "?phone={phone}&type={type}&templateId={templateId}&codeStr={codeStr}" +
                 "&minuteStr={minuteStr}&result={result}&statusCode={statusCode}",null,String.class,map);
-        logger.info("smsLog Ok  Response:" + responseEntity.getBody() + " entity:" + entity);
+        logger.info("smsLog Ok  Response:" + responseEntity.getBody() + " com.originaldreams.serviceregistycenter.entity:" + entity);
 
         if(SendSMSUtils.RESULT_SUCCESS_CODE.equals(entity.getStatusCode())){
             return MyResponse.ok(response);

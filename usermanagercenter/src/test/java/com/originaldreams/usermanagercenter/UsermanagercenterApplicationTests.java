@@ -37,11 +37,11 @@ public class UsermanagercenterApplicationTests {
         }
     }
 
-    @Test
-    public  void readRouters() {
-        List<MyRouterObject> list = RouterUtils.readRouters(LogonController.class,PermissionController.class);
-        for(MyRouterObject myRouterObject : list){
-            System.out.println(myRouterObject);
-        }
-    }
+//    @Test
+//    public  void readRouters() {
+//        List<MyRouterObject> list = RouterUtils.readRouters(LogonController.class,PermissionController.class);
+//        for(MyRouterObject myRouterObject : list){
+//            System.out.println(myRouterObject);
+//        }
+//    }
 }
