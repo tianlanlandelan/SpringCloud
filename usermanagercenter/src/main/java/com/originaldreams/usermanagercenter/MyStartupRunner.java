@@ -31,6 +31,6 @@ public class MyStartupRunner  implements CommandLineRunner {
                 PermissionController.class,
                 PermissionManagerController.class,
                 UserInfoController.class);
-        logger.trace("初始化路由表");
+        logger.error("初始化路由表");
     }
 }

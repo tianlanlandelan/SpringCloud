@@ -1,6 +1,6 @@
 package com.originaldreams.usermanagercenter;
 
-import com.originaldreams.common.router.MyRouterObject;
+import com.originaldreams.common.entity.MyRouterObject;
 import com.originaldreams.common.router.MyServiceName;
 import com.originaldreams.common.router.RouterAttribute;
 import com.originaldreams.common.util.ConfigUtils;

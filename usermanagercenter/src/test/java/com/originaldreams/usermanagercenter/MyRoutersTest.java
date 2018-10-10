@@ -1,6 +1,6 @@
 package com.originaldreams.usermanagercenter;
 
-import com.originaldreams.common.router.MyRouterObject;
+import com.originaldreams.common.entity.MyRouterObject;
 import com.originaldreams.common.router.MyServiceName;
 import com.originaldreams.usermanagercenter.controller.LogonController;
 import com.originaldreams.usermanagercenter.controller.PermissionController;
@@ -26,10 +26,10 @@ public class MyRoutersTest {
                 UserInfoController.class);
         RestTemplate restTemplate = new RestTemplate();
 
-        restTemplate.getMessageConverters().add(new StringHttpMessageConverter(Charset.forName("utf-8")));
-        for(MyRouterObject object:list){
-            String responseEntity = restTemplate.postForObject("http://127.0.0.1:8801/test", object, String.class);
-            System.out.println("registerRouters:" + responseEntity);
-        }
+//        restTemplate.getMessageConverters().add(new StringHttpMessageConverter(Charset.forName("utf-8")));
+//        for(MyRouterObject object:list){
+//            String responseEntity = restTemplate.postForObject("http://127.0.0.1:8801/test", object, String.class);
+//            System.out.println("registerRouters:" + responseEntity);
+//        }
     }
 }

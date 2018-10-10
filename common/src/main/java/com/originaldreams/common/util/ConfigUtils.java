@@ -51,4 +51,6 @@ public class ConfigUtils {
      * Response里表示成功的返回码
      */
     public final static int RESPONSE_RESULT_CODE_SUCCESS_VALUE = 0;
+
+    public final static String ROUTER_REGISTER_URL = "http://127.0.0.1:8801/routerRegister";
 }

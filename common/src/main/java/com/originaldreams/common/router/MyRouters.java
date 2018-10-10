@@ -106,7 +106,7 @@ public class MyRouters {
     public void registerRouters(MyRouterObject object){
         RestTemplate restTemplate = getInstance("utf-8");
         String responseEntity = restTemplate.postForObject(
-                ConfigUtils.HTTP_UTL_PREFIX + MyServiceName.SERVICE_REGISTRY_CENTER + "/routerRegister",object,String.class);
+                ConfigUtils.ROUTER_REGISTER_URL,object,String.class);
         System.out.println("registerRouters:" + responseEntity);
     }
     public static RestTemplate getInstance(String charset) {
