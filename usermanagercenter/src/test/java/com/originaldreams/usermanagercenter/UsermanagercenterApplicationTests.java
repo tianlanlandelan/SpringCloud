@@ -1,10 +1,18 @@
 package com.originaldreams.usermanagercenter;
 
+import com.originaldreams.common.router.MyRouterObject;
+import com.originaldreams.common.router.MyRouters;
+import com.originaldreams.common.router.MyServiceName;
 import com.originaldreams.usermanagercenter.controller.LogonController;
 import com.originaldreams.usermanagercenter.controller.PermissionController;
-import com.originaldreams.usermanagercenter.utils.MyRouterObject;
+import com.originaldreams.usermanagercenter.controller.PermissionManagerController;
+import com.originaldreams.usermanagercenter.controller.UserInfoController;
 import org.junit.Test;
+import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
+
 import java.lang.reflect.Method;
+import java.nio.charset.Charset;
 import java.util.List;
 
 public class UsermanagercenterApplicationTests {
@@ -37,11 +45,19 @@ public class UsermanagercenterApplicationTests {
         }
     }
 
-//    @Test
-//    public  void readRouters() {
-//        List<MyRouterObject> list = RouterUtils.readRouters(LogonController.class,PermissionController.class);
-//        for(MyRouterObject myRouterObject : list){
-//            System.out.println(myRouterObject);
-//        }
-//    }
+    @Test
+    public  void readRouters() {
+
+        List<MyRouterObject> list = MyRouters.getInstance().initRouters(MyServiceName.USER_MANAGER_CENTER,
+                LogonController.class,
+                PermissionController.class,
+                PermissionManagerController.class,
+                UserInfoController.class);
+        RestTemplate restTemplate = new RestTemplate();
+        restTemplate.getMessageConverters().add(new StringHttpMessageConverter(Charset.forName("utf-8")));
+        for(MyRouterObject object:list){
+            String responseEntity = (String)restTemplate.postForObject("http://127.0.0.1:8801/test", object, String.class, new Object[0]);
+            System.out.println("registerRouters:" + responseEntity);
+        }
+    }
 }

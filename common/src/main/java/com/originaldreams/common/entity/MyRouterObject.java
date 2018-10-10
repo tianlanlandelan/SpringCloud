@@ -1,4 +1,4 @@
-package com.originaldreams.serviceregistycenter.entity;
+package com.originaldreams.common.entity;
 
 /**
  * @author 杨凯乐

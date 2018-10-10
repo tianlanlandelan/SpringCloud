@@ -1,6 +1,8 @@
-package com.originaldreams.common.router;
+package com.originaldreams.usermanagercenter;
 
-import com.originaldreams.common.entity.MyRouterObject;
+import com.originaldreams.common.router.MyRouterObject;
+import com.originaldreams.common.router.MyServiceName;
+import com.originaldreams.common.router.RouterAttribute;
 import com.originaldreams.common.util.ConfigUtils;
 import com.originaldreams.common.util.StringUtils;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
@@ -20,12 +22,12 @@ import java.util.Map;
  * @author yangkaile
  * @date 2018-10-09 09:37:33
  */
-public class MyRouters {
+public class MyRouters111 {
 
-    private static MyRouters _instance;
-    public static MyRouters getInstance(){
+    private static com.originaldreams.common.router.MyRouters _instance;
+    public static com.originaldreams.common.router.MyRouters getInstance(){
         if(_instance == null){
-            _instance  = new MyRouters();
+            _instance  = new com.originaldreams.common.router.MyRouters();
         }
         return _instance;
     }
@@ -99,14 +101,14 @@ public class MyRouters {
                 }
             }
         }
-        MyRouters.getInstance().initRouterMap(list);
+        com.originaldreams.common.router.MyRouters.getInstance().initRouterMap(list);
         return list;
     }
 
     public void registerRouters(MyRouterObject object){
         RestTemplate restTemplate = getInstance("utf-8");
         String responseEntity = restTemplate.postForObject(
-                ConfigUtils.HTTP_UTL_PREFIX + MyServiceName.SERVICE_REGISTRY_CENTER + "/routerRegister",object,String.class);
+                        "http://127.0.0.1:8801/test",object,String.class);
         System.out.println("registerRouters:" + responseEntity);
     }
     public static RestTemplate getInstance(String charset) {

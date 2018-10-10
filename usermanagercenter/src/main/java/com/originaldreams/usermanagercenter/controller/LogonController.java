@@ -2,6 +2,7 @@ package com.originaldreams.usermanagercenter.controller;
 
 import com.originaldreams.common.response.MyResponse;
 import com.originaldreams.common.response.MyServiceResponse;
+import com.originaldreams.common.router.RouterAttribute;
 import com.originaldreams.common.util.StringUtils;
 import com.originaldreams.common.util.ValidUserName;
 import com.originaldreams.usermanagercenter.entity.User;
@@ -37,6 +38,7 @@ public class LogonController {
      * @param password
      * @return
      */
+    @RouterAttribute(id = 1001, description = "我是登录接口")
     @RequestMapping(value = "/logon",method = RequestMethod.POST)
     public ResponseEntity logon(String userName,String phone,String wxId,String email,String password){
         logger.info(userName + "--" + phone + "--" + email + "--" + password);
@@ -63,6 +65,7 @@ public class LogonController {
      * @param verificationCode 验证码
      * @return
      */
+    @RouterAttribute(id = 1002, description = "我是注册接口")
     @RequestMapping(value = "/register" , method = RequestMethod.POST)
     public ResponseEntity register(String userName,String password,String verificationCode) {
         try {
