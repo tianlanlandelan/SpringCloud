@@ -47,7 +47,9 @@
 
     <build>
        <finalName>common</finalName>
-
+        <directory>
+            /Users/yangkaile/jars/
+        </directory>
         <plugins>
             <!-- <plugin>
                 <groupId>org.springframework.boot</groupId>

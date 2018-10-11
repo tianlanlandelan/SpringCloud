@@ -4,37 +4,24 @@ package com.originaldreams.common.router;
  * @author yangkaile
  * @date 2018-09-18 13:46:58
  */
-public class MyUserManagerRouter implements RouterInterface{
+public class MyUserManagerRouter {
 
-    @Override
-    public int getRouterId(int index) {
-        return 10 * 1000 + index;
-    }
-
-    private static MyUserManagerRouter _instance;
-    private static MyUserManagerRouter getInstance(){
-        if(_instance == null){
-            _instance = new MyUserManagerRouter();
-        }
-        return _instance;
-    }
-
-    public final int logon                      = getRouterId(1);
-    public final int register                   = getRouterId(2);
-    public final int getAllRoles                = getRouterId(3);
-    public final int getRoleByUserId            = getRouterId(4);
-    public final int getRolesByRouterId         = getRouterId(5);
-    public final int getUserByRoleId            = getRouterId(6);
-    public final int getAllRouters              = getRouterId(7);
-    public final int getRoutersByRoleId         = getRouterId(8);
-    public final int getRouterIdsByUserId       = getRouterId(9);
-    public final int getAllUserNameAndRoleName  = getRouterId(10);
-    public final int addRole                    = getRouterId(11);
-    public final int addRoleForUser             = getRouterId(12);
-    public final int addRouterForRole           = getRouterId(13);
-    public final int deleteRoleById             = getRouterId(14);
-    public final int updateRole                 = getRouterId(15);
-    public final int getUserInfoById            = getRouterId(16);
-    public final int updateUserInfo             = getRouterId(17);
+    public final static int LOGON                           = 10001;
+    public final static int REGISTER                        = 10002;
+    public final static int GET_ALL_ROLES                   = 10003;
+    public final static int GET_ROLE_BY_USER_ID             = 10004;
+    public final static int GET_ROLES_BY_ROUTER_ID          = 10005;
+    public final static int GET_USER_BY_ROLE_ID             = 10006;
+    public final static int GET_ALL_ROUTERS                 = 10007;
+    public final static int GET_ROUTERS_BY_ROLE_ID          = 10008;
+    public final static int GET_ROUTER_IDS_BY_USER_ID       = 10009;
+    public final static int GET_ALL_USER_NAME_AND_ROLE_NAME = 10010;
+    public final static int ADD_ROLE                        = 10011;
+    public final static int ADD_ROLE_FOR_USER               = 10012;
+    public final static int ADD_ROUTER_FOR_ROLE             = 10013;
+    public final static int DELETE_ROLE_BY_ID               = 10014;
+    public final static int UPDATE_ROLE                     = 10015;
+    public final static int GET_USER_INFO_BY_ID             = 10016;
+    public final static int UPDATE_USER_INFO                = 10017;
 
 }

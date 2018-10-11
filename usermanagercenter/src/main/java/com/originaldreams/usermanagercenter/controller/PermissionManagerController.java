@@ -1,6 +1,8 @@
 package com.originaldreams.usermanagercenter.controller;
 
 import com.originaldreams.common.response.MyResponse;
+import com.originaldreams.common.router.MyUserManagerRouter;
+import com.originaldreams.common.router.RouterAttribute;
 import com.originaldreams.usermanagercenter.entity.Role;
 import com.originaldreams.usermanagercenter.entity.RoleRouters;
 import com.originaldreams.usermanagercenter.entity.UserRoles;
@@ -37,6 +39,7 @@ public class PermissionManagerController {
      * @param description
      * @return
      */
+    @RouterAttribute(id = MyUserManagerRouter.ADD_ROLE, description = "我是登录接口")
     @RequestMapping(value = "addRole" , method = RequestMethod.POST)
     public ResponseEntity addRole(String name,String description){
         if(name == null || description == null){
@@ -52,6 +55,7 @@ public class PermissionManagerController {
      * @param roleId
      * @return
      */
+    @RouterAttribute(id = MyUserManagerRouter.ADD_ROLE_FOR_USER, description = "我是登录接口")
     @RequestMapping(value = "addRoleForUser" , method = RequestMethod.POST)
     public ResponseEntity addRoleForUser(Integer userId,Integer roleId){
         if(userId == null || roleId == null){
@@ -67,6 +71,7 @@ public class PermissionManagerController {
      * @param routerId
      * @return
      */
+    @RouterAttribute(id = MyUserManagerRouter.ADD_ROUTER_FOR_ROLE, description = "我是登录接口")
     @RequestMapping(value = "addRouterForRole" , method = RequestMethod.POST)
     public ResponseEntity addRouterForRole(Integer roleId,Integer routerId){
         if(roleId == null || routerId == null){
@@ -83,6 +88,7 @@ public class PermissionManagerController {
      * @param id    角色id
      * @return
      */
+    @RouterAttribute(id = MyUserManagerRouter.DELETE_ROLE_BY_ID, description = "我是登录接口")
     @RequestMapping(value = "deleteRoleById" ,method = RequestMethod.DELETE)
     public ResponseEntity deleteRoleById(Integer id){
         if(id == null){
@@ -98,6 +104,7 @@ public class PermissionManagerController {
      * @param description 新的角色描述 null
      * @return
      */
+    @RouterAttribute(id = MyUserManagerRouter.UPDATE_ROLE, description = "我是登录接口")
     @RequestMapping(value = "updateRole" ,method = RequestMethod.PUT)
     public ResponseEntity updateRole(Integer id,String name,String description){
         if(id == null || name == null){
