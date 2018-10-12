@@ -60,7 +60,7 @@
     <orderEntry type="library" name="Maven: org.springframework:spring-core:5.0.7.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-jcl:5.0.7.RELEASE" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Maven: org.yaml:snakeyaml:1.19" level="project" />
-    <orderEntry type="library" name="Maven: org.json:json:20180130" level="project" />
+    <orderEntry type="library" name="Maven: com.alibaba:fastjson:1.2.51" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-starter-test:2.0.3.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-test:2.0.3.RELEASE" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-test-autoconfigure:2.0.3.RELEASE" level="project" />

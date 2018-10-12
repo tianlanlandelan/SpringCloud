@@ -4,6 +4,7 @@ import com.originaldreams.common.entity.MyRouterObject;
 import com.originaldreams.common.util.ConfigUtils;
 import com.originaldreams.common.util.StringUtils;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -104,14 +105,22 @@ public class MyRouters {
     }
 
     public void registerRouters(MyRouterObject object){
-        RestTemplate restTemplate = getInstance("utf-8");
+        RestTemplate restTemplate = getRestTemplate();
         String responseEntity = restTemplate.postForObject(
                 ConfigUtils.ROUTER_REGISTER_URL,object,String.class);
         System.out.println("registerRouters:" + responseEntity);
     }
-    public static RestTemplate getInstance(String charset) {
+//
+//    public List<MyRouterObject> getRouters(){
+//        RestTemplate restTemplate = getRestTemplate();
+//        ResponseEntity<String> responseEntity = restTemplate.getForEntity(ConfigUtils.GET_ROUTERS_URL,String.class);
+//        System.out.println("registerRouters:" + responseEntity);
+//        //TODO
+//    }
+
+    public static RestTemplate getRestTemplate() {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getMessageConverters().add(new StringHttpMessageConverter(Charset.forName(charset)));
+        restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
         return restTemplate;
     }
 

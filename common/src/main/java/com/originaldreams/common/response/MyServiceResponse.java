@@ -56,4 +56,13 @@ public class MyServiceResponse {
     public void setMessage(String message) {
         this.message = message;
     }
+
+    @Override
+    public String toString() {
+        return "MyServiceResponse{" +
+                "success=" + success +
+                ", data=" + data +
+                ", message='" + message + '\'' +
+                '}';
+    }
 }
