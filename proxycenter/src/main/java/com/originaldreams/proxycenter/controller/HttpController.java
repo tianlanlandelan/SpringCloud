@@ -8,8 +8,6 @@ import com.originaldreams.common.util.ConfigUtils;
 import com.originaldreams.common.util.StringUtils;
 import com.originaldreams.common.util.ValidUserName;
 import com.originaldreams.proxycenter.cache.CacheUtils;
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

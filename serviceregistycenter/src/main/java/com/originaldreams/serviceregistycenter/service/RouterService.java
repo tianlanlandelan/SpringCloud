@@ -1,5 +1,7 @@
 package com.originaldreams.serviceregistycenter.service;
 
+import com.originaldreams.common.entity.MyRouterObject;
+import com.originaldreams.common.response.MyServiceResponse;
 import com.originaldreams.serviceregistycenter.mapper.RouterMapper;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,12 @@ public class RouterService {
     @Resource
     RouterMapper routerMapper;
 
+    public Integer insert(MyRouterObject object){
+       return routerMapper.insert(object);
+    }
 
+    public MyServiceResponse getAll(){
+        return new MyServiceResponse(routerMapper.getAll());
+    }
 
 }
