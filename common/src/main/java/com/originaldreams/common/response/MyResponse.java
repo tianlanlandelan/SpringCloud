@@ -5,6 +5,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
 /**
+ * @author yangkaile
+ * @date 2018-10-22 14:29:07
  * 规定Controller统一的消息返回格式
  */
 public class MyResponse {
