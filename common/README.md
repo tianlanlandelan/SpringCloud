@@ -21,7 +21,7 @@ router包下为路由规则及相关操作
 ### 3.2、使用说明
 1. 在要注册路由的每个接口上引入@RouterAttribute注解，该注解包含两个参数：id:接口Id,description:接口说明
 ```java
-@RouterAttribute(id = MyUserManagerRouter.LOGON, description = "我是登录接口")
+    @RouterAttribute(id = MyUserManagerRouter.LOGON, description = "我是登录接口")
     @RequestMapping(value = "/logon",method = RequestMethod.POST)
     public ResponseEntity logon(String userName,String password){
         ... ...
@@ -30,7 +30,7 @@ router包下为路由规则及相关操作
 ```
 2. 在要注册路由的组件启动前，调用MyRouters.getInstance().initRouters(String serviceName,Class... controllers)执行路由初始化操作
 ```java
-MyRouters.getInstance().initRouters(MyServiceName.USER_MANAGER_CENTER,
+    MyRouters.getInstance().initRouters(MyServiceName.USER_MANAGER_CENTER,
                 LogonController.class,
                 UserInfoController.class);
 ```
