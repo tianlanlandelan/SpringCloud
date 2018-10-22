@@ -1,10 +1,10 @@
 package com.originaldreams.usermanagercenter.service;
 
 import com.originaldreams.common.encryption.MyMD5Utils;
+import com.originaldreams.common.response.MyResponseReader;
 import com.originaldreams.common.response.MyServiceResponse;
 import com.originaldreams.common.router.MyLogRouter;
 import com.originaldreams.common.router.MyRouters;
-import com.originaldreams.common.util.ResponseUtils;
 import com.originaldreams.usermanagercenter.entity.UserInfo;
 import com.originaldreams.usermanagercenter.mapper.UserInfoMapper;
 import com.originaldreams.usermanagercenter.utils.LogonUtils;
@@ -162,7 +162,7 @@ public class UserService {
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(
                 MyRouters.getInstance().routerMap.get(MyLogRouter.CHECK_SMS) +
                 "?phone={phone}&codeStr={codeStr}",String.class,map);
-        if(ResponseUtils.isSuccess(responseEntity)){
+        if(MyResponseReader.isSuccess(responseEntity)){
             return register(user);
         }else {
             responseObject.setMessage("验证码错误");

@@ -53,8 +53,18 @@ public class MyResponseReader {
         return getJSONObject(responseEntity).getObject(ConfigUtils.DATA_KEY,clazz);
     }
 
-    private static String getJSONString(ResponseEntity responseEntity){
+    /**
+     * 将ResponseEntity的Body转换成JSONString
+     * 注意：如果ResponseEntity已经是String类型的实例，直接返回body就行，
+     * 若强制进行toJSONString转换会将引号转义（"" -> \"），导致转换成JSONObject失败
+     * @param responseEntity
+     * @return
+     */
+    public static String getJSONString(ResponseEntity responseEntity){
         Object object = responseEntity.getBody();
+        if(object instanceof String){
+            return (String)object;
+        }
         return JSON.toJSONString(object);
     }
     private static JSONObject getJSONObject(ResponseEntity responseEntity){

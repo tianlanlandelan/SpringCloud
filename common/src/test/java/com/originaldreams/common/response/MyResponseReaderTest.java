@@ -1,6 +1,7 @@
 package com.originaldreams.common.response;
 
 import com.originaldreams.common.entity.MyRouterObject;
+import com.originaldreams.common.router.MyRouters;
 import org.junit.Test;
 import org.springframework.http.ResponseEntity;
 
@@ -48,6 +49,15 @@ public class MyResponseReaderTest {
         myServiceResponse.setData(123456);
         ResponseEntity response = MyResponse.ok(myServiceResponse);
         System.out.println(MyResponseReader.getInteger(response));
+    }
+
+    @Test
+    public void getRouters(){
+        List<MyRouterObject> list =  MyRouters.getInstance().getRouters();
+        for(MyRouterObject object:list){
+            System.out.println(object);
+        }
+
     }
 
 }

@@ -24,9 +24,9 @@ public class RouterController {
     RouterService routerService;
 
     @RequestMapping("/routerRegister")
-    public void routerRegister(@RequestBody MyRouterObject entity){
-        logger.error("routerRegister:" + entity.toString());
-        routerService.insert(entity);
+    public ResponseEntity routerRegister(@RequestBody MyRouterObject entity){
+        logger.info("routerRegister:" + entity.toString());
+        return MyResponse.ok(routerService.insert(entity));
     }
 
     @RequestMapping("/getRouters")

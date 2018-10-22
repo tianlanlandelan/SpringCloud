@@ -1,5 +1,6 @@
 package com.originaldreams.usermanagercenter;
 
+import com.originaldreams.common.entity.MyRouterObject;
 import com.originaldreams.common.router.MyRouters;
 import com.originaldreams.common.router.MyServiceName;
 import com.originaldreams.usermanagercenter.controller.LogonController;
@@ -10,6 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 
 /**
@@ -31,6 +34,17 @@ public class MyStartupRunner  implements CommandLineRunner {
                 PermissionController.class,
                 PermissionManagerController.class,
                 UserInfoController.class);
-        logger.error("初始化路由表");
+        logger.info("注册路由表");
+
+        try{
+            Thread.sleep(30000L);
+            List<MyRouterObject> list =  MyRouters.getInstance().getRouters();
+            for(MyRouterObject object:list){
+                System.out.println(object);
+            }
+            logger.info("读取路由表");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

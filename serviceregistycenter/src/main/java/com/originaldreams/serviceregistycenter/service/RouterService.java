@@ -18,8 +18,8 @@ public class RouterService {
     @Resource
     RouterMapper routerMapper;
 
-    public Integer insert(MyRouterObject object){
-       return routerMapper.insert(object);
+    public MyServiceResponse insert(MyRouterObject object){
+       return new MyServiceResponse(routerMapper.insert(object));
     }
 
     public MyServiceResponse getAll(){

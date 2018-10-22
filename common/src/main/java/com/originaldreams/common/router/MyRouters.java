@@ -1,6 +1,7 @@
 package com.originaldreams.common.router;
 
 import com.originaldreams.common.entity.MyRouterObject;
+import com.originaldreams.common.response.MyResponseReader;
 import com.originaldreams.common.util.ConfigUtils;
 import com.originaldreams.common.util.StringUtils;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
@@ -108,15 +109,16 @@ public class MyRouters {
         RestTemplate restTemplate = getRestTemplate();
         String responseEntity = restTemplate.postForObject(
                 ConfigUtils.ROUTER_REGISTER_URL,object,String.class);
-        System.out.println("registerRouters:" + responseEntity);
     }
-//
-//    public List<MyRouterObject> getRouters(){
-//        RestTemplate restTemplate = getRestTemplate();
-//        ResponseEntity<String> responseEntity = restTemplate.getForEntity(ConfigUtils.GET_ROUTERS_URL,String.class);
-//        System.out.println("registerRouters:" + responseEntity);
-//        //TODO
-//    }
+
+    public List<MyRouterObject> getRouters(){
+        RestTemplate restTemplate = getRestTemplate();
+
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(ConfigUtils.GET_ROUTERS_URL,String.class);
+        System.out.println(MyResponseReader.getJSONString(responseEntity));
+
+        return MyResponseReader.getList(responseEntity,MyRouterObject.class);
+    }
 
     public static RestTemplate getRestTemplate() {
         RestTemplate restTemplate = new RestTemplate();

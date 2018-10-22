@@ -3,6 +3,7 @@ package com.originaldreams.usermanagercenter;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.originaldreams.common.entity.MyRouterObject;
+import com.originaldreams.common.router.MyRouters;
 import com.originaldreams.common.router.MyServiceName;
 import com.originaldreams.common.util.ConfigUtils;
 import com.originaldreams.usermanagercenter.controller.LogonController;
@@ -22,7 +23,7 @@ public class MyRoutersTest {
     @Test
     public  void readRouters() {
 
-        List<MyRouterObject> list = MyRouters111.getInstance().initRouters(MyServiceName.USER_MANAGER_CENTER,
+        List<MyRouterObject> list = MyRouters.getInstance().initRouters(MyServiceName.USER_MANAGER_CENTER,
                 LogonController.class,
                 PermissionController.class,
                 PermissionManagerController.class,
