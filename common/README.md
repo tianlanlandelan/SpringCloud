@@ -28,7 +28,7 @@ router包下为路由规则及相关操作
         }
     }
 ```
-2. 在要注册路由的组件启动前，调用MyRouters.getInstance().initRouters(String serviceName,Class... controllers)执行路由初始化操作
+2. 在要注册路由的组件启动时，调用MyRouters.getInstance().initRouters(String serviceName,Class... controllers)执行路由初始化操作
 ```java
     MyRouters.getInstance().initRouters(MyServiceName.USER_MANAGER_CENTER,
                 LogonController.class,
