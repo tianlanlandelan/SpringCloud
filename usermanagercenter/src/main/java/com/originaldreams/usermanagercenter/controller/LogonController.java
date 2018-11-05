@@ -2,23 +2,20 @@ package com.originaldreams.usermanagercenter.controller;
 
 import com.originaldreams.common.response.MyResponse;
 import com.originaldreams.common.response.MyServiceResponse;
-import com.originaldreams.common.router.MyRouter;
+import com.originaldreams.common.router.MyUserManagerRouter;
+import com.originaldreams.common.router.RouterAttribute;
 import com.originaldreams.common.util.StringUtils;
 import com.originaldreams.common.util.ValidUserName;
 import com.originaldreams.usermanagercenter.entity.User;
 import com.originaldreams.usermanagercenter.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 登录控制
@@ -42,8 +39,9 @@ public class LogonController {
      * @param password
      * @return
      */
+    @RouterAttribute(id = MyUserManagerRouter.LOGON, description = "我是登录接口")
     @RequestMapping(value = "/logon",method = RequestMethod.POST)
-    ResponseEntity logon(String userName,String phone,String wxId,String email,String password){
+    public ResponseEntity logon(String userName,String phone,String wxId,String email,String password){
         logger.info(userName + "--" + phone + "--" + email + "--" + password);
         if(userName == null && phone == null && email == null && password == null){
             return MyResponse.badRequest();
@@ -68,6 +66,7 @@ public class LogonController {
      * @param verificationCode 验证码
      * @return
      */
+    @RouterAttribute(id = MyUserManagerRouter.REGISTER, description = "我是注册接口")
     @RequestMapping(value = "/register" , method = RequestMethod.POST)
     public ResponseEntity register(String userName,String password,String verificationCode) {
         try {

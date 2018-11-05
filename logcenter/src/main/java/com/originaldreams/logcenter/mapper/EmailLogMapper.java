@@ -61,9 +61,9 @@ public interface EmailLogMapper {
              " FROM " +
              tableName +
              " <where> " +
-             "<if test=\"entity != null and entity.type != null\"> AND type= #{entity.type}  </if>" +
-             "<if test=\"entity != null and entity.title != null\"> AND title= #{entity.title}  </if>" +
-             "<if test=\"entity != null and entity.recipients != null\"> AND recipients= #{entity.recipients}  </if>" +
+             "<if test=\"com.originaldreams.serviceregistycenter.entity != null and com.originaldreams.serviceregistycenter.entity.type != null\"> AND type= #{com.originaldreams.serviceregistycenter.entity.type}  </if>" +
+             "<if test=\"com.originaldreams.serviceregistycenter.entity != null and com.originaldreams.serviceregistycenter.entity.title != null\"> AND title= #{com.originaldreams.serviceregistycenter.entity.title}  </if>" +
+             "<if test=\"com.originaldreams.serviceregistycenter.entity != null and com.originaldreams.serviceregistycenter.entity.recipients != null\"> AND recipients= #{com.originaldreams.serviceregistycenter.entity.recipients}  </if>" +
              "<if test=\"startDate != null\"> AND sendDate &gt; #{startDate}  </if>" +
              "<if test=\"endDate != null\"> AND sendDate  &lt; #{endDate}  </if>" +
              " </where> " +

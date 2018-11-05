@@ -1,8 +1,5 @@
 package com.originaldreams.usermanagercenter.entity;
 
-
-import com.originaldreams.common.router.MyRouterObject;
-
 /**
  * @author yangkaile
  * @date 2018-09-28 15:08:00
@@ -19,15 +16,6 @@ public class Router {
     public Router() {
     }
 
-    public Router(MyRouterObject object){
-        id = object.getId();
-        name = object.getName();
-        serviceName = object.getServiceName();
-        controllerName = object.getControllerName();
-        methodName = object.getMethodName();
-        routerUrl = object.getRouterUrl();
-        requestType = object.getRequestType();
-    }
 
     public Integer getId() {
         return id;

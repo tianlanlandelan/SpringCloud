@@ -1,30 +1,50 @@
 package com.originaldreams.usermanagercenter;
 
-import com.originaldreams.usermanagercenter.service.RouterService;
+import com.originaldreams.common.entity.MyRouterObject;
+import com.originaldreams.common.router.MyRouters;
+import com.originaldreams.common.router.MyServiceName;
+import com.originaldreams.usermanagercenter.controller.LogonController;
+import com.originaldreams.usermanagercenter.controller.PermissionController;
+import com.originaldreams.usermanagercenter.controller.PermissionManagerController;
+import com.originaldreams.usermanagercenter.controller.UserInfoController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
+import java.util.List;
+
 
 /**
  * 服务启动时需要执行的方法放这里
+ * @author yangkaile
+ * @date 2018-10-10 09:54:19
  */
 @Component
 public class MyStartupRunner  implements CommandLineRunner {
 
     private Logger logger = LoggerFactory.getLogger(MyStartupRunner.class);
 
-
-    @Resource
-    private RouterService routerService;
-
     @Override
     public void run(String... args)
     {
         //初始化路由表
-        routerService.initRouters();
-        logger.trace("初始化路由表");
+        MyRouters.getInstance().initRouters(MyServiceName.USER_MANAGER_CENTER,
+                LogonController.class,
+                PermissionController.class,
+                PermissionManagerController.class,
+                UserInfoController.class);
+        logger.info("注册路由表");
+
+        try{
+            Thread.sleep(30000L);
+            List<MyRouterObject> list =  MyRouters.getInstance().getRouters();
+            for(MyRouterObject object:list){
+                System.out.println(object);
+            }
+            logger.info("读取路由表");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }

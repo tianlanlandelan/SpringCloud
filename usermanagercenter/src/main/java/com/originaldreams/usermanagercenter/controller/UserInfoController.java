@@ -1,6 +1,8 @@
 package com.originaldreams.usermanagercenter.controller;
 
 import com.originaldreams.common.response.MyResponse;
+import com.originaldreams.common.router.MyUserManagerRouter;
+import com.originaldreams.common.router.RouterAttribute;
 import com.originaldreams.usermanagercenter.entity.UserInfo;
 import com.originaldreams.usermanagercenter.service.UserInfoService;
 import org.slf4j.Logger;
@@ -31,6 +33,7 @@ public class UserInfoController {
      * @param userId
      * @return
      */
+    @RouterAttribute(id = MyUserManagerRouter.GET_USER_INFO_BY_ID, description = "我是登录接口")
     @RequestMapping(method = RequestMethod.GET)
     ResponseEntity get(Integer userId){
         if(userId == null){
@@ -38,7 +41,7 @@ public class UserInfoController {
         }
         return MyResponse.ok(userInfoService.getById(userId));
     }
-
+    @RouterAttribute(id = MyUserManagerRouter.UPDATE_USER_INFO, description = "我是登录接口")
     @RequestMapping(method = RequestMethod.PUT)
     ResponseEntity put(UserInfo userInfo){
         Integer result = userInfoService.update(userInfo);

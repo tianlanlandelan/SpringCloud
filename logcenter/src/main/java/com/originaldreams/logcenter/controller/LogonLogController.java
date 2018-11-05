@@ -55,7 +55,7 @@ public class LogonLogController {
 //        }
 //        params.put("startDate",startDate);
 //        params.put("endDate",endDate);
-//        params.put("entity",log);
+//        params.put("com.originaldreams.serviceregistycenter.entity",log);
 //        response.setData(logonLogService.getListByCondition(params));
 //        return MyResponse.ok(response);
 //    }
