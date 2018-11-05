@@ -23,29 +23,20 @@ import java.util.Map;
  * @date 2018-10-09 09:37:33
  */
 public class MyRouters {
-
-    private static MyRouters _instance;
-    public static MyRouters getInstance(){
-        if(_instance == null){
-            _instance  = new MyRouters();
-        }
-        return _instance;
-    }
-    public  Map<Integer,MyRouterObject> routerMap = new HashMap();
-    public void initRouterMap(List<MyRouterObject> list){
+    public static Map<Integer,MyRouterObject> routerMap = new HashMap();
+    public static void initRouterMap(List<MyRouterObject> list){
+        routerMap.clear();
         for (MyRouterObject myRouterObject:list){
             routerMap.put(myRouterObject.getId(),myRouterObject);
         }
     }
-
-
 
     /**
      * 获取一个方法的参数类型和参数列表 格式: 参数类型:参数名,参数类型:参数名......
      * @param method Method对象
      * @return
      */
-    public  String getMethodParametersStr(Method method){
+    public static  String getMethodParametersStr(Method method){
         StringBuilder builder = new StringBuilder();
         LocalVariableTableParameterNameDiscoverer parameterNameDiscoverer
                 = new LocalVariableTableParameterNameDiscoverer();
@@ -65,7 +56,7 @@ public class MyRouters {
         return builder.toString();
     }
 
-    public  List<MyRouterObject> initRouters(String serviceName,Class... controllers){
+    public static  List<MyRouterObject> initRouters(String serviceName,Class... controllers){
 
         Class[] controllerArray = controllers;
         List<MyRouterObject> list = new ArrayList<>();
@@ -101,23 +92,29 @@ public class MyRouters {
                 }
             }
         }
-        MyRouters.getInstance().initRouterMap(list);
         return list;
     }
 
-    public void registerRouters(MyRouterObject object){
+    public static void registerRouters(MyRouterObject object){
         RestTemplate restTemplate = getRestTemplate();
-        String responseEntity = restTemplate.postForObject(
-                ConfigUtils.ROUTER_REGISTER_URL,object,String.class);
+        restTemplate.postForObject(ConfigUtils.ROUTER_REGISTER_URL,object,String.class);
     }
 
-    public List<MyRouterObject> getRouters(){
-        RestTemplate restTemplate = getRestTemplate();
 
+    public static List<MyRouterObject> getRouters(){
+        RestTemplate restTemplate = getRestTemplate();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(ConfigUtils.GET_ROUTERS_URL,String.class);
         System.out.println(MyResponseReader.getJSONString(responseEntity));
+        List<MyRouterObject> list = MyResponseReader.getList(responseEntity,MyRouterObject.class);
+        MyRouters.initRouterMap(list);
+        return list;
+    }
 
-        return MyResponseReader.getList(responseEntity,MyRouterObject.class);
+    public static  String getRouterUrl(Integer id){
+        if(routerMap == null || routerMap.isEmpty()){
+            getRouters();
+        }
+       return routerMap.get(id).getRouterUrl();
     }
 
     public static RestTemplate getRestTemplate() {
@@ -127,7 +124,7 @@ public class MyRouters {
     }
 
 
-    public  String getRequestMappingValueStr(RequestMapping requestMapping){
+    public  static String getRequestMappingValueStr(RequestMapping requestMapping){
         if(requestMapping != null){
             StringBuilder requestMappingValues = new StringBuilder();
             for(String string:requestMapping.value()){
@@ -137,7 +134,7 @@ public class MyRouters {
         }
         return null;
     }
-    public  String getRequestMappingMethodStr(RequestMapping requestMapping){
+    public static  String getRequestMappingMethodStr(RequestMapping requestMapping){
         if(requestMapping != null){
             StringBuilder requestMappingMethods = new StringBuilder();
             for(RequestMethod requestMethod:requestMapping.method()){
@@ -146,6 +143,10 @@ public class MyRouters {
             return requestMappingMethods.toString();
         }
         return null;
+    }
+
+    public static void  main(String[] args){
+        System.out.println(getRouterUrl(MyUserManagerRouter.LOGON));
     }
 
 }

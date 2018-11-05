@@ -53,10 +53,10 @@ public class MyResponseReaderTest {
 
     @Test
     public void getRouters(){
-        List<MyRouterObject> list =  MyRouters.getInstance().getRouters();
-        for(MyRouterObject object:list){
-            System.out.println(object);
-        }
+//        List<MyRouterObject> list =  MyRouters.getInstance().getRouters();
+//        for(MyRouterObject object:list){
+//            System.out.println(object);
+//        }
 
     }
 

@@ -3,7 +3,9 @@ package com.originaldreams.publicservicecenter.controller;
 import com.originaldreams.common.response.MyResponse;
 import com.originaldreams.common.response.MyServiceResponse;
 import com.originaldreams.common.router.MyLogRouter;
+import com.originaldreams.common.router.MyPublicServiceRouter;
 import com.originaldreams.common.router.MyRouter;
+import com.originaldreams.common.router.RouterAttribute;
 import com.originaldreams.publicservicecenter.entity.SMSEntity;
 import com.originaldreams.publicservicecenter.utils.SendSMSUtils;
 import org.slf4j.Logger;
@@ -38,6 +40,7 @@ public class SMSController {
      * @param phone
      * @return
      */
+    @RouterAttribute(id = MyPublicServiceRouter.SEND_VERIFICATION_CODE_SMS, description = "发送验证码短信")
     @RequestMapping(value = "/sendVerificationCode",method = RequestMethod.GET)
     public ResponseEntity sendVerificationCode(String phone){
         MyServiceResponse response =new MyServiceResponse();
