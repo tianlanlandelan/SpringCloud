@@ -23,12 +23,12 @@ public class MyRoutersTest {
     @Test
     public  void readRouters() {
 
-        List<MyRouterObject> list = MyRouters.getInstance().initRouters(MyServiceName.USER_MANAGER_CENTER,
-                LogonController.class,
-                PermissionController.class,
-                PermissionManagerController.class,
-                UserInfoController.class);
-        RestTemplate restTemplate = new RestTemplate();
+//        List<MyRouterObject> list = MyRouters.getInstance().initRouters(MyServiceName.USER_MANAGER_CENTER,
+//                LogonController.class,
+//                PermissionController.class,
+//                PermissionManagerController.class,
+//                UserInfoController.class);
+//        RestTemplate restTemplate = new RestTemplate();
 
     }
 

@@ -56,8 +56,10 @@ public class MyRouters {
         return builder.toString();
     }
 
-    public static  List<MyRouterObject> initRouters(String serviceName,Class... controllers){
 
+
+    public static  List<MyRouterObject> initRouters(String serviceName,Class... controllers){
+        cleanByServiceName(serviceName);
         Class[] controllerArray = controllers;
         List<MyRouterObject> list = new ArrayList<>();
         for(Class t:controllerArray){
@@ -74,7 +76,7 @@ public class MyRouters {
                     routerObject.setId(routerAttribute.id());
                     routerObject.setName(method.getName() + routerObject.getId());
                     routerObject.setDescription(routerAttribute.description());
-                    routerObject.setServiceName(MyServiceName.USER_MANAGER_CENTER);
+                    routerObject.setServiceName(serviceName);
                     routerObject.setControllerName(t.getSimpleName());
                     routerObject.setMethodName(method.getName());
                     RequestMapping requestMapping = method.getAnnotation(RequestMapping.class);
@@ -95,7 +97,12 @@ public class MyRouters {
         return list;
     }
 
-    public static void registerRouters(MyRouterObject object){
+    private static void cleanByServiceName(String serviceName){
+        RestTemplate restTemplate = getRestTemplate();
+        restTemplate.getForEntity(
+                ConfigUtils.CLEAN_ROUTERS_BY_SERVICENAME + "?serviceName=" + serviceName,String.class);
+    }
+    private static void registerRouters(MyRouterObject object){
         RestTemplate restTemplate = getRestTemplate();
         restTemplate.postForObject(ConfigUtils.ROUTER_REGISTER_URL,object,String.class);
     }

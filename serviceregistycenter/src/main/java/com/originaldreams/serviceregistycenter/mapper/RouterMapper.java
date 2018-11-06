@@ -22,7 +22,7 @@ public interface RouterMapper {
              "VALUES (#{id},#{name}, #{serviceName}, #{controllerName}, #{methodName}, #{routerUrl},#{requestType},#{parameters},#{description})")
      Integer insert(MyRouterObject router);
 
-     @Delete("DELETE FROM " + tableName )
-     Integer deleteAll();
+     @Delete("DELETE FROM " + tableName  + " WHERE serviceName = #{serviceName}")
+     Integer deleteByServiceName(String serviceName);
 
 }

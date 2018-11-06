@@ -4,6 +4,8 @@ package com.originaldreams.common.util;
  * 配置类，存储系统用到的一些常量和配置参数
  */
 public class ConfigUtils {
+    public final static String SERVICE_REGISTY_CENTER_URL = "http://127.0.0.1:8801/";
+
     public final static String SUCCESS_KEY = "success";
     public final static String DATA_KEY = "data";
     public final static String MESSAGE_KEY = "message";
@@ -59,9 +61,11 @@ public class ConfigUtils {
     /**
      * 第一台ServiceRegistry的地址，用于注册接口
      */
-    public final static String ROUTER_REGISTER_URL = "http://127.0.0.1:8801/routerRegister";
+    public final static String ROUTER_REGISTER_URL = SERVICE_REGISTY_CENTER_URL + "routerRegister";
 
-    public final static String GET_ROUTERS_URL = "http://127.0.0.1:8801/getRouters";
+    public final static String CLEAN_ROUTERS_BY_SERVICENAME =  SERVICE_REGISTY_CENTER_URL + "cleanByServiceName";
+
+    public final static String GET_ROUTERS_URL = SERVICE_REGISTY_CENTER_URL +  "getRouters";
 
 
 }

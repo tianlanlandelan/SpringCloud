@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -23,13 +24,20 @@ public class RouterController {
     @Resource
     RouterService routerService;
 
-    @RequestMapping("/routerRegister")
+    @RequestMapping(value = "/routerRegister",method = RequestMethod.POST)
     public ResponseEntity routerRegister(@RequestBody MyRouterObject entity){
         logger.info("routerRegister:" + entity.toString());
         return MyResponse.ok(routerService.insert(entity));
     }
 
-    @RequestMapping("/getRouters")
+
+    @RequestMapping(value = "/cleanByServiceName",method = RequestMethod.GET)
+    public ResponseEntity cleanByServiceName(String serviceName){
+        logger.info("cleanByServiceName : " + serviceName);
+        return MyResponse.ok(routerService.deleteByServiceName(serviceName));
+    }
+
+    @RequestMapping(value = "/getRouters",method = RequestMethod.GET)
     public ResponseEntity getRouters(){
         return MyResponse.ok(routerService.getAll());
     }

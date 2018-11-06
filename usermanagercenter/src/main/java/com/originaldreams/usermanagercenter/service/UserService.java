@@ -105,6 +105,7 @@ public class UserService {
                         map.put("way", way);
                         map.put("ip","ddd");
 
+                        logger.info("logCenterUrl ：" + MyRouters.getRouterUrl(MyLogRouter.INSERT_LOGON_LOG));
                         //记录登录日志
                         ResponseEntity<String> responseEntity = restTemplate.postForEntity(
                                 MyRouters.getRouterUrl(MyLogRouter.INSERT_LOGON_LOG) +
@@ -160,7 +161,7 @@ public class UserService {
         map.put("codeStr",verificationCode);
         //验证短信验证码 TODO
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(
-                MyRouters.getRouterUrl(MyLogRouter.CHECK_SMS) +
+                MyRouters.getRouterUrl(MyLogRouter.GET_VERIFICATION_BY_PHONE) +
                 "?phone={phone}&codeStr={codeStr}",String.class,map);
         if(MyResponseReader.isSuccess(responseEntity)){
             return register(user);
