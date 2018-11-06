@@ -18,8 +18,8 @@ public interface RouterMapper {
      @Select("SELECT id,name, serviceName, controllerName, methodName, routerUrl,requestType,parameters,description FROM " + tableName)
      List<MyRouterObject> getAll();
 
-     @Insert("INSERT INTO " + tableName + "(id,name, serviceName, controllerName, methodName, routerUrl,requestType,parameters,description) " +
-             "VALUES (#{id},#{name}, #{serviceName}, #{controllerName}, #{methodName}, #{routerUrl},#{requestType},#{parameters},#{description})")
+     @Insert("INSERT INTO " + tableName + "(id,name, serviceName, controllerName, methodName, routerUrl,requestType,parameters,description,createTime) " +
+             "VALUES (#{id},#{name}, #{serviceName}, #{controllerName}, #{methodName}, #{routerUrl},#{requestType},#{parameters},#{description},#{createTime})")
      Integer insert(MyRouterObject router);
 
      @Delete("DELETE FROM " + tableName  + " WHERE serviceName = #{serviceName}")
