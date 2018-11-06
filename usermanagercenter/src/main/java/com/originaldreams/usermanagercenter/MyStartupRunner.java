@@ -1,6 +1,5 @@
 package com.originaldreams.usermanagercenter;
 
-import com.originaldreams.common.entity.MyRouterObject;
 import com.originaldreams.common.router.MyRouters;
 import com.originaldreams.common.router.MyServiceName;
 import com.originaldreams.usermanagercenter.controller.LogonController;
@@ -11,8 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 
 /**

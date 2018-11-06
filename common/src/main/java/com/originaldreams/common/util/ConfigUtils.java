@@ -58,8 +58,6 @@ public class ConfigUtils {
 
     /**
      * 第一台ServiceRegistry的地址，用于注册接口
-     *
-     *
      */
     public final static String ROUTER_REGISTER_URL = "http://127.0.0.1:8801/routerRegister";
 
