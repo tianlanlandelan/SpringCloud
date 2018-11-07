@@ -1,6 +1,9 @@
 package com.originaldreams.logcenter.controller;
 
 import com.originaldreams.common.response.MyResponse;
+import com.originaldreams.common.router.MyLogRouter;
+import com.originaldreams.common.router.MyUserManagerRouter;
+import com.originaldreams.common.router.RouterAttribute;
 import com.originaldreams.common.util.ValidUserName;
 import com.originaldreams.logcenter.entity.SMSLog;
 import com.originaldreams.logcenter.service.SMSLogService;
@@ -33,6 +36,7 @@ public class SMSLogController {
      * @param smsLog
      * @return
      */
+    @RouterAttribute(id = MyLogRouter.INSERT_SMS_SEND_LOG, description = "添加短信发送记录")
     @RequestMapping(value = "/insert",method = RequestMethod.POST)
     ResponseEntity insert(SMSLog smsLog){
         return MyResponse.ok(smsLogService.insert(smsLog));
@@ -44,8 +48,9 @@ public class SMSLogController {
      * @param codeStr 验证码
      * @return
      */
-    @RequestMapping(value = "/checkAndUpdateState",method = RequestMethod.GET)
-    ResponseEntity checkAndUpdateState(String phone,String codeStr){
+    @RouterAttribute(id = MyLogRouter.GET_VERIFICATION_BY_PHONE, description = "查询短信验证码：只会返回最新的没有用过的验证码，并将其置为已使用状态")
+    @RequestMapping(value = "/getByPhone",method = RequestMethod.GET)
+    ResponseEntity getByPhone(String phone,String codeStr){
         if(phone == null || phone.isEmpty() || codeStr == null || codeStr.isEmpty() || !ValidUserName.isValidPhoneNumber(phone)){
             return MyResponse.badRequest();
         }

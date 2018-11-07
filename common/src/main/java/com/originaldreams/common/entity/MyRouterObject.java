@@ -1,5 +1,7 @@
 package com.originaldreams.common.entity;
 
+import java.util.Date;
+
 /**
  * @author 杨凯乐
  * @date 2018-08-02 09:33:01
@@ -35,6 +37,7 @@ public class MyRouterObject {
     private String requestType;
     private String parameters;
     private String description;
+    private Date createTime = new Date();
 
     public Integer getId() {
         return id;
@@ -106,6 +109,14 @@ public class MyRouterObject {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     @Override

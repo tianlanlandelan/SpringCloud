@@ -2,6 +2,9 @@ package com.originaldreams.logcenter.controller;
 
 import com.originaldreams.common.response.MyResponse;
 import com.originaldreams.common.response.MyServiceResponse;
+import com.originaldreams.common.router.MyLogRouter;
+import com.originaldreams.common.router.MyUserManagerRouter;
+import com.originaldreams.common.router.RouterAttribute;
 import com.originaldreams.logcenter.entity.LogonLog;
 import com.originaldreams.logcenter.service.LogonLogService;
 import org.slf4j.Logger;
@@ -25,7 +28,7 @@ public class LogonLogController {
 
     @Resource
     private LogonLogService logonLogService;
-
+    @RouterAttribute(id = MyLogRouter.INSERT_LOGON_LOG, description = "添加登录日志")
     @RequestMapping(value = "/insert",method = RequestMethod.POST)
     ResponseEntity insert(LogonLog logonLog){
         MyServiceResponse response =new MyServiceResponse();
@@ -72,16 +75,11 @@ public class LogonLogController {
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(result);
     }
 
-
     @RequestMapping(value = "/getByType",method = RequestMethod.GET)
     ResponseEntity getByType(Integer type){
         LogonLog result = logonLogService.getByType(type);
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(result);
     }
-
-
-
-
 
 
     @RequestMapping(value = "/getAll",method = RequestMethod.GET)
@@ -92,16 +90,5 @@ public class LogonLogController {
 
 
 
-    @RequestMapping(value = "/deleteById",method = RequestMethod.DELETE)
-    ResponseEntity deleteById(Integer id){
-        Integer result = logonLogService.deleteById(id);
-        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(result);
-    }
-
-    @RequestMapping(value = "/update",method = RequestMethod.PUT)
-    ResponseEntity update(LogonLog logonLog){
-        Integer result = logonLogService.update(logonLog);
-        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(result);
-    }
 
 }

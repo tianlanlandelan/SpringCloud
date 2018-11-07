@@ -39,7 +39,7 @@ public class LogonController {
      * @param password
      * @return
      */
-    @RouterAttribute(id = MyUserManagerRouter.LOGON, description = "我是登录接口")
+    @RouterAttribute(id = MyUserManagerRouter.LOGON, description = "登录接口")
     @RequestMapping(value = "/logon",method = RequestMethod.POST)
     public ResponseEntity logon(String userName,String phone,String wxId,String email,String password){
         logger.info(userName + "--" + phone + "--" + email + "--" + password);
@@ -66,7 +66,7 @@ public class LogonController {
      * @param verificationCode 验证码
      * @return
      */
-    @RouterAttribute(id = MyUserManagerRouter.REGISTER, description = "我是注册接口")
+    @RouterAttribute(id = MyUserManagerRouter.REGISTER, description = "注册接口，所有参数必填。先通过短信或邮件获取验证码，再调用该接口设置用户名和密码")
     @RequestMapping(value = "/register" , method = RequestMethod.POST)
     public ResponseEntity register(String userName,String password,String verificationCode) {
         try {

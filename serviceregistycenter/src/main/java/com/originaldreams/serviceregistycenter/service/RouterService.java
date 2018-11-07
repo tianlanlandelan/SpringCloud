@@ -26,4 +26,8 @@ public class RouterService {
         return new MyServiceResponse(routerMapper.getAll());
     }
 
+    public MyServiceResponse deleteByServiceName(String serviceName){
+        return new MyServiceResponse(routerMapper.deleteByServiceName(serviceName));
+    }
+
 }
