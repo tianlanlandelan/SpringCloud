@@ -6,7 +6,9 @@ import com.originaldreams.common.util.ConfigUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * ResponseEntity解析类
@@ -32,7 +34,7 @@ public class MyResponseReader {
     }
 
     /**
-     * 从ResponseEntity中拿list
+     * 将ResponseEntity中的data数据转换成list
      * @param response
      * @param clazz
      * @param <T>
@@ -40,15 +42,25 @@ public class MyResponseReader {
      */
     public static <T> List<T> getList(ResponseEntity response, Class<T> clazz){
         JSONObject jsonObject = JSON.parseObject(getJSONString(response));
-        return JSON.parseArray(jsonObject.getString("data"), clazz);
+        return JSON.parseArray(jsonObject.getString(ConfigUtils.DATA_KEY), clazz);
     }
 
-
-
-
+    /**
+     * 将ResponseEntity中的data数据转换成Integer
+     * @param responseEntity
+     * @return
+     */
     public static Integer getInteger(ResponseEntity responseEntity){
         return getJSONObject(responseEntity).getInteger(ConfigUtils.DATA_KEY);
     }
+
+    /**
+     * 将ResponseEntity中的data数据转换成指定的对象
+     * @param responseEntity
+     * @param clazz
+     * @param <T>
+     * @return
+     */
     public static <T> T getObject(ResponseEntity responseEntity,Class<T> clazz){
         return getJSONObject(responseEntity).getObject(ConfigUtils.DATA_KEY,clazz);
     }
@@ -69,5 +81,26 @@ public class MyResponseReader {
     }
     private static JSONObject getJSONObject(ResponseEntity responseEntity){
         return JSON.parseObject(getJSONString(responseEntity));
+    }
+
+    /**
+     * 将ResponseEntity中的data数据转换成JSONObject
+     * @param responseEntity
+     * @return
+     */
+    public static JSONObject getDataJSONObject(ResponseEntity responseEntity){
+        return JSON.parseObject(getJSONString(responseEntity)).getJSONObject(ConfigUtils.DATA_KEY);
+    }
+
+    /**
+     * 从ResponseEntity中data数据转换成的JSONObject中取某个属性的值
+     * @param responseEntity
+     * @param key
+     * @param clazz
+     * @param <T>
+     * @return
+     */
+    public static <T> T getDataObject(ResponseEntity responseEntity,String key,Class<T> clazz){
+        return getDataJSONObject(responseEntity).getObject(key,clazz);
     }
 }
