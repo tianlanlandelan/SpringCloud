@@ -1,7 +1,9 @@
 package com.originaldreams.proxycenter.controller;
 
 import com.originaldreams.common.encryption.MyBase64Utils;
+import com.originaldreams.common.entity.MyRouterObject;
 import com.originaldreams.common.response.MyResponse;
+import com.originaldreams.common.response.MyResponseReader;
 import com.originaldreams.common.response.MyServiceResponse;
 import com.originaldreams.common.router.*;
 import com.originaldreams.common.util.ConfigUtils;
@@ -76,7 +78,7 @@ public class HttpController {
             if(ValidUserName.isValidPhoneNumber(userName)){
                 map.put("phone",userName);
                 responseEntity = restTemplate.postForEntity(
-                        MyUserManagerRouter.getInstance().USER_MANAGER_LOGON.getRouterUrl()
+                        MyRouters.getRouterUrl(MyUserManagerRouter.LOGON)
                          + "?email={phone}&password={password}",null,String.class,map);
             }
             //邮箱
@@ -84,14 +86,14 @@ public class HttpController {
             else if(ValidUserName.isValidEmailAddress(userName)){
                 map.put("email", userName);
                 responseEntity = restTemplate.postForEntity(
-                        MyUserManagerRouter.getInstance().USER_MANAGER_LOGON.getRouterUrl()
+                        MyRouters.getRouterUrl(MyUserManagerRouter.LOGON)
                                 + "?phone={email}&password={password}",null,String.class,map);
             }
             //用户名
             else if(ValidUserName.isValidUserName(userName)){
                 map.put("userName", userName);
                 responseEntity = restTemplate.postForEntity(
-                        MyUserManagerRouter.getInstance().USER_MANAGER_LOGON.getRouterUrl()
+                        MyRouters.getRouterUrl(MyUserManagerRouter.LOGON)
                                 + "?userName={userName}&password={password}",null,String.class,map);
             }
             if(responseEntity == null){
@@ -126,8 +128,8 @@ public class HttpController {
             map.put("password",password);
             map.put("verificationCode",verificationCode);
             ResponseEntity<String> responseEntity = restTemplate.postForEntity(
-                    MyUserManagerRouter.getInstance().USER_MANAGER_REGISTER.getRouterUrl() +
-                    "?userName={userName}&password={password}&verificationCode={verificationCode}",
+                    MyRouters.getRouterUrl(MyUserManagerRouter.REGISTER)
+                            + "?userName={userName}&password={password}&verificationCode={verificationCode}",
                     null,String.class,map);
             return  responseEntity;
         }catch (HttpClientErrorException e){
@@ -147,7 +149,7 @@ public class HttpController {
             map.put("phone",phone);
 
             ResponseEntity<String> responseEntity = restTemplate.getForEntity(
-                    MyPublicServiceRouter.getInstance().PUBLIC_SERVICE_SMS_SEND_VERIFICATIONCODE.getRouterUrl()
+                    MyRouters.getRouterUrl(MyPublicServiceRouter.SEND_VERIFICATION_CODE_SMS)
                             + "?phone={phone}",String.class,map);
             return  responseEntity;
         }catch (HttpClientErrorException e){
@@ -330,19 +332,29 @@ public class HttpController {
      * @param methodName 客户端调用的方法名
      * @return
      */
-    private String authenticateAndReturnRouterUrl(String method,String methodName){
+    private String authenticateAndReturnRouterUrl(String requestType,String methodName){
         Integer userId = getUserId();
         if(userId == null){
             return null;
         }
         List<Integer> routerIdList = CacheUtils.userRouterMap.get(getUserId());
 
-        MyRouterObject routerObject = MyRouters.getRouterObject(methodName);
-
+        MyRouterObject routerObject = CacheUtils.getRouterMap().get(methodName);
+        /*
+         * 拿不到路由
+         */
         if(routerObject == null || routerIdList == null || routerIdList.size() < 1){
             return null;
         }
+        /*
+         * 用户的请求类型和路由的请求类型不一致
+         */
+        if(!requestType.equals(routerObject.getRequestType())){
+            return null;
+        }
+
         Integer routerId = routerObject.getId();
+        //判断用户是否有该路由权限
         String routerUrl = routerIdList.contains(routerId)?routerObject.getRouterUrl():null;
         return routerUrl;
 
@@ -437,55 +449,37 @@ public class HttpController {
      * @param response
      */
     private void setCacheForLogon(ResponseEntity<String> response){
-        String result = response.getBody();
+        if(!MyResponseReader.isSuccess(response)){
+            return;
+        }
+        int userId = MyResponseReader.getInteger(response);
+        logger.info("logonWithUserName userId:" + userId);
+        //将userId放入Session
+        request.getSession().setAttribute("userId",userId);
 
-        try{
+        //查询用户的权限Id
+        ResponseEntity<String> responseEntity = restTemplate.getForEntity(
+                    MyRouters.getRouterUrl(MyUserManagerRouter.GET_ROUTER_IDS_BY_USER_ID)
+                            + "?" + USER_ID +"=" + userId,String.class);
 
-            JSONObject json = new JSONObject(result);
-            int success = json.getInt("success");
-            //登录不成功，不记录session
-            if(success != 0 ){
-                return;
-            }
-            Object data = json.get("data");
-            if (NULL_STRING.equals(data.toString())) {
-                return;
-            }
-            int userId = json.getInt("data");
-            logger.info("logonWithUserName userId:" + userId);
-            //将userId放入Session
-            request.getSession().setAttribute("userId",userId);
-
-            //查询用户的权限Id
-            ResponseEntity<String> responseEntity = restTemplate.getForEntity(
-                    MyUserManagerRouter.getInstance().USER_MANAGER_PERMISSION_GET_ROUTER_IDS_BY_USER_ID.getRouterUrl() + "?" + USER_ID +"=" + userId,String.class);
-
-            logger.info("USER_MANAGER_PERMISSION_GET_ROUTER_IDS_BY_USER_ID response:" + responseEntity.getBody());
-            //将查询到的Id列表转化为List，放入缓存
-            json = new JSONObject(responseEntity.getBody());
-            json.getJSONArray("data");
-            List<Object> list = json.getJSONArray("data").toList();
-            List<Integer> routerIds = new ArrayList<>();
-            for(Object object:list){
-                routerIds.add((int)object);
-            }
-            //routerIds放入缓存
-            CacheUtils.userRouterMap.put(userId,routerIds);
-            //用户权限放入缓存
-            responseEntity = restTemplate.getForEntity(
-                    MyUserManagerRouter.getInstance().USER_MANAGER_PERMISSION_GET_ROLE_BY_USER_ID.getRouterUrl() + "?" + USER_ID +"=" + userId,String.class);
-
-            json = new JSONObject(responseEntity.getBody());
-            String roleName = json.getJSONObject("data").getString("name");
-            //角色名放入缓存
+        logger.info("USER_MANAGER_PERMISSION_GET_ROUTER_IDS_BY_USER_ID response:" + responseEntity.getBody());
+        if(!MyResponseReader.isSuccess(responseEntity)){
+            return;
+        }
+        List<Integer> routerIds = MyResponseReader.getList(responseEntity,Integer.class);
+        //routerIds放入缓存
+        CacheUtils.userRouterMap.put(userId,routerIds);
+        //用户权限放入缓存
+        responseEntity = restTemplate.getForEntity(
+                    MyRouters.getRouterUrl(MyUserManagerRouter.GET_ROLE_BY_USER_ID)
+                            + "?" + USER_ID +"=" + userId,String.class);
+        if(!MyResponseReader.isSuccess(responseEntity)){
+            return;
+        }
+        String roleName = MyResponseReader.getDataObject(responseEntity,"name",String.class);
+        //角色名放入缓存
             CacheUtils.userRoleMap.put(userId,roleName);
             logger.info("logonWithUserName roleName :" + roleName + ", routerIds:" + routerIds);
-        }catch (JSONException e){
-            e.printStackTrace();
-            logger.error("setCacheForLogon {}", e.getMessage());
-
-        }
-
     }
 
     private Integer getUserId(){
