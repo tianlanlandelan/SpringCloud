@@ -79,7 +79,7 @@ public class HttpController {
                 map.put("phone",userName);
                 responseEntity = restTemplate.postForEntity(
                         MyRouters.getRouterUrl(MyUserManagerRouter.LOGON)
-                         + "?email={phone}&password={password}",null,String.class,map);
+                         + "?phone={phone}&password={password}",null,String.class,map);
             }
             //邮箱
 
@@ -87,7 +87,7 @@ public class HttpController {
                 map.put("email", userName);
                 responseEntity = restTemplate.postForEntity(
                         MyRouters.getRouterUrl(MyUserManagerRouter.LOGON)
-                                + "?phone={email}&password={password}",null,String.class,map);
+                                + "?email={email}&password={password}",null,String.class,map);
             }
             //用户名
             else if(ValidUserName.isValidUserName(userName)){
@@ -184,11 +184,11 @@ public class HttpController {
              * 允许管理员在接口中传入userId参数（允许其操作其他User的数据）
              * 不允许普通用户传递（不允许其操作其他User的数据）
              */
-            if(isManager()){
-                //Manager的空参数请求，说明就是空参数
-                if(parameters == null){
-                    responseEntity = restTemplate.getForEntity(routerUrl,String.class);
-                }else{
+
+            if(parameters == null){
+                responseEntity = restTemplate.getForEntity(routerUrl + "?" + USER_ID+ "=" + getUserId(),String.class);
+            }else{
+                if(isManager()){
                     //url后拼接的请求参数格式
                     String urlParameters = getUrlParameters(parameters);
                     routerUrl += urlParameters;
@@ -196,11 +196,7 @@ public class HttpController {
                     Map<String,Object> map = parseMap(parameters);
                     logger.info("get  methodName:" + methodName + ",url:" + routerUrl);
                     responseEntity = restTemplate.getForEntity(routerUrl,String.class,map);
-                }
-            }else{
-                //User的空参数请求自动拼接userId
-                if(parameters == null){
-                    responseEntity = restTemplate.getForEntity(routerUrl + "?" + USER_ID+ "=" + getUserId(),String.class);
+
                 }else{
                     //url后拼接的请求参数格式,原则上不允许上传userId，当请求参数中有userId时，会被改写为自己的userId
                     String urlParameters = getUrlParametersWithUserId(parameters);
@@ -210,7 +206,6 @@ public class HttpController {
                     logger.info("get  methodName:" + methodName + ",url:" + routerUrl);
                     responseEntity = restTemplate.getForEntity(routerUrl,String.class,map);
                 }
-
             }
 
         }catch (HttpClientErrorException e){
@@ -467,6 +462,7 @@ public class HttpController {
             return;
         }
         List<Integer> routerIds = MyResponseReader.getList(responseEntity,Integer.class);
+        logger.info("routerIds:" + routerIds);
         //routerIds放入缓存
         CacheUtils.userRouterMap.put(userId,routerIds);
         //用户权限放入缓存
