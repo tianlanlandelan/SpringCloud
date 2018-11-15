@@ -1,5 +1,6 @@
 package com.originaldreams.proxycenter.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.originaldreams.common.encryption.MyBase64Utils;
 import com.originaldreams.common.entity.MyRouterObject;
 import com.originaldreams.common.response.MyResponse;
@@ -15,9 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -33,6 +32,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "*",allowedHeaders="*", maxAge = 3600)
 public class HttpController {
     private Logger logger = LoggerFactory.getLogger(HttpController.class);
     @Autowired
@@ -60,12 +60,13 @@ public class HttpController {
     /**
      * 统一的登录接口
      *  TODO 提供统一的用户名、手机号、邮箱识别方法 涉及到用户名规则的制定
-     * @param userName  用户名、手机号、邮箱
-     * @param password  密码
      * @return
      */
     @RequestMapping(value = "/logon",method = RequestMethod.POST)
-    public ResponseEntity logon(String userName,String password){
+    public ResponseEntity logon(@RequestBody String json){
+        String userName = JSON.parseObject(json).getString("userName");
+        String password = JSON.parseObject(json).getString("password");
+        logger.info("userName:" + userName + "，password:" + password);
         try {
             logger.info("logon  userName:" + userName);
             if(userName == null || password == null){
