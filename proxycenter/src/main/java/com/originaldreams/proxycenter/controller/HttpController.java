@@ -8,6 +8,7 @@ import com.originaldreams.common.response.MyResponseReader;
 import com.originaldreams.common.response.MyServiceResponse;
 import com.originaldreams.common.router.*;
 import com.originaldreams.common.util.ConfigUtils;
+import com.originaldreams.common.util.JsonUtils;
 import com.originaldreams.common.util.StringUtils;
 import com.originaldreams.common.util.ValidUserName;
 import com.originaldreams.proxycenter.cache.CacheUtils;
@@ -64,8 +65,8 @@ public class HttpController {
      */
     @RequestMapping(value = "/logon",method = RequestMethod.POST)
     public ResponseEntity logon(@RequestBody String json){
-        String userName = JSON.parseObject(json).getString("userName");
-        String password = JSON.parseObject(json).getString("password");
+        String userName = JsonUtils.getString(json,"userName");
+        String password = JsonUtils.getString(json,"password");
         logger.info("userName:" + userName + "，password:" + password);
         try {
             logger.info("logon  userName:" + userName);
