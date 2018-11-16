@@ -87,7 +87,7 @@ public class PermissionController {
      * 查询所有接口（权限）
      * @return
      */
-    @RouterAttribute(id = MyUserManagerRouter.GET_ALL_ROUTERS, description = "我是登录接口")
+    @RouterAttribute(id = MyUserManagerRouter.GET_ALL_ROUTERS, description = "查询权限列表")
     @RequestMapping(value = "/getAllRouters" , method = RequestMethod.GET)
     public ResponseEntity getAllRouters(){
         return MyResponse.ok(routerService.getAll());

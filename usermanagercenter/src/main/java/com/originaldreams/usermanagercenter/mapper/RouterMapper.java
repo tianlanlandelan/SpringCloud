@@ -1,5 +1,6 @@
 package com.originaldreams.usermanagercenter.mapper;
 
+import com.originaldreams.common.entity.MyRouterObject;
 import com.originaldreams.usermanagercenter.entity.Router;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
@@ -16,8 +17,8 @@ public interface RouterMapper {
      @Select("SELECT id,name, serviceName, controllerName, methodName, routerUrl,requestType FROM " + tableName + " WHERE id = #{id}")
      Router getById(Integer Id);
 
-     @Select("SELECT id,name, serviceName, controllerName, methodName, routerUrl,requestType FROM " + tableName)
-     List<Router> getAll();
+     @Select("SELECT id,name, serviceName, controllerName, methodName, routerUrl,requestType,parameters,description,createTime FROM " + tableName)
+     List<MyRouterObject> getAll();
 
      @Select({"SELECT a.id,a.name, a.serviceName, a.controllerName, a.methodName, a.routerUrl,a.requestType "
              + " FROM " + tableName + " a ," + roleRouters + " b "
