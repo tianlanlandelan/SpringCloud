@@ -22,7 +22,6 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,23 +53,23 @@ public class HttpController {
      */
     private final static String SPLIT_KEY_VALUE = ":";
 
-    private static final String NULL_STRING = "null";
-
-    private static final String API_PREFIX = "/api";
-
     /**
      * 统一的登录接口
-     *  TODO 提供统一的用户名、手机号、邮箱识别方法 涉及到用户名规则的制定
+     * @param json
+     * @param userName  用户名、手机号或邮箱
+     * @param password  密码
      * @return
      */
     @RequestMapping(value = "/logon",method = RequestMethod.POST)
-    public ResponseEntity logon(@RequestBody String json){
-        String userName = JsonUtils.getString(json,"userName");
-        String password = JsonUtils.getString(json,"password");
+    public ResponseEntity logon(@RequestBody String json,String userName,String password){
+        if(StringUtils.isEmpty(userName,password)){
+            userName = JsonUtils.getString(json,"userName");
+            password = JsonUtils.getString(json,"password");
+        }
         logger.info("userName:" + userName + "，password:" + password);
         try {
             logger.info("logon  userName:" + userName);
-            if(userName == null || password == null){
+            if(StringUtils.isEmpty(userName,password)){
                 return MyResponse.badRequest();
             }
             Map<String, String> map = new HashMap<>();
@@ -112,14 +111,20 @@ public class HttpController {
     }
 
     /**
-     * 注册
-     * @param userName 手机号或邮箱
+     * 注册接口
+     * @param json
+     * @param userName  用户名
      * @param password  密码
-     * @param verificationCode 验证码
+     * @param verificationCode  验证码
      * @return
      */
     @RequestMapping(value = "/register",method = RequestMethod.POST)
-    public ResponseEntity register(String userName,String password,String verificationCode){
+    public ResponseEntity register(@RequestBody String json,String userName,String password,String verificationCode){
+        if(StringUtils.isEmpty(userName,password,verificationCode)){
+            userName = JsonUtils.getString(json,"userName");
+            password = JsonUtils.getString(json,"password");
+            verificationCode = JsonUtils.getString(json,"verificationCode");
+        }
         try {
             logger.info("register  :" );
             if(StringUtils.isEmpty(userName,password,verificationCode)){
@@ -166,8 +171,8 @@ public class HttpController {
      * 1.鉴权
      * 2.转发
      * 3.针对错误返回码（401、403等）转处理为不同的应答
-     * @param methodName    方法名
-     * @param parameters    参数 格式：key1:base64(value1);key2:base64(value2) 如：routerId:MTAwMDE=
+     * @param  methodName    方法名
+     * @param  parameters    参数 格式：key1:base64(value1);key2:base64(value2) 如：routerId:MTAwMDE=
      * @return
      */
     @RequestMapping(method = RequestMethod.GET)
@@ -446,11 +451,11 @@ public class HttpController {
      * @param response
      */
     private void setCacheForLogon(ResponseEntity<String> response){
+        logger.info("setCacheForLogon :" + response);
         if(!MyResponseReader.isSuccess(response)){
             return;
         }
-        int userId = MyResponseReader.getInteger(response);
-        logger.info("logonWithUserName userId:" + userId);
+        int userId = MyResponseReader.getDataObject(response,"id",Integer.class);
         //将userId放入Session
         request.getSession().setAttribute("userId",userId);
 
