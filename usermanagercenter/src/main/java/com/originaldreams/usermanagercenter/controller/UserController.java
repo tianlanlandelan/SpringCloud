@@ -65,11 +65,17 @@ public class UserController {
         return MyResponse.ok(userService.getUsersByRoleId(roleId));
     }
 
-
     @RouterAttribute(id = MyUserManagerRouter.GET_ALL_USER_NAME_AND_ROLE_NAME, description = "获取所有用户和对应的角色")
     @RequestMapping(value = "/getAllUserNameAndRoleName" ,method = RequestMethod.GET)
     public ResponseEntity getAllUserNameAndRoleName(){
         return MyResponse.ok(userService.getAllUserNameAndRoleName());
+    }
+
+
+    @RouterAttribute(id = MyUserManagerRouter.GET_ALL_USER_INFO, description = "获取所有用户和对应的角色")
+    @RequestMapping(value = "/getAllUserInfo" ,method = RequestMethod.GET)
+    public ResponseEntity getAllUserInfo(){
+        return MyResponse.ok(userInfoService.getAll());
     }
 
 }
