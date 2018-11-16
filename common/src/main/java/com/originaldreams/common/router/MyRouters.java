@@ -111,7 +111,6 @@ public class MyRouters {
     public static List<MyRouterObject> getRouters(){
         RestTemplate restTemplate = getRestTemplate();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(ConfigUtils.GET_ROUTERS_URL,String.class);
-        System.out.println(MyResponseReader.getJSONString(responseEntity));
         List<MyRouterObject> list = MyResponseReader.getList(responseEntity,MyRouterObject.class);
         MyRouters.initRouterMap(list);
         return list;

@@ -97,7 +97,8 @@ public class UserService {
                  */
                 if(checkPassword){
                     if(MyMD5Utils.checkqual(user.getPassword(),checker.getPassword())){
-                        responseObject.setData(checker.getId());
+                        UserInfo userInfo = userInfoMapper.getById(checker.getId());
+                        responseObject.setData(userInfo);
 
                         Map<String, Object> map = new HashMap<>();
                         map.put("userId",checker.getId());
@@ -110,7 +111,8 @@ public class UserService {
                         ResponseEntity<String> responseEntity = restTemplate.postForEntity(
                                 MyRouters.getRouterUrl(MyLogRouter.INSERT_LOGON_LOG) +
                                 "?userId={userId}&type={type}&way={way}&ip={ip}",null,String.class,map);
-                        logger.info("logonLog Ok: " + responseEntity.getBody());
+
+                        logger.info("logonLog Ok: " + responseObject);
                     }else {
                         responseObject.setSuccess(MyServiceResponse.SUCCESS_CODE_SUCCESS);
                         responseObject.setMessage("用户名密码错误");

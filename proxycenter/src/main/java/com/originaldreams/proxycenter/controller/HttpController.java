@@ -1,5 +1,6 @@
 package com.originaldreams.proxycenter.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.originaldreams.common.encryption.MyBase64Utils;
 import com.originaldreams.common.entity.MyRouterObject;
 import com.originaldreams.common.response.MyResponse;
@@ -7,6 +8,7 @@ import com.originaldreams.common.response.MyResponseReader;
 import com.originaldreams.common.response.MyServiceResponse;
 import com.originaldreams.common.router.*;
 import com.originaldreams.common.util.ConfigUtils;
+import com.originaldreams.common.util.JsonUtils;
 import com.originaldreams.common.util.StringUtils;
 import com.originaldreams.common.util.ValidUserName;
 import com.originaldreams.proxycenter.cache.CacheUtils;
@@ -15,14 +17,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +32,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping("/api")
+@CrossOrigin(origins = "*",allowedHeaders="*", maxAge = 3600)
 public class HttpController {
     private Logger logger = LoggerFactory.getLogger(HttpController.class);
     @Autowired
@@ -53,22 +53,23 @@ public class HttpController {
      */
     private final static String SPLIT_KEY_VALUE = ":";
 
-    private static final String NULL_STRING = "null";
-
-    private static final String API_PREFIX = "/api";
-
     /**
      * 统一的登录接口
-     *  TODO 提供统一的用户名、手机号、邮箱识别方法 涉及到用户名规则的制定
-     * @param userName  用户名、手机号、邮箱
+     * @param json
+     * @param userName  用户名、手机号或邮箱
      * @param password  密码
      * @return
      */
     @RequestMapping(value = "/logon",method = RequestMethod.POST)
-    public ResponseEntity logon(String userName,String password){
+    public ResponseEntity logon(@RequestBody String json,String userName,String password){
+        if(StringUtils.isEmpty(userName,password)){
+            userName = JsonUtils.getString(json,"userName");
+            password = JsonUtils.getString(json,"password");
+        }
+        logger.info("userName:" + userName + "，password:" + password);
         try {
             logger.info("logon  userName:" + userName);
-            if(userName == null || password == null){
+            if(StringUtils.isEmpty(userName,password)){
                 return MyResponse.badRequest();
             }
             Map<String, String> map = new HashMap<>();
@@ -79,7 +80,7 @@ public class HttpController {
                 map.put("phone",userName);
                 responseEntity = restTemplate.postForEntity(
                         MyRouters.getRouterUrl(MyUserManagerRouter.LOGON)
-                         + "?email={phone}&password={password}",null,String.class,map);
+                         + "?phone={phone}&password={password}",null,String.class,map);
             }
             //邮箱
 
@@ -87,7 +88,7 @@ public class HttpController {
                 map.put("email", userName);
                 responseEntity = restTemplate.postForEntity(
                         MyRouters.getRouterUrl(MyUserManagerRouter.LOGON)
-                                + "?phone={email}&password={password}",null,String.class,map);
+                                + "?email={email}&password={password}",null,String.class,map);
             }
             //用户名
             else if(ValidUserName.isValidUserName(userName)){
@@ -110,14 +111,20 @@ public class HttpController {
     }
 
     /**
-     * 注册
-     * @param userName 手机号或邮箱
+     * 注册接口
+     * @param json
+     * @param userName  用户名
      * @param password  密码
-     * @param verificationCode 验证码
+     * @param verificationCode  验证码
      * @return
      */
     @RequestMapping(value = "/register",method = RequestMethod.POST)
-    public ResponseEntity register(String userName,String password,String verificationCode){
+    public ResponseEntity register(@RequestBody String json,String userName,String password,String verificationCode){
+        if(StringUtils.isEmpty(userName,password,verificationCode)){
+            userName = JsonUtils.getString(json,"userName");
+            password = JsonUtils.getString(json,"password");
+            verificationCode = JsonUtils.getString(json,"verificationCode");
+        }
         try {
             logger.info("register  :" );
             if(StringUtils.isEmpty(userName,password,verificationCode)){
@@ -164,8 +171,8 @@ public class HttpController {
      * 1.鉴权
      * 2.转发
      * 3.针对错误返回码（401、403等）转处理为不同的应答
-     * @param methodName    方法名
-     * @param parameters    参数 格式：key1:base64(value1);key2:base64(value2) 如：routerId:MTAwMDE=
+     * @param  methodName    方法名
+     * @param  parameters    参数 格式：key1:base64(value1);key2:base64(value2) 如：routerId:MTAwMDE=
      * @return
      */
     @RequestMapping(method = RequestMethod.GET)
@@ -184,11 +191,11 @@ public class HttpController {
              * 允许管理员在接口中传入userId参数（允许其操作其他User的数据）
              * 不允许普通用户传递（不允许其操作其他User的数据）
              */
-            if(isManager()){
-                //Manager的空参数请求，说明就是空参数
-                if(parameters == null){
-                    responseEntity = restTemplate.getForEntity(routerUrl,String.class);
-                }else{
+
+            if(parameters == null){
+                responseEntity = restTemplate.getForEntity(routerUrl + "?" + USER_ID+ "=" + getUserId(),String.class);
+            }else{
+                if(isManager()){
                     //url后拼接的请求参数格式
                     String urlParameters = getUrlParameters(parameters);
                     routerUrl += urlParameters;
@@ -196,11 +203,7 @@ public class HttpController {
                     Map<String,Object> map = parseMap(parameters);
                     logger.info("get  methodName:" + methodName + ",url:" + routerUrl);
                     responseEntity = restTemplate.getForEntity(routerUrl,String.class,map);
-                }
-            }else{
-                //User的空参数请求自动拼接userId
-                if(parameters == null){
-                    responseEntity = restTemplate.getForEntity(routerUrl + "?" + USER_ID+ "=" + getUserId(),String.class);
+
                 }else{
                     //url后拼接的请求参数格式,原则上不允许上传userId，当请求参数中有userId时，会被改写为自己的userId
                     String urlParameters = getUrlParametersWithUserId(parameters);
@@ -210,7 +213,6 @@ public class HttpController {
                     logger.info("get  methodName:" + methodName + ",url:" + routerUrl);
                     responseEntity = restTemplate.getForEntity(routerUrl,String.class,map);
                 }
-
             }
 
         }catch (HttpClientErrorException e){
@@ -449,11 +451,11 @@ public class HttpController {
      * @param response
      */
     private void setCacheForLogon(ResponseEntity<String> response){
+        logger.info("setCacheForLogon :" + response);
         if(!MyResponseReader.isSuccess(response)){
             return;
         }
-        int userId = MyResponseReader.getInteger(response);
-        logger.info("logonWithUserName userId:" + userId);
+        int userId = MyResponseReader.getDataObject(response,"id",Integer.class);
         //将userId放入Session
         request.getSession().setAttribute("userId",userId);
 
@@ -467,6 +469,7 @@ public class HttpController {
             return;
         }
         List<Integer> routerIds = MyResponseReader.getList(responseEntity,Integer.class);
+        logger.info("routerIds:" + routerIds);
         //routerIds放入缓存
         CacheUtils.userRouterMap.put(userId,routerIds);
         //用户权限放入缓存
