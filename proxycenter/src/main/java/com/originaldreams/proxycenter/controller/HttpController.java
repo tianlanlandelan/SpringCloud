@@ -223,6 +223,7 @@ public class HttpController {
         }
         return responseEntity;
     }
+
     /**
      * POST请求不允许空参数
      * @param methodName 请求的方法名
@@ -241,15 +242,16 @@ public class HttpController {
         }
         String routerUrl = authenticateAndReturnRouterUrl(ConfigUtils.REQUEST_METHOD_POST,methodName);
         if(routerUrl == null){
+            logger.error("find no router:" + methodName);
             return MyResponse.forbidden();
         }
         ResponseEntity<String> responseEntity;
         try{
             Map<String,Object> map ;
             if(isManager()){
-                logger.info("manager");
                 routerUrl = routerUrl + getUrlParameters(parameters);
                 map = parseMap(parameters);
+                logger.info("manager post url:" + routerUrl);
             }else{
                 routerUrl = routerUrl + getUrlParametersWithUserId(parameters);
                 map = parseMapWithUserId(parameters);
@@ -272,12 +274,17 @@ public class HttpController {
      * @return
      */
     @RequestMapping(method = RequestMethod.DELETE)
-    public ResponseEntity delete(String methodName,String parameters){
-        if(methodName == null || parameters == null){
+    public ResponseEntity delete(@RequestBody String json,String methodName,String parameters){
+        logger.info("received delete: json=" + json + ",methodName=" + methodName + ",parameters=" + parameters);
+        if(StringUtils.isEmpty(methodName,parameters)){
+            methodName = JsonUtils.getString(json,"methodName");
+            parameters = JsonUtils.getString(json,"parameters");
+        }
+        if(StringUtils.isEmpty(methodName,parameters)){
             return MyResponse.badRequest();
         }
         String routerUrl = authenticateAndReturnRouterUrl(ConfigUtils.REQUEST_METHOD_DELETE,methodName);
-        if(routerUrl == null){
+        if(StringUtils.isEmpty(routerUrl)){
             return MyResponse.forbidden();
         }
         try{
@@ -285,6 +292,7 @@ public class HttpController {
             if(isManager()){
                 routerUrl = routerUrl + getUrlParameters(parameters);
                 map = parseMap(parameters);
+                logger.info("manager delete url:" + routerUrl);
             }else{
                 routerUrl = routerUrl + getUrlParametersWithUserId(parameters);
                 map = parseMapWithUserId(parameters);
@@ -307,8 +315,13 @@ public class HttpController {
      * @return
      */
     @RequestMapping(method = RequestMethod.PUT)
-    public ResponseEntity put(String methodName,String parameters){
-        if(methodName == null || parameters == null){
+    public ResponseEntity put(@RequestBody String json, String methodName,String parameters){
+        logger.info("received put: json=" + json + ",methodName=" + methodName + ",parameters=" + parameters);
+        if(StringUtils.isEmpty(methodName,parameters)){
+            methodName = JsonUtils.getString(json,"methodName");
+            parameters = JsonUtils.getString(json,"parameters");
+        }
+        if(StringUtils.isEmpty(methodName,parameters)){
             return MyResponse.badRequest();
         }
         String routerUrl = authenticateAndReturnRouterUrl(ConfigUtils.REQUEST_METHOD_PUT,methodName);
@@ -320,6 +333,7 @@ public class HttpController {
             if(isManager()){
                 routerUrl = routerUrl + getUrlParameters(parameters);
                 map = parseMap(parameters);
+                logger.info("manager put url:" + routerUrl);
             }else{
                 routerUrl = routerUrl + getUrlParametersWithUserId(parameters);
                 map = parseMapWithUserId(parameters);
