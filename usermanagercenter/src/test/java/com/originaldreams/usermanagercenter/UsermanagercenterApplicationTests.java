@@ -1,19 +1,9 @@
 package com.originaldreams.usermanagercenter;
 
-import com.originaldreams.common.entity.MyRouterObject;
-import com.originaldreams.common.router.MyRouters;
-import com.originaldreams.common.router.MyServiceName;
 import com.originaldreams.usermanagercenter.controller.LogonController;
-import com.originaldreams.usermanagercenter.controller.PermissionController;
-import com.originaldreams.usermanagercenter.controller.PermissionManagerController;
-import com.originaldreams.usermanagercenter.controller.UserInfoController;
 import org.junit.Test;
-import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.web.client.RestTemplate;
 
 import java.lang.reflect.Method;
-import java.nio.charset.Charset;
-import java.util.List;
 
 public class UsermanagercenterApplicationTests {
     @Test

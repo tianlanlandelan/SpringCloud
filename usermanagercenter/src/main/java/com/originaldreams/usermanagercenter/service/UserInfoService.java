@@ -6,14 +6,17 @@ import org.springframework.stereotype.Service;
 import com.originaldreams.usermanagercenter.entity.UserInfo;
 import com.originaldreams.usermanagercenter.mapper.UserInfoMapper;
 
+import javax.annotation.Resource;
 import java.util.List;
 
+/**
+ * @author yangkaile
+ * @date 2018-11-16 21:00:34
+ */
 @Service
 public class UserInfoService {
-    @Autowired
+    @Resource
     private UserInfoMapper userInfoMapper;
-
-
 
     public MyServiceResponse getById(Integer id){
         if(id == null){
@@ -22,10 +25,8 @@ public class UserInfoService {
         return new MyServiceResponse(userInfoMapper.getById(id));
     }
 
-
-
-    public List<UserInfo> getAll(){
-        return userInfoMapper.getAll();
+    public MyServiceResponse getAll(){
+        return new MyServiceResponse(userInfoMapper.getAll());
     }
 
     public Integer deleteById(Integer id){

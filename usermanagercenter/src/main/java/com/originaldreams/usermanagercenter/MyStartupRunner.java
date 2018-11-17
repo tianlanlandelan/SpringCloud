@@ -3,9 +3,9 @@ package com.originaldreams.usermanagercenter;
 import com.originaldreams.common.router.MyRouters;
 import com.originaldreams.common.router.MyServiceName;
 import com.originaldreams.usermanagercenter.controller.LogonController;
-import com.originaldreams.usermanagercenter.controller.PermissionController;
-import com.originaldreams.usermanagercenter.controller.PermissionManagerController;
-import com.originaldreams.usermanagercenter.controller.UserInfoController;
+import com.originaldreams.usermanagercenter.controller.RoleController;
+import com.originaldreams.usermanagercenter.controller.RouterController;
+import com.originaldreams.usermanagercenter.controller.UserController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -28,9 +28,9 @@ public class MyStartupRunner  implements CommandLineRunner {
         //初始化路由表
         MyRouters.initRouters(MyServiceName.USER_MANAGER_CENTER,
                 LogonController.class,
-                PermissionController.class,
-                PermissionManagerController.class,
-                UserInfoController.class);
+                RoleController.class,
+                RouterController.class,
+                UserController.class);
         logger.info("注册路由表");
     }
 }
