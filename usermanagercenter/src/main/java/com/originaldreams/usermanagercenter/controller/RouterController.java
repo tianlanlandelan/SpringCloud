@@ -73,7 +73,7 @@ public class RouterController {
      * @return
      */
     @RouterAttribute(id = MyUserManagerRouter.ADD_ROUTER_FOR_ROLE, description = "我是登录接口")
-    @RequestMapping(value = "addRouterForRole" , method = RequestMethod.POST)
+    @RequestMapping(value = "/addRouterForRole" , method = RequestMethod.POST)
     public ResponseEntity addRouterForRole(Integer roleId,Integer routerId){
         if(roleId == null || routerId == null){
             return MyResponse.badRequest();

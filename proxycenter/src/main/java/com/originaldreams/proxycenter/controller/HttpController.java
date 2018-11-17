@@ -230,8 +230,13 @@ public class HttpController {
      * @return
      */
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity post(String methodName,String parameters){
-        if(methodName == null || parameters == null){
+    public ResponseEntity post(@RequestBody String json,String methodName,String parameters){
+        logger.info("received post: json=" + json + ",methodName=" + methodName + ",parameters=" + parameters);
+        if(StringUtils.isEmpty(methodName,parameters)){
+            methodName = JsonUtils.getString(json,"methodName");
+            parameters = JsonUtils.getString(json,"parameters");
+        }
+        if(StringUtils.isEmpty(methodName,parameters)){
             return MyResponse.badRequest();
         }
         String routerUrl = authenticateAndReturnRouterUrl(ConfigUtils.REQUEST_METHOD_POST,methodName);
@@ -242,13 +247,14 @@ public class HttpController {
         try{
             Map<String,Object> map ;
             if(isManager()){
+                logger.info("manager");
                 routerUrl = routerUrl + getUrlParameters(parameters);
                 map = parseMap(parameters);
             }else{
                 routerUrl = routerUrl + getUrlParametersWithUserId(parameters);
                 map = parseMapWithUserId(parameters);
             }
-            logger.info("post  methodName:" + methodName + ",url:" + routerUrl);
+            logger.info("sendPost:  methodName:" + methodName + ",url:" + routerUrl + ",map:" + map);
             responseEntity = restTemplate.postForEntity(routerUrl,null,String.class,map);
         }catch (HttpClientErrorException e){
             logger.warn("HttpClientErrorException:" + e.getStatusCode());

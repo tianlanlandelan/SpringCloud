@@ -74,7 +74,7 @@ public class RoleController {
      * @return
      */
     @RouterAttribute(id = MyUserManagerRouter.ADD_ROLE, description = "我是登录接口")
-    @RequestMapping(value = "addRole" , method = RequestMethod.POST)
+    @RequestMapping(value = "/addRole" , method = RequestMethod.POST)
     public ResponseEntity addRole(String name,String description){
         if(name == null || description == null){
             return MyResponse.badRequest();
@@ -90,7 +90,7 @@ public class RoleController {
      * @return
      */
     @RouterAttribute(id = MyUserManagerRouter.ADD_ROLE_FOR_USER, description = "我是登录接口")
-    @RequestMapping(value = "addRoleForUser" , method = RequestMethod.POST)
+    @RequestMapping(value = "/addRoleForUser" , method = RequestMethod.POST)
     public ResponseEntity addRoleForUser(Integer userId,Integer roleId){
         if(userId == null || roleId == null){
             return MyResponse.badRequest();
@@ -106,7 +106,7 @@ public class RoleController {
      * @return
      */
     @RouterAttribute(id = MyUserManagerRouter.DELETE_ROLE_BY_ID, description = "我是登录接口")
-    @RequestMapping(value = "deleteRoleById" ,method = RequestMethod.DELETE)
+    @RequestMapping(value = "/deleteRoleById" ,method = RequestMethod.DELETE)
     public ResponseEntity deleteRoleById(Integer id){
         if(id == null){
             return MyResponse.badRequest();
@@ -122,7 +122,7 @@ public class RoleController {
      * @return
      */
     @RouterAttribute(id = MyUserManagerRouter.UPDATE_ROLE, description = "我是登录接口")
-    @RequestMapping(value = "updateRole" ,method = RequestMethod.PUT)
+    @RequestMapping(value = "/updateRole" ,method = RequestMethod.PUT)
     public ResponseEntity updateRole(Integer id,String name,String description){
         if(id == null || name == null){
             return MyResponse.badRequest();
