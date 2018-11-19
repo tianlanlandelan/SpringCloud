@@ -1,6 +1,5 @@
 package com.originaldreams.proxycenter.controller;
 
-import com.alibaba.fastjson.JSON;
 import com.originaldreams.common.encryption.MyBase64Utils;
 import com.originaldreams.common.entity.MyRouterObject;
 import com.originaldreams.common.response.MyResponse;
