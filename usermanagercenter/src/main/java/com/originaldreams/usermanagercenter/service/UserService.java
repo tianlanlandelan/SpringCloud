@@ -150,9 +150,9 @@ public class UserService {
             }
         }catch (Exception e){
             e.printStackTrace();
-        }finally {
             return null;
         }
+        return null;
     }
 
     /**

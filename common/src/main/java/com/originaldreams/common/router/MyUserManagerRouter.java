@@ -79,4 +79,9 @@ public class MyUserManagerRouter {
      */
     public final static int GET_ALL_USER_INFO               = 10018;
 
+    /**
+     * 检查用户名、手机号、密码是否已注册
+     */
+    public final static int CHECK_USER_REGISTERED = 10019;
+
 }

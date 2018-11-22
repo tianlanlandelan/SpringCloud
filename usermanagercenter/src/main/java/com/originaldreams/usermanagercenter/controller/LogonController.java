@@ -39,7 +39,7 @@ public class LogonController {
     @RouterAttribute(id = MyUserManagerRouter.LOGON, description = "登录接口")
     @RequestMapping(value = "/logon",method = RequestMethod.POST)
     public ResponseEntity logon(String userName,String password){
-        logger.info(userName + "--" + password);
+        logger.info("received request logon:" + userName + "--" + password);
         if(StringUtils.isEmpty(userName,password)){
             return MyResponse.badRequest();
         }else{
@@ -70,7 +70,7 @@ public class LogonController {
         }
     }
 
-    @RouterAttribute(id = MyUserManagerRouter.REGISTER, description = "注册接口，所有参数必填。先通过短信或邮件获取验证码，再调用该接口设置用户名和密码")
+    @RouterAttribute(id = MyUserManagerRouter.CHECK_USER_REGISTERED, description = "注册接口，所有参数必填。先通过短信或邮件获取验证码，再调用该接口设置用户名和密码")
     @RequestMapping(value = "/checkUserRegistered" , method = RequestMethod.POST)
     public ResponseEntity checkUserRegistered(String userName) {
         try {
