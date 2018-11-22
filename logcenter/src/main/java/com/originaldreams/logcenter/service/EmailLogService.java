@@ -1,6 +1,6 @@
 package com.originaldreams.logcenter.service;
 
-import com.originaldreams.common.response.MyServiceResponse;
+import com.originaldreams.common.response.ResultData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.originaldreams.logcenter.entity.EmailLog;
@@ -13,9 +13,9 @@ public class EmailLogService {
     @Autowired
     private EmailLogMapper emailLogMapper;
 
-    public MyServiceResponse insert(EmailLog emailLog){
+    public ResultData insert(EmailLog emailLog){
         emailLogMapper.insert(emailLog);
-        return new MyServiceResponse(emailLog.getId());
+        return new ResultData(emailLog.getId());
     }
 
 

@@ -1,6 +1,6 @@
 package com.originaldreams.logcenter.service;
 
-import com.originaldreams.common.response.MyServiceResponse;
+import com.originaldreams.common.response.ResultData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.originaldreams.logcenter.entity.SMSLog;
@@ -16,9 +16,9 @@ public class SMSLogService {
     @Autowired
     private SMSLogMapper smsLogMapper;
 
-    public MyServiceResponse insert(SMSLog smsLog){
+    public ResultData insert(SMSLog smsLog){
         smsLogMapper.insert(smsLog);
-        return new MyServiceResponse(smsLog.getId());
+        return new ResultData(smsLog.getId());
     }
 
     /**
@@ -29,21 +29,21 @@ public class SMSLogService {
      * @param codeStr
      * @return
      */
-    public MyServiceResponse checkAndUpdateState(String phone,String codeStr){
-        MyServiceResponse response =new MyServiceResponse();
+    public ResultData checkAndUpdateState(String phone,String codeStr){
+        ResultData response =new ResultData();
         SMSLog smsLog = smsLogMapper.getByPhone(phone);
         if(smsLog != null && smsLog.getCodeStr() != null && smsLog.getCodeStr().equals(codeStr)){
             smsLogMapper.update(smsLog.getId());
             return response;
         }
-        response.setSuccess(MyServiceResponse.SUCCESS_CODE_FAILED);
+        response.setSuccess(ResultData.SUCCESS_CODE_FAILED);
         response.setMessage("验证码错误");
         return response;
     }
 
 
-    public MyServiceResponse getByPhone(String phone){
-        return new MyServiceResponse(smsLogMapper.getByPhone(phone));
+    public ResultData getByPhone(String phone){
+        return new ResultData(smsLogMapper.getByPhone(phone));
     }
 
 

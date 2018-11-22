@@ -1,7 +1,7 @@
 package com.originaldreams.publicservicecenter.controller;
 
 import com.originaldreams.common.response.MyResponse;
-import com.originaldreams.common.response.MyServiceResponse;
+import com.originaldreams.common.response.ResultData;
 import com.originaldreams.common.router.MyLogRouter;
 import com.originaldreams.common.router.MyPublicServiceRouter;
 import com.originaldreams.common.router.MyRouter;
@@ -43,7 +43,7 @@ public class SMSController {
     @RouterAttribute(id = MyPublicServiceRouter.SEND_VERIFICATION_CODE_SMS, description = "发送验证码短信")
     @RequestMapping(value = "/sendVerificationCode",method = RequestMethod.GET)
     public ResponseEntity sendVerificationCode(String phone){
-        MyServiceResponse response =new MyServiceResponse();
+        ResultData response =new ResultData();
         if(phone == null || phone.isEmpty()){
             return MyResponse.badRequest();
         }
@@ -64,7 +64,7 @@ public class SMSController {
         if(SendSMSUtils.RESULT_SUCCESS_CODE.equals(entity.getStatusCode())){
             return MyResponse.ok(response);
         }else {
-            response.setSuccess(MyServiceResponse.SUCCESS_CODE_FAILED);
+            response.setSuccess(ResultData.SUCCESS_CODE_FAILED);
             response.setMessage("验证码发送失败");
             return MyResponse.ok(response);
         }

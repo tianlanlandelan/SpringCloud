@@ -4,7 +4,7 @@ import com.originaldreams.common.encryption.MyBase64Utils;
 import com.originaldreams.common.entity.MyRouterObject;
 import com.originaldreams.common.response.MyResponse;
 import com.originaldreams.common.response.MyResponseReader;
-import com.originaldreams.common.response.MyServiceResponse;
+import com.originaldreams.common.response.ResultData;
 import com.originaldreams.common.router.*;
 import com.originaldreams.common.util.ConfigUtils;
 import com.originaldreams.common.util.JsonUtils;
@@ -304,7 +304,7 @@ public class HttpController {
         }catch (Exception e){
             return MyResponse.badRequest();
         }
-        return MyResponse.ok(new MyServiceResponse("删除成功"));
+        return MyResponse.ok(new ResultData("删除成功"));
     }
 
     /**
@@ -345,7 +345,7 @@ public class HttpController {
         }catch (Exception e){
             return MyResponse.badRequest();
         }
-        return MyResponse.ok(new MyServiceResponse("修改成功"));
+        return MyResponse.ok(new ResultData("修改成功"));
     }
 
     /**
@@ -457,8 +457,8 @@ public class HttpController {
             case BAD_REQUEST: response = MyResponse.badRequest();break;
             case UNAUTHORIZED: response = MyResponse.unauthorized();break;
             default:{
-                MyServiceResponse myServiceResponse = new MyServiceResponse(MyServiceResponse.SUCCESS_CODE_FAILED,"未知错误");
-                response = ResponseEntity.status(exception.getStatusCode()).contentType(MediaType.APPLICATION_JSON).body(myServiceResponse);
+                ResultData ResultData = new ResultData(ResultData.SUCCESS_CODE_FAILED,"未知错误");
+                response = ResponseEntity.status(exception.getStatusCode()).contentType(MediaType.APPLICATION_JSON).body(ResultData);
             }
         }
         return  response;
