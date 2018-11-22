@@ -1,10 +1,11 @@
 package com.originaldreams.logcenter.service;
 
 import com.originaldreams.common.response.ResultData;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.originaldreams.logcenter.entity.SMSLog;
 import com.originaldreams.logcenter.mapper.SMSLogMapper;
+
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -13,12 +14,12 @@ import java.util.List;
  */
 @Service
 public class SMSLogService {
-    @Autowired
+    @Resource
     private SMSLogMapper smsLogMapper;
 
     public ResultData insert(SMSLog smsLog){
         smsLogMapper.insert(smsLog);
-        return new ResultData(smsLog.getId());
+        return ResultData.success(smsLog.getId());
     }
 
     /**
@@ -43,7 +44,7 @@ public class SMSLogService {
 
 
     public ResultData getByPhone(String phone){
-        return new ResultData(smsLogMapper.getByPhone(phone));
+        return ResultData.success(smsLogMapper.getByPhone(phone));
     }
 
 

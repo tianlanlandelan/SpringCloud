@@ -9,7 +9,6 @@ import com.originaldreams.common.router.*;
 import com.originaldreams.common.util.ConfigUtils;
 import com.originaldreams.common.util.JsonUtils;
 import com.originaldreams.common.util.StringUtils;
-import com.originaldreams.common.util.ValidUserName;
 import com.originaldreams.proxycenter.cache.CacheUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,32 +70,13 @@ public class HttpController {
             if(StringUtils.isEmpty(userName,password)){
                 return MyResponse.badRequest();
             }
-            Map<String, String> map = new HashMap<>();
+            Map<String, String> map = new HashMap<>(16);
+            map.put("userName", userName);
             map.put("password",password);
-            ResponseEntity<String> responseEntity = null;
-            //手机号
-            if(ValidUserName.isValidPhoneNumber(userName)){
-                map.put("phone",userName);
-                responseEntity = restTemplate.postForEntity(
-                        MyRouters.getRouterUrl(MyUserManagerRouter.LOGON)
-                         + "?phone={phone}&password={password}",null,String.class,map);
-            }
-            //邮箱
-
-            else if(ValidUserName.isValidEmailAddress(userName)){
-                map.put("email", userName);
-                responseEntity = restTemplate.postForEntity(
-                        MyRouters.getRouterUrl(MyUserManagerRouter.LOGON)
-                                + "?email={email}&password={password}",null,String.class,map);
-            }
-            //用户名
-            else if(ValidUserName.isValidUserName(userName)){
-                map.put("userName", userName);
-                responseEntity = restTemplate.postForEntity(
+            ResponseEntity<String> responseEntity = restTemplate.postForEntity(
                         MyRouters.getRouterUrl(MyUserManagerRouter.LOGON)
                                 + "?userName={userName}&password={password}",null,String.class,map);
-            }
-            if(responseEntity == null){
+            if(!MyResponseReader.isSuccess(responseEntity)){
                 return MyResponse.badRequest();
             }
             //登录成功，缓存
@@ -304,7 +284,7 @@ public class HttpController {
         }catch (Exception e){
             return MyResponse.badRequest();
         }
-        return MyResponse.ok(new ResultData("删除成功"));
+        return MyResponse.ok(ResultData.success("删除成功"));
     }
 
     /**
@@ -345,7 +325,7 @@ public class HttpController {
         }catch (Exception e){
             return MyResponse.badRequest();
         }
-        return MyResponse.ok(new ResultData("修改成功"));
+        return MyResponse.ok(ResultData.success("修改成功"));
     }
 
     /**
@@ -457,8 +437,8 @@ public class HttpController {
             case BAD_REQUEST: response = MyResponse.badRequest();break;
             case UNAUTHORIZED: response = MyResponse.unauthorized();break;
             default:{
-                ResultData ResultData = new ResultData(ResultData.SUCCESS_CODE_FAILED,"未知错误");
-                response = ResponseEntity.status(exception.getStatusCode()).contentType(MediaType.APPLICATION_JSON).body(ResultData);
+                ResultData resultData = ResultData.error("未知错误");
+                response = ResponseEntity.status(exception.getStatusCode()).contentType(MediaType.APPLICATION_JSON).body(resultData);
             }
         }
         return  response;

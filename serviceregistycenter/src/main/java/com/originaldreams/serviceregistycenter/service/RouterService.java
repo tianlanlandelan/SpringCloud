@@ -19,15 +19,15 @@ public class RouterService {
     RouterMapper routerMapper;
 
     public ResultData insert(MyRouterObject object){
-       return new ResultData(routerMapper.insert(object));
+       return ResultData.success(routerMapper.insert(object));
     }
 
     public ResultData getAll(){
-        return new ResultData(routerMapper.getAll());
+        return ResultData.success(routerMapper.getAll());
     }
 
     public ResultData deleteByServiceName(String serviceName){
-        return new ResultData(routerMapper.deleteByServiceName(serviceName));
+        return ResultData.success(routerMapper.deleteByServiceName(serviceName));
     }
 
 }

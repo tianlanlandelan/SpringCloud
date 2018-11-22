@@ -1,21 +1,26 @@
 package com.originaldreams.logcenter.service;
 
 import com.originaldreams.common.response.ResultData;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.originaldreams.logcenter.entity.EmailLog;
 import com.originaldreams.logcenter.mapper.EmailLogMapper;
+
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author yangkaile
+ * @date 2018-11-22 15:12:53
+ */
 @Service
 public class EmailLogService {
-    @Autowired
+    @Resource
     private EmailLogMapper emailLogMapper;
 
     public ResultData insert(EmailLog emailLog){
         emailLogMapper.insert(emailLog);
-        return new ResultData(emailLog.getId());
+        return ResultData.success(emailLog.getId());
     }
 
 

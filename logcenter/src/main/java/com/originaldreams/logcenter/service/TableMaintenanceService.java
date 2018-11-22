@@ -1,15 +1,16 @@
 package com.originaldreams.logcenter.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.originaldreams.logcenter.entity.TableMaintenance;
 import com.originaldreams.logcenter.mapper.TableMaintenanceMapper;
+
+import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 
 @Service
 public class TableMaintenanceService {
-    @Autowired
+    @Resource
     private TableMaintenanceMapper tableMaintenanceMapper;
 
     public TableMaintenance getById(Integer id){
