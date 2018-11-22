@@ -93,4 +93,26 @@ public class LogonController {
             return MyResponse.serverError();
         }
     }
+
+    @RouterAttribute(id = MyUserManagerRouter.REGISTER, description = "注册接口，所有参数必填。先通过短信或邮件获取验证码，再调用该接口设置用户名和密码")
+    @RequestMapping(value = "/checkUserRegistered" , method = RequestMethod.POST)
+    public ResponseEntity checkUserRegistered(String userName) {
+        try {
+            if (StringUtils.isEmpty(userName)) {
+                return MyResponse.badRequest();
+            }
+            MyServiceResponse response = new MyServiceResponse();
+            if(userService.checkUserRegistered(userName) == null){
+                return MyResponse.ok(response);
+            }else {
+                response.setSuccess(MyServiceResponse.SUCCESS_CODE_FAILED);
+                response.setMessage("用户已注册");
+                return MyResponse.ok(response);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return MyResponse.serverError();
+        }
+    }
+
 }

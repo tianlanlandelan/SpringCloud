@@ -5,6 +5,8 @@ import com.originaldreams.common.response.MyResponseReader;
 import com.originaldreams.common.response.MyServiceResponse;
 import com.originaldreams.common.router.MyLogRouter;
 import com.originaldreams.common.router.MyRouters;
+import com.originaldreams.common.util.StringUtils;
+import com.originaldreams.common.util.ValidUserName;
 import com.originaldreams.usermanagercenter.entity.UserInfo;
 import com.originaldreams.usermanagercenter.mapper.UserInfoMapper;
 import com.originaldreams.usermanagercenter.utils.LogonUtils;
@@ -171,6 +173,22 @@ public class UserService {
             responseObject.setMessage("验证码错误");
             responseObject.setSuccess(MyServiceResponse.SUCCESS_CODE_FAILED);
             return responseObject;
+        }
+    }
+    public User checkUserRegistered(String userName){
+        if(StringUtils.isEmpty(userName)){
+            return null;
+        }
+        User user = new User();
+        if(ValidUserName.isValidPhoneNumber(userName)){
+            user.setPhone(userName);
+            return userMapper.getByPhone(user);
+        }else if(ValidUserName.isValidEmailAddress(userName)){
+            user.setEmail(userName);
+            return userMapper.getByEmail(user);
+        }else{
+            user.setUserName(userName);
+            return userMapper.getByUserName(user);
         }
     }
     private MyServiceResponse register (User user) throws Exception{
