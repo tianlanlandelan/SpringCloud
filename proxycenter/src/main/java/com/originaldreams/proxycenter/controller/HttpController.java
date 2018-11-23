@@ -124,19 +124,41 @@ public class HttpController {
         }
     }
 
-    @RequestMapping(value = "/sendVerificationCode",method = RequestMethod.GET)
-    public ResponseEntity sendVerificationCode(String phone){
+    /**
+     * 发送短信验证码
+     * @param phone
+     * @return
+     */
+    @RequestMapping(value = "/sendSMSCode",method = RequestMethod.GET)
+    public ResponseEntity sendSMSCode(String phone){
         try {
-            logger.info("register  :" );
-            if(phone == null || phone.isEmpty()){
+            if(StringUtils.isEmpty(phone)){
                 return MyResponse.badRequest();
             }
-            Map<String, String> map = new HashMap<>();
-            map.put("phone",phone);
-
+            logger.info("sendSMSCode  :" + phone );
             ResponseEntity<String> responseEntity = restTemplate.getForEntity(
-                    MyRouters.getRouterUrl(MyPublicServiceRouter.SEND_VERIFICATION_CODE_SMS)
-                            + "?phone={phone}",String.class,map);
+                    MyRouters.getRouterUrl(MyPublicServiceRouter.SEND_VERIFICATION_CODE_SMS) + "?phone=" + phone, String.class);
+            return  responseEntity;
+        }catch (HttpClientErrorException e){
+            logger.warn("HttpClientErrorException:" + e.getStatusCode());
+            return getResponseFromException(e);
+        }
+    }
+
+    /**
+     * 发送邮件验证码
+     * @param email
+     * @return
+     */
+    @RequestMapping(value = "/sendEmailCode",method = RequestMethod.GET)
+    public ResponseEntity sendEmailCode(String email){
+        try {
+            if(StringUtils.isEmpty(email)){
+                return MyResponse.badRequest();
+            }
+            logger.info("sendEmailCode  :" + email );
+            ResponseEntity<String> responseEntity = restTemplate.getForEntity(
+                    MyRouters.getRouterUrl(MyPublicServiceRouter.SEND_VERIFICATION_CODE_EMAIL) + "?email=" + email,String.class);
             return  responseEntity;
         }catch (HttpClientErrorException e){
             logger.warn("HttpClientErrorException:" + e.getStatusCode());
