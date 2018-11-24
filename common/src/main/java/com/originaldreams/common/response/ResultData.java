@@ -18,6 +18,11 @@ public class ResultData {
     public ResultData() {
     }
 
+    public static ResultData success() {
+        ResultData resultData = new ResultData();
+        resultData.setSuccess(SUCCESS_CODE_SUCCESS);
+        return resultData;
+    }
     public static ResultData success(Object data) {
         ResultData resultData = new ResultData();
         resultData.setSuccess(SUCCESS_CODE_SUCCESS);

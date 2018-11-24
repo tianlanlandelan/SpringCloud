@@ -43,7 +43,6 @@ public class SMSController {
     @RouterAttribute(id = MyPublicServiceRouter.SEND_VERIFICATION_CODE_SMS, description = "发送验证码短信")
     @RequestMapping(value = "/sendVerificationCode",method = RequestMethod.GET)
     public ResponseEntity sendVerificationCode(String phone){
-        ResultData response =new ResultData();
         if(phone == null || phone.isEmpty()){
             return MyResponse.badRequest();
         }
@@ -59,14 +58,12 @@ public class SMSController {
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(MyRouters.getRouterUrl(MyLogRouter.INSERT_SMS_SEND_LOG) +
                 "?phone={phone}&type={type}&templateId={templateId}&codeStr={codeStr}" +
                 "&minuteStr={minuteStr}&result={result}&statusCode={statusCode}",null,String.class,map);
-        logger.info("smsLog Ok  Response:" + responseEntity.getBody() + " com.originaldreams.serviceregistycenter.entity:" + entity);
+        logger.info("smsLog Ok  Response:" + responseEntity.getBody() + ",entity:" + entity);
 
         if(SendSMSUtils.RESULT_SUCCESS_CODE.equals(entity.getStatusCode())){
-            return MyResponse.ok(response);
+            return MyResponse.ok(ResultData.success());
         }else {
-            response.setSuccess(ResultData.SUCCESS_CODE_FAILED);
-            response.setMessage("验证码发送失败");
-            return MyResponse.ok(response);
+            return MyResponse.ok(ResultData.error("验证码发送失败"));
         }
 
     }
