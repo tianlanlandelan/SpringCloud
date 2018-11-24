@@ -2,9 +2,11 @@ package com.originaldreams.usermanagercenter.service;
 
 import com.originaldreams.common.encryption.MyMD5Utils;
 import com.originaldreams.common.response.MyResponseReader;
-import com.originaldreams.common.response.MyServiceResponse;
+import com.originaldreams.common.response.ResultData;
 import com.originaldreams.common.router.MyLogRouter;
 import com.originaldreams.common.router.MyRouters;
+import com.originaldreams.common.util.StringUtils;
+import com.originaldreams.common.util.ValidUserName;
 import com.originaldreams.usermanagercenter.entity.UserInfo;
 import com.originaldreams.usermanagercenter.mapper.UserInfoMapper;
 import com.originaldreams.usermanagercenter.utils.LogonUtils;
@@ -40,180 +42,149 @@ public class UserService {
     private Logger logger = LoggerFactory.getLogger(UserService.class);
 
     /**
+     * 登录
      * 判断是否使用密码登录
      *  如果使用密码登录，看是用户名密码、手机号密码、邮箱密码的哪种组合
      *      如果密码校验无误，返回用户ID
      *      如果密码校验失败或不支持指定的密码登录组合，则返回相应的错误信息
      *  如果不是密码登录，看是否是微信登录
-     * @param user
+     * @param userName
+     * @param password
      * @return
      */
-    public MyServiceResponse logon(User user)  {
-        User checker = null;
-        boolean checkPassword = false;
-        Integer way = null;
-        MyServiceResponse responseObject = new MyServiceResponse();
-        if(user.getPassword() != null){
-            //使用密码登录
-            if(user.getUserName() != null){
-                //用户名密码组合
-                checker = userMapper.getByUserName(user);
-                //判断是否允许用户使用用户名登录
-                if(checker != null && checker.isPermitUserNameLogon()){
-                    checkPassword = true;
-                    way = LogonUtils.LOGON_WAY_USERNAME;
-                }else{
-                    responseObject.setSuccess(MyServiceResponse.SUCCESS_CODE_FAILED);
-                    responseObject.setMessage("该用户不存在或不支持用户名登录");
-                }
-            }else if(user.getPhone() != null){
-                //手机号密码组合
-                checker = userMapper.getByPhone(user);
-                //判断是否允许用户使用手机号登录
-                if(checker != null && checker.isPermitPhoneLogon()){
-                    checkPassword = true;
-                    way = LogonUtils.LOGON_WAY_PHONE;
-                }else{
-                    responseObject.setSuccess(MyServiceResponse.SUCCESS_CODE_FAILED);
-                    responseObject.setMessage("该用户不存在或不支持手机号登录");
-                }
-            }else if(user.getEmail() != null){
-                //邮箱密码组合
-                checker = userMapper.getByEmail(user);
-                //判断是否允许用户使用邮箱登录
-                if(checker != null && checker.isPermitEmailLogon()){
-                    checkPassword = true;
-                    way = LogonUtils.LOGON_WAY_EMAIL;
-                }else{
-                    responseObject.setSuccess(MyServiceResponse.SUCCESS_CODE_FAILED);
-                    responseObject.setMessage("该用户不存在或不支持邮箱登录");
-                }
-            }
-            try{
-                /*
-                 *  经过上面的检查，在这里
-                 *  如果需要校验密码，则进入校验密码环节，
-                 *  否则，说明前面的检查环节有问题，直接返回检查环节封装好的应答
-                 */
-                if(checkPassword){
-                    if(MyMD5Utils.checkqual(user.getPassword(),checker.getPassword())){
-                        UserInfo userInfo = userInfoMapper.getById(checker.getId());
-                        responseObject.setData(userInfo);
-
-                        Map<String, Object> map = new HashMap<>();
-                        map.put("userId",checker.getId());
-                        map.put("type",LogonUtils.LOGON_TYPE_LOGON);
-                        map.put("way", way);
-                        map.put("ip","ddd");
-
-                        logger.info("logCenterUrl ：" + MyRouters.getRouterUrl(MyLogRouter.INSERT_LOGON_LOG));
-                        //记录登录日志
-                        ResponseEntity<String> responseEntity = restTemplate.postForEntity(
-                                MyRouters.getRouterUrl(MyLogRouter.INSERT_LOGON_LOG) +
-                                "?userId={userId}&type={type}&way={way}&ip={ip}",null,String.class,map);
-
-                        logger.info("logonLog Ok: " + responseObject);
-                    }else {
-                        responseObject.setSuccess(MyServiceResponse.SUCCESS_CODE_SUCCESS);
-                        responseObject.setMessage("用户名密码错误");
-                    }
-                }else {
-                    return responseObject;
-                }
-
-            }catch (Exception e){
-                logger.error("校验密码异常 ",e);
-                responseObject.setSuccess(MyServiceResponse.SUCCESS_CODE_FAILED);
-                responseObject.setMessage("用户名密码错误");
-            }
-
-
-        }else{
-            //TODO 微信登录
+    public ResultData logon(String userName,String password)  {
+        User user = checkPassword(userName,password);
+        if(user == null){
+            return ResultData.error("非法访问");
         }
-        return responseObject;
-    }
-
-    /**
-     *  注册时，只允许手机号或者邮箱注册
-     *  检查用户名、手机号、邮箱是否已被注册
-     *  保证用户名、手机号、邮箱的唯一
-     * @param user
-     * @return
-     */
-    public MyServiceResponse registerByPhone(User user,String verificationCode) throws Exception{
-        User checker;
-        MyServiceResponse responseObject = new MyServiceResponse();
-        if(user.getPhone() == null || user.getPassword() == null){
-            responseObject.setSuccess(MyServiceResponse.SUCCESS_CODE_FAILED);
-            responseObject.setMessage("参数异常");
-            return responseObject;
-        }
-        //手机号密码组合
-        checker = userMapper.getByPhone(user);
-        //检查手机号是否已存在
-        if(checker != null){
-            responseObject.setMessage("手机号已注册");
-            responseObject.setSuccess(MyServiceResponse.SUCCESS_CODE_FAILED);
-            return responseObject;
-        }
-        //TODO 去logCenter核对短信验证码发送记录
         Map<String, Object> map = new HashMap<>();
-        map.put("phone",user.getPhone());
-        map.put("codeStr",verificationCode);
-        //验证短信验证码 TODO
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity(
-                MyRouters.getRouterUrl(MyLogRouter.GET_VERIFICATION_BY_PHONE) +
-                "?phone={phone}&codeStr={codeStr}",String.class,map);
-        if(MyResponseReader.isSuccess(responseEntity)){
-            return register(user);
-        }else {
-            responseObject.setMessage("验证码错误");
-            responseObject.setSuccess(MyServiceResponse.SUCCESS_CODE_FAILED);
-            return responseObject;
-        }
+        map.put("userId",user.getId());
+        map.put("type",LogonUtils.LOGON_TYPE_LOGON);
+        map.put("way", logonWay(userName,user));
+        map.put("ip","ddd");
+        logger.info("logCenterUrl ：" + MyRouters.getRouterUrl(MyLogRouter.INSERT_LOGON_LOG));
+        //记录登录日志
+        restTemplate.postForEntity(
+                MyRouters.getRouterUrl(MyLogRouter.INSERT_LOGON_LOG) +
+                        "?userId={userId}&type={type}&way={way}&ip={ip}",null,String.class,map);
+        logger.info("logonLog Ok: Id:"  + user.getId() + ",userName:" + userName);
+        user.setPassword("");
+        user.setMask(0);
+        return ResultData.success(user);
     }
-    private MyServiceResponse register (User user) throws Exception{
-        MyServiceResponse responseObject = new MyServiceResponse();
+    /**
+     *  注册
+     * @param userName
+     * @param password
+     * @param verificationCode
+     * @return
+     * @throws Exception
+     */
+    public ResultData register (String userName,String password,String verificationCode) throws Exception{
+        User user = checkUserRegistered(userName);
+        if(user != null){
+            return ResultData.error("用户已存在");
+        }
+        if (ValidUserName.isValidPhoneNumber(userName)) {
+            user.setPhone(userName);
+            user.setPhoneLogon();
+            //TODO 去logCenter核对短信验证码发送记录
+            Map<String, Object> map = new HashMap<>();
+            map.put("phone",userName);
+            map.put("codeStr",verificationCode);
+            //验证短信验证码 TODO
+            ResponseEntity<String> responseEntity = restTemplate.getForEntity(
+                    MyRouters.getRouterUrl(MyLogRouter.GET_VERIFICATION_BY_PHONE) +
+                            "?phone={phone}&codeStr={codeStr}",String.class,map);
+            if(!MyResponseReader.isSuccess(responseEntity)){
+                return ResultData.error("验证码错误");
+            }
+        } else if (ValidUserName.isValidEmailAddress(userName)) {
+            user.setEmail(userName);
+            user.setEmailLogon();
+            //TODO 去logCenter核对邮件发送记录
+
+        } else {
+            return ResultData.error("仅支持手机号和邮箱注册");
+        }
         user.setPassword(MyMD5Utils.EncoderByMd5(user.getPassword()));
         userMapper.insert(user);
         UserInfo userInfo = new UserInfo(user.getId(),user.getPhone(),user.getEmail());
         userInfoMapper.insert(userInfo);
-        responseObject.setSuccess(MyServiceResponse.SUCCESS_CODE_SUCCESS);
-        responseObject.setData(user.getId());
-        return responseObject;
+        return ResultData.success(user.getId());
     }
-    public MyServiceResponse registerByEmail(User user,String verificationCode) throws Exception{
-        User checker;
-        MyServiceResponse responseObject = new MyServiceResponse();
-        if(user.getEmail() == null || user.getPassword() == null) {
-            responseObject.setSuccess(MyServiceResponse.SUCCESS_CODE_FAILED);
-            responseObject.setMessage("参数异常");
-            return responseObject;
+
+    /**
+     * 检查登录方式
+     * @param userName
+     * @param user
+     * @return
+     */
+    private int logonWay(String userName,User user){
+        if(ValidUserName.isValidPhoneNumber(userName) && user.isPermitPhoneLogon()){
+            return LogonUtils.LOGON_WAY_PHONE;
         }
-        //邮箱密码组合
-        checker = userMapper.getByEmail(user);
-        //检查邮箱是否已存在
-        if(checker != null){
-            responseObject.setMessage("邮箱已注册");
-            return responseObject;
+        if(ValidUserName.isValidEmailAddress(userName) && user.isPermitUserNameLogon()){
+            return LogonUtils.LOGON_WAY_EMAIL;
         }
-        //TODO 去logCenter核对邮件发送记录
-        return register(user);
+        if(user.isPermitUserNameLogon()){
+            return LogonUtils.LOGON_WAY_USERNAME;
+        }
+        return -1;
     }
+
+    /**
+     * 校验用户名密码，同时返回该用户数据
+     * @param userName
+     * @param password
+     * @return
+     */
+    private User checkPassword(String userName,String password){
+        User user = checkUserRegistered(userName);
+        if(user == null){
+            return null;
+        }
+        try{
+            if(MyMD5Utils.checkqual(password,user.getPassword()) && logonWay(userName,user) != -1){
+                return user;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
+        return null;
+    }
+
+    /**
+     * 检验用户名、手机号、邮箱是否注册过
+     * @param userName 用户名、手机号、邮箱
+     * @return
+     */
+    public User checkUserRegistered(String userName){
+        if(StringUtils.isEmpty(userName)){
+            return null;
+        }
+        if(ValidUserName.isValidPhoneNumber(userName)){
+            return userMapper.getByPhone(userName);
+        }else if(ValidUserName.isValidEmailAddress(userName)){
+            return userMapper.getByEmail(userName);
+        }else{
+            return userMapper.getByUserName(userName);
+        }
+    }
+
     /**
      * 根据角色查找用户
      * @param roleId
      * @return
      */
-    public MyServiceResponse getUsersByRoleId(int roleId){
-        return new MyServiceResponse(userMapper.getUsersByRoleId(roleId));
+    public ResultData getUsersByRoleId(int roleId){
+        return ResultData.success(userMapper.getUsersByRoleId(roleId));
     }
 
-    public MyServiceResponse getAllUserNameAndRoleName(){
-        return new MyServiceResponse(userMapper.getAllUserNameAndRoleName());
+    public ResultData getAllUserNameAndRoleName(){
+        return ResultData.success(userMapper.getAllUserNameAndRoleName());
     }
-
 
     public User getById(Integer id){
 

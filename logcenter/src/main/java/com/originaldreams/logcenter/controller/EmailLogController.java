@@ -1,7 +1,7 @@
 package com.originaldreams.logcenter.controller;
 
 import com.originaldreams.common.response.MyResponse;
-import com.originaldreams.common.response.MyServiceResponse;
+import com.originaldreams.common.response.ResultData;
 import com.originaldreams.common.router.MyLogRouter;
 import com.originaldreams.common.router.MyUserManagerRouter;
 import com.originaldreams.common.router.RouterAttribute;
@@ -41,7 +41,7 @@ public class EmailLogController {
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     public ResponseEntity list(EmailLog log,String startDate,String endDate,Integer page_num,Integer page_size) {
         Map<String, Object> params = new HashMap<>(16);
-        MyServiceResponse response = new MyServiceResponse();
+        ResultData response = new ResultData();
         if (page_num != null || page_size != null) {
             Integer offset = (page_num - 1) * page_size;
             params.put("offset", offset);

@@ -1,7 +1,7 @@
 package com.originaldreams.logcenter.controller;
 
 import com.originaldreams.common.response.MyResponse;
-import com.originaldreams.common.response.MyServiceResponse;
+import com.originaldreams.common.response.ResultData;
 import com.originaldreams.common.router.MyLogRouter;
 import com.originaldreams.common.router.MyUserManagerRouter;
 import com.originaldreams.common.router.RouterAttribute;
@@ -31,10 +31,10 @@ public class LogonLogController {
     @RouterAttribute(id = MyLogRouter.INSERT_LOGON_LOG, description = "添加登录日志")
     @RequestMapping(value = "/insert",method = RequestMethod.POST)
     ResponseEntity insert(LogonLog logonLog){
-        MyServiceResponse response =new MyServiceResponse();
+        ResultData response =new ResultData();
         try{
             Integer rows = logonLogService.insert(logonLog);
-            response.setSuccess(MyServiceResponse.SUCCESS_CODE_SUCCESS);
+            response.setSuccess(ResultData.SUCCESS_CODE_SUCCESS);
             logger.info("新增了登陆日志:"+rows+"条\t id:"+logonLog.getId());
         }catch(Exception e){
             e.printStackTrace();
@@ -47,7 +47,7 @@ public class LogonLogController {
 //    @RequestMapping(value = "/list",method = RequestMethod.GET)
 //    public ResponseEntity list(LogonLog log, String startDate, String endDate, Integer page_num, Integer page_size){
 //        Map<String,Object> params = new HashMap<>();
-//        MyServiceResponse response =new MyServiceResponse();
+//        ResultData response =new ResultData();
 //        if(page_num!=null||page_size!=null){
 //            Integer offset=(page_num-1)*page_size;
 //            params.put("offset",offset);

@@ -1,14 +1,19 @@
 package com.originaldreams.logcenter.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.originaldreams.logcenter.entity.LogonLog;
 import com.originaldreams.logcenter.mapper.LogonLogMapper;
+
+import javax.annotation.Resource;
 import java.util.List;
 
+/**
+ * @author yangkaile
+ * @date 2018-11-22 15:14:14
+ */
 @Service
 public class LogonLogService {
-    @Autowired
+    @Resource
     private LogonLogMapper logonLogMapper;
 
     public Integer insert(LogonLog logonLog){

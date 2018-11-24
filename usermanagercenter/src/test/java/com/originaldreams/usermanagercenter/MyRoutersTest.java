@@ -28,21 +28,21 @@ public class MyRoutersTest {
 
     @Test
     public void getRouters(){
-        String GET_ROUTERS_URL = "http://127.0.0.1:8801/getRouters";
-
-        RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
-
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity(GET_ROUTERS_URL,String.class);
-        System.out.println("registerRouters:" + responseEntity.getBody());
-        System.out.println("===================");
-        if(isSuccess(responseEntity)){
-            List<MyRouterObject> list =  getEntity(responseEntity,MyRouterObject.class);
-
-            for(MyRouterObject object : list){
-                System.out.println(object);
-            }
-        }
+//        String GET_ROUTERS_URL = "http://127.0.0.1:8801/getRouters";
+//
+//        RestTemplate restTemplate = new RestTemplate();
+//        restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
+//
+//        ResponseEntity<String> responseEntity = restTemplate.getForEntity(GET_ROUTERS_URL,String.class);
+//        System.out.println("registerRouters:" + responseEntity.getBody());
+//        System.out.println("===================");
+//        if(isSuccess(responseEntity)){
+//            List<MyRouterObject> list =  getEntity(responseEntity,MyRouterObject.class);
+//
+//            for(MyRouterObject object : list){
+//                System.out.println(object);
+//            }
+//        }
     }
     private boolean isSuccess(ResponseEntity<String> response){
         if(response.getStatusCode() != HttpStatus.OK ){

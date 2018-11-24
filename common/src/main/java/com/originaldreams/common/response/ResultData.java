@@ -3,8 +3,10 @@ package com.originaldreams.common.response;
 /**
  * 规定Service统一的消息返回格式
  * 在Controller中统一返回ResponseEntity格式的数据，在ResponseEntity的body里，必须使用MyResponseObject格式的数据
+ * @author yangkaile
+ * @date 2018-11-22 10:54:01
  */
-public class MyServiceResponse {
+public class ResultData {
 
     private int success ;
     private Object data ;
@@ -13,24 +15,20 @@ public class MyServiceResponse {
     public final static int SUCCESS_CODE_SUCCESS = 0;
     public final static int SUCCESS_CODE_FAILED = 1;
 
-    public MyServiceResponse() {
-        this.success = SUCCESS_CODE_SUCCESS;
+    public ResultData() {
     }
 
-    public MyServiceResponse(Object data) {
-        this.success = SUCCESS_CODE_SUCCESS;
-        this.data = data;
+    public static ResultData success(Object data) {
+        ResultData resultData = new ResultData();
+        resultData.setSuccess(SUCCESS_CODE_SUCCESS);
+        resultData.setData(data);
+        return resultData;
     }
-
-    public MyServiceResponse(int success, String message) {
-        this.success = success;
-        this.message = message;
-    }
-
-    public MyServiceResponse(int success, Object data, String message) {
-        this.success = success;
-        this.data = data;
-        this.message = message;
+    public static ResultData error(String message) {
+        ResultData resultData = new ResultData();
+        resultData.setSuccess(SUCCESS_CODE_FAILED);
+        resultData.setMessage(message);
+        return resultData;
     }
 
     public int getSuccess() {
@@ -59,7 +57,7 @@ public class MyServiceResponse {
 
     @Override
     public String toString() {
-        return "MyServiceResponse{" +
+        return "ResultData{" +
                 "success=" + success +
                 ", data=" + data +
                 ", message='" + message + '\'' +

@@ -1,7 +1,7 @@
 package com.originaldreams.publicservicecenter.controller;
 
 import com.originaldreams.common.response.MyResponse;
-import com.originaldreams.common.response.MyServiceResponse;
+import com.originaldreams.common.response.ResultData;
 import com.originaldreams.common.router.MyPublicServiceRouter;
 import com.originaldreams.common.router.MyUserManagerRouter;
 import com.originaldreams.common.router.RouterAttribute;
@@ -47,7 +47,7 @@ public class EmailController {
         if(StringUtils.isEmpty(email) || !ValidUserName.isValidEmailAddress(email)){
             return MyResponse.badRequest();
         }
-        MyServiceResponse response =new MyServiceResponse();
+        ResultData response =new ResultData();
 
         EmailEntity entity = SendEmailUtils.sendVerificationCode(email);
         return MyResponse.ok(response);

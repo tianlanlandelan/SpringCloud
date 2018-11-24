@@ -1,7 +1,7 @@
 package com.originaldreams.serviceregistycenter.service;
 
 import com.originaldreams.common.entity.MyRouterObject;
-import com.originaldreams.common.response.MyServiceResponse;
+import com.originaldreams.common.response.ResultData;
 import com.originaldreams.serviceregistycenter.mapper.RouterMapper;
 import org.springframework.stereotype.Service;
 
@@ -18,16 +18,16 @@ public class RouterService {
     @Resource
     RouterMapper routerMapper;
 
-    public MyServiceResponse insert(MyRouterObject object){
-       return new MyServiceResponse(routerMapper.insert(object));
+    public ResultData insert(MyRouterObject object){
+       return ResultData.success(routerMapper.insert(object));
     }
 
-    public MyServiceResponse getAll(){
-        return new MyServiceResponse(routerMapper.getAll());
+    public ResultData getAll(){
+        return ResultData.success(routerMapper.getAll());
     }
 
-    public MyServiceResponse deleteByServiceName(String serviceName){
-        return new MyServiceResponse(routerMapper.deleteByServiceName(serviceName));
+    public ResultData deleteByServiceName(String serviceName){
+        return ResultData.success(routerMapper.deleteByServiceName(serviceName));
     }
 
 }

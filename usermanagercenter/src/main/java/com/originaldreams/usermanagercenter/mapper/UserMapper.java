@@ -32,20 +32,20 @@ public interface UserMapper {
      Integer update(User user);
 
      @Select("SELECT id, userName, phone, wxId, email, password, createTime, mask,isDelete FROM " + tableName
-             + " WHERE userName = #{userName} AND isDelete = #{isDelete}")
-     User getByUserName(User user);
+             + " WHERE userName = #{userName} AND isDelete = 0")
+     User getByUserName(String userName);
 
      @Select("SELECT id, userName, phone, wxId, email, password, createTime, mask,isDelete FROM " + tableName
-             + " WHERE phone = #{phone} AND isDelete = #{isDelete}")
-     User getByPhone(User user);
+             + " WHERE phone = #{phone} AND isDelete = 0")
+     User getByPhone(String phone);
 
      @Select("SELECT id, userName, phone, wxId, email, password, createTime, mask,isDelete FROM " + tableName
              + " WHERE wxId = #{wxId} AND isDelete = #{isDelete}")
      User getByWXId(User user);
 
      @Select("SELECT id, userName, phone, wxId, email, password, createTime, mask,isDelete FROM " + tableName
-             + " WHERE email = #{email} AND isDelete = #{isDelete}")
-     User getByEmail(User user);
+             + " WHERE email = #{email} AND isDelete = 0")
+     User getByEmail(String email);
 
      @Select("SELECT b.id, b.userName, b.phone, b.createTime, b.email, b.createTime, b.mask, b.isDelete "
              + " FROM " + userRoles + " a, "+ tableName + " b "

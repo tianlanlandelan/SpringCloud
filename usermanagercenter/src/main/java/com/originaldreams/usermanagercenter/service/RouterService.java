@@ -1,6 +1,6 @@
 package com.originaldreams.usermanagercenter.service;
 
-import com.originaldreams.common.response.MyServiceResponse;
+import com.originaldreams.common.response.ResultData;
 import com.originaldreams.usermanagercenter.entity.RoleRouters;
 import com.originaldreams.usermanagercenter.entity.Router;
 import com.originaldreams.usermanagercenter.mapper.RoleRoutersMapper;
@@ -28,24 +28,24 @@ public class RouterService {
     private Logger logger = LoggerFactory.getLogger(RouterService.class);
 
 
-    public MyServiceResponse getAll(){
-        return new MyServiceResponse(routerMapper.getAll());
+    public ResultData getAll(){
+        return ResultData.success(routerMapper.getAll());
     }
-    public MyServiceResponse getRoutersByRoleId(int roleId){
-        return new MyServiceResponse(routerMapper.getRoutersByRoleId(roleId));
-    }
-
-    public MyServiceResponse addRouterForRole(RoleRouters roleRouters){
-        return new MyServiceResponse(roleRoutersMapper.insert(roleRouters));
+    public ResultData getRoutersByRoleId(int roleId){
+        return ResultData.success(routerMapper.getRoutersByRoleId(roleId));
     }
 
-    public MyServiceResponse getRouterIdsByUserId(Integer userId){
+    public ResultData addRouterForRole(RoleRouters roleRouters){
+        return ResultData.success(roleRoutersMapper.insert(roleRouters));
+    }
+
+    public ResultData getRouterIdsByUserId(Integer userId){
         List<RoleRouters> list = roleRoutersMapper.getByUserId(userId);
         List<Integer> result = new ArrayList<>();
         for(RoleRouters roleRouters : list){
             result.add(roleRouters.getRouterId());
         }
-        return new MyServiceResponse(result);
+        return ResultData.success(result);
     }
 
 

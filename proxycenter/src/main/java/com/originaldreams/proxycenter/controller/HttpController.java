@@ -4,12 +4,11 @@ import com.originaldreams.common.encryption.MyBase64Utils;
 import com.originaldreams.common.entity.MyRouterObject;
 import com.originaldreams.common.response.MyResponse;
 import com.originaldreams.common.response.MyResponseReader;
-import com.originaldreams.common.response.MyServiceResponse;
+import com.originaldreams.common.response.ResultData;
 import com.originaldreams.common.router.*;
 import com.originaldreams.common.util.ConfigUtils;
 import com.originaldreams.common.util.JsonUtils;
 import com.originaldreams.common.util.StringUtils;
-import com.originaldreams.common.util.ValidUserName;
 import com.originaldreams.proxycenter.cache.CacheUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,32 +70,13 @@ public class HttpController {
             if(StringUtils.isEmpty(userName,password)){
                 return MyResponse.badRequest();
             }
-            Map<String, String> map = new HashMap<>();
+            Map<String, String> map = new HashMap<>(16);
+            map.put("userName", userName);
             map.put("password",password);
-            ResponseEntity<String> responseEntity = null;
-            //手机号
-            if(ValidUserName.isValidPhoneNumber(userName)){
-                map.put("phone",userName);
-                responseEntity = restTemplate.postForEntity(
-                        MyRouters.getRouterUrl(MyUserManagerRouter.LOGON)
-                         + "?phone={phone}&password={password}",null,String.class,map);
-            }
-            //邮箱
-
-            else if(ValidUserName.isValidEmailAddress(userName)){
-                map.put("email", userName);
-                responseEntity = restTemplate.postForEntity(
-                        MyRouters.getRouterUrl(MyUserManagerRouter.LOGON)
-                                + "?email={email}&password={password}",null,String.class,map);
-            }
-            //用户名
-            else if(ValidUserName.isValidUserName(userName)){
-                map.put("userName", userName);
-                responseEntity = restTemplate.postForEntity(
+            ResponseEntity<String> responseEntity = restTemplate.postForEntity(
                         MyRouters.getRouterUrl(MyUserManagerRouter.LOGON)
                                 + "?userName={userName}&password={password}",null,String.class,map);
-            }
-            if(responseEntity == null){
+            if(!MyResponseReader.isSuccess(responseEntity)){
                 return MyResponse.badRequest();
             }
             //登录成功，缓存
@@ -144,19 +124,41 @@ public class HttpController {
         }
     }
 
-    @RequestMapping(value = "/sendVerificationCode",method = RequestMethod.GET)
-    public ResponseEntity sendVerificationCode(String phone){
+    /**
+     * 发送短信验证码
+     * @param phone
+     * @return
+     */
+    @RequestMapping(value = "/sendSMSCode",method = RequestMethod.GET)
+    public ResponseEntity sendSMSCode(String phone){
         try {
-            logger.info("register  :" );
-            if(phone == null || phone.isEmpty()){
+            if(StringUtils.isEmpty(phone)){
                 return MyResponse.badRequest();
             }
-            Map<String, String> map = new HashMap<>();
-            map.put("phone",phone);
-
+            logger.info("sendSMSCode  :" + phone );
             ResponseEntity<String> responseEntity = restTemplate.getForEntity(
-                    MyRouters.getRouterUrl(MyPublicServiceRouter.SEND_VERIFICATION_CODE_SMS)
-                            + "?phone={phone}",String.class,map);
+                    MyRouters.getRouterUrl(MyPublicServiceRouter.SEND_VERIFICATION_CODE_SMS) + "?phone=" + phone, String.class);
+            return  responseEntity;
+        }catch (HttpClientErrorException e){
+            logger.warn("HttpClientErrorException:" + e.getStatusCode());
+            return getResponseFromException(e);
+        }
+    }
+
+    /**
+     * 发送邮件验证码
+     * @param email
+     * @return
+     */
+    @RequestMapping(value = "/sendEmailCode",method = RequestMethod.GET)
+    public ResponseEntity sendEmailCode(String email){
+        try {
+            if(StringUtils.isEmpty(email)){
+                return MyResponse.badRequest();
+            }
+            logger.info("sendEmailCode  :" + email );
+            ResponseEntity<String> responseEntity = restTemplate.getForEntity(
+                    MyRouters.getRouterUrl(MyPublicServiceRouter.SEND_VERIFICATION_CODE_EMAIL) + "?email=" + email,String.class);
             return  responseEntity;
         }catch (HttpClientErrorException e){
             logger.warn("HttpClientErrorException:" + e.getStatusCode());
@@ -304,7 +306,7 @@ public class HttpController {
         }catch (Exception e){
             return MyResponse.badRequest();
         }
-        return MyResponse.ok(new MyServiceResponse("删除成功"));
+        return MyResponse.ok(ResultData.success("删除成功"));
     }
 
     /**
@@ -345,7 +347,7 @@ public class HttpController {
         }catch (Exception e){
             return MyResponse.badRequest();
         }
-        return MyResponse.ok(new MyServiceResponse("修改成功"));
+        return MyResponse.ok(ResultData.success("修改成功"));
     }
 
     /**
@@ -457,8 +459,8 @@ public class HttpController {
             case BAD_REQUEST: response = MyResponse.badRequest();break;
             case UNAUTHORIZED: response = MyResponse.unauthorized();break;
             default:{
-                MyServiceResponse myServiceResponse = new MyServiceResponse(MyServiceResponse.SUCCESS_CODE_FAILED,"未知错误");
-                response = ResponseEntity.status(exception.getStatusCode()).contentType(MediaType.APPLICATION_JSON).body(myServiceResponse);
+                ResultData resultData = ResultData.error("未知错误");
+                response = ResponseEntity.status(exception.getStatusCode()).contentType(MediaType.APPLICATION_JSON).body(resultData);
             }
         }
         return  response;
