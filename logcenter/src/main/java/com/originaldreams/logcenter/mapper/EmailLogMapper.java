@@ -29,7 +29,7 @@ public interface EmailLogMapper {
   * @param id
   * @return
   */
- @Update("UPDATE " + tableName + " SET state = 1 WHERE id = #{id}")
+ @Update("UPDATE " + tableName + " SET state = 1,updateTime = sysdate() WHERE id = #{id}")
  Integer update(Integer id);
 
  /**

@@ -47,7 +47,10 @@ public class EmailLog {
      */
     private int state = 0;
 
-     private Date createTime = new Date();
+    private Date createTime = new Date();
+
+    private Date updateTime;
+
 
     public Integer getId() {
         return id;
@@ -128,18 +131,29 @@ public class EmailLog {
     public void setState(int state) {
         this.state = state;
     }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
     @Override
     public String toString() {
         return "EmailLog{" +
                 "id=" + id +
-                ", type='" + type + '\'' +
+                ", type=" + type +
                 ", email='" + email + '\'' +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", code='" + code + '\'' +
                 ", result='" + result + '\'' +
                 ", statusCode=" + statusCode +
+                ", state=" + state +
                 ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
                 '}';
     }
 }
