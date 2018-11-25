@@ -1,4 +1,4 @@
-package com.originaldreams.logcenter.entity;
+package com.originaldreams.common.entity;
 
 import java.util.Date;
 
@@ -20,17 +20,23 @@ public class SMSLog {
     */
      private String templateId;
     /**
-    * 验证码
-    */
+     * 验证码
+     * 模板里第一个参数
+     * 123456
+     */
      private String codeStr;
-    /**
-    * 有效时间
-    */
+     /**
+     * 有效时间
+     * 模板里第二个参数
+     * 单位：分钟
+     */
      private String minuteStr;
+
     /**
-    * 返回结果
-    */
-     private String result;
+     *  返回结果
+     *  {data={templateSMS={dateCreated=20180827170721, smsMessageSid=a21809d2dbe84872878a3e9cd9a3da17}}, statusCode=000000}
+     */
+    private String result;
     /**
     * 返回码
     */

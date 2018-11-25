@@ -1,8 +1,8 @@
 package com.originaldreams.logcenter.service;
 
+import com.originaldreams.common.entity.SMSLog;
 import com.originaldreams.common.response.ResultData;
 import org.springframework.stereotype.Service;
-import com.originaldreams.logcenter.entity.SMSLog;
 import com.originaldreams.logcenter.mapper.SMSLogMapper;
 
 import javax.annotation.Resource;

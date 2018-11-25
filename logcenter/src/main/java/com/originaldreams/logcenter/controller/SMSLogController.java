@@ -1,11 +1,10 @@
 package com.originaldreams.logcenter.controller;
 
+import com.originaldreams.common.entity.SMSLog;
 import com.originaldreams.common.response.MyResponse;
 import com.originaldreams.common.router.MyLogRouter;
-import com.originaldreams.common.router.MyUserManagerRouter;
 import com.originaldreams.common.router.RouterAttribute;
 import com.originaldreams.common.util.ValidUserName;
-import com.originaldreams.logcenter.entity.SMSLog;
 import com.originaldreams.logcenter.service.SMSLogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

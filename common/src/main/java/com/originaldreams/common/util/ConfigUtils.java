@@ -67,5 +67,8 @@ public class ConfigUtils {
 
     public final static String GET_ROUTERS_URL = SERVICE_REGISTY_CENTER_URL +  "getRouters";
 
+    public static final int EMAIL_SEND_STATUSCODE_SUCCESS = 0;
+
+    public static final int EMAIL_SEND_STATUSCODE_FAILED = 1;
 
 }

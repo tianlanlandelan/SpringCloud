@@ -6,7 +6,6 @@ import com.originaldreams.common.router.MyLogRouter;
 import com.originaldreams.common.router.MyPublicServiceRouter;
 import com.originaldreams.common.router.MyRouters;
 import com.originaldreams.common.router.RouterAttribute;
-import com.originaldreams.publicservicecenter.entity.SMSEntity;
 import com.originaldreams.publicservicecenter.utils.SendSMSUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +46,7 @@ public class SMSController {
             return MyResponse.badRequest();
         }
         SMSEntity entity = SendSMSUtils.sendVerificationCode(phone);
-        Map<String,Object> map = new HashMap<>();
+        Map<String,Object> map = new HashMap<>(16);
         map.put("phone",entity.getPhone());
         map.put("type",entity.getType());
         map.put("templateId",entity.getTemplateId());

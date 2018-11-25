@@ -1,4 +1,6 @@
-package com.originaldreams.logcenter.entity;
+package com.originaldreams.common.entity;
+
+import com.originaldreams.common.util.ConfigUtils;
 
 import java.util.Date;
 
@@ -31,8 +33,12 @@ public class EmailLog {
 
 
      private String result;
-
-     private int statusCode;
+    /**
+     * 状态码
+     * 0 成功
+     * 1 失败
+     */
+     private int statusCode = ConfigUtils.EMAIL_SEND_STATUSCODE_SUCCESS;
 
     /**
      * 状态码

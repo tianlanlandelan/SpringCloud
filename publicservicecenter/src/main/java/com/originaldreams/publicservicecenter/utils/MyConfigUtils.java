@@ -1,13 +1,12 @@
 package com.originaldreams.publicservicecenter.utils;
 
-import org.omg.CORBA.PUBLIC_MEMBER;
 
 /**
  * 暂时放一些静态变量配置
  * @author yangkaile
  * @date 2018-08-28 15:15:57
  */
-public class ConfigUtils {
+public class MyConfigUtils {
     /**
      * 注册时的短信验证码发送类型
      */
@@ -31,9 +30,5 @@ public class ConfigUtils {
 
 
     public static final int EMAIL_VERIFICATIONCODE_LENGTH = 6;
-
-    public static final int EMAIL_SEND_STATUSCODE_SUCCESS = 0;
-
-    public static final int EMAIL_SEND_STATUSCODE_FAILED = 1;
 
 }

@@ -1,7 +1,6 @@
 package com.originaldreams.logcenter.mapper;
 
-import com.originaldreams.logcenter.entity.SMSLog;
-import org.apache.ibatis.annotations.Delete;
+import com.originaldreams.common.entity.SMSLog;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;

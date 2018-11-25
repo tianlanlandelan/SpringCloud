@@ -1,8 +1,8 @@
 package com.originaldreams.logcenter.service;
 
+import com.originaldreams.common.entity.EmailLog;
 import com.originaldreams.common.response.ResultData;
 import org.springframework.stereotype.Service;
-import com.originaldreams.logcenter.entity.EmailLog;
 import com.originaldreams.logcenter.mapper.EmailLogMapper;
 
 import javax.annotation.Resource;

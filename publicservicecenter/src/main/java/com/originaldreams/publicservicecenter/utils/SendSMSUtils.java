@@ -1,7 +1,6 @@
 package com.originaldreams.publicservicecenter.utils;
 import com.cloopen.rest.sdk.CCPRestSmsSDK;
 import com.originaldreams.common.util.StringUtils;
-import com.originaldreams.publicservicecenter.entity.SMSEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,11 +65,11 @@ public class SendSMSUtils {
      */
     public static SMSEntity sendVerificationCode(String phone){
         SMSEntity entity = new SMSEntity();
-        entity.setType(ConfigUtils.SMS_SEND_TYPE_REGISTER);
+        entity.setType(MyConfigUtils.SMS_SEND_TYPE_REGISTER);
         entity.setPhone(phone);
-        entity.setTemplateId(ConfigUtils.SMS_SEND_TEMPLATE_ID_REGISTER);
-        entity.setCodeStr(StringUtils.getNumbserString(ConfigUtils.SMS_SEND_LENGTH));
-        entity.setMinuteStr(ConfigUtils.SMS_SEND_MINUTE_REGISTER);
+        entity.setTemplateId(MyConfigUtils.SMS_SEND_TEMPLATE_ID_REGISTER);
+        entity.setCodeStr(StringUtils.getNumbserString(MyConfigUtils.SMS_SEND_LENGTH));
+        entity.setMinuteStr(MyConfigUtils.SMS_SEND_MINUTE_REGISTER);
         return sendSMS(entity);
     }
 
@@ -81,7 +80,7 @@ public class SendSMSUtils {
             SMSEntity entity = new SMSEntity();
             entity.setPhone("17600109114");
             entity.setTemplateId("1");
-            entity.setCodeStr(StringUtils.getNumbserString(ConfigUtils.SMS_SEND_LENGTH));
+            entity.setCodeStr(StringUtils.getNumbserString(MyConfigUtils.SMS_SEND_LENGTH));
             entity.setMinuteStr("10");
             sendSMS(entity);
 //        HashMap<String, Object> result = null;
