@@ -2,6 +2,7 @@ package com.originaldreams.logcenter.service;
 
 import com.originaldreams.common.entity.SMSLog;
 import com.originaldreams.common.response.ResultData;
+import com.originaldreams.common.util.StringUtils;
 import org.springframework.stereotype.Service;
 import com.originaldreams.logcenter.mapper.SMSLogMapper;
 
@@ -31,15 +32,12 @@ public class SMSLogService {
      * @return
      */
     public ResultData checkAndUpdateState(String phone,String codeStr){
-        ResultData response =new ResultData();
         SMSLog smsLog = smsLogMapper.getByPhone(phone);
         if(smsLog != null && smsLog.getCodeStr() != null && smsLog.getCodeStr().equals(codeStr)){
             smsLogMapper.update(smsLog.getId());
-            return response;
+            return ResultData.success();
         }
-        response.setSuccess(ResultData.SUCCESS_CODE_FAILED);
-        response.setMessage("验证码错误");
-        return response;
+        return ResultData.error("验证码错误");
     }
 
 

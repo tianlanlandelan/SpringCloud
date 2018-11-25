@@ -23,6 +23,15 @@ public class EmailLogService {
         return ResultData.success(emailLog.getId());
     }
 
+    public ResultData checkVerificationCode(String email,String code){
+        EmailLog emailLog = emailLogMapper.getByEmail(email);
+        if(emailLog != null && emailLog.getCode() != null && emailLog.getCode().equals(code)){
+            emailLogMapper.update(emailLog.getId());
+            return ResultData.success();
+        }
+        return ResultData.error("验证码错误");
+    }
+
 
     public EmailLog getById(Integer id){
 

@@ -1,5 +1,6 @@
 package com.originaldreams.publicservicecenter.controller;
 
+import com.originaldreams.common.entity.SMSLog;
 import com.originaldreams.common.response.MyResponse;
 import com.originaldreams.common.response.ResultData;
 import com.originaldreams.common.router.MyLogRouter;
@@ -45,7 +46,7 @@ public class SMSController {
         if(phone == null || phone.isEmpty()){
             return MyResponse.badRequest();
         }
-        SMSEntity entity = SendSMSUtils.sendVerificationCode(phone);
+        SMSLog entity = SendSMSUtils.sendVerificationCode(phone);
         Map<String,Object> map = new HashMap<>(16);
         map.put("phone",entity.getPhone());
         map.put("type",entity.getType());

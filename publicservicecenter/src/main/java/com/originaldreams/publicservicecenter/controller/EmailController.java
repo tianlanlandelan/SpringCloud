@@ -4,6 +4,7 @@ import com.originaldreams.common.entity.EmailLog;
 import com.originaldreams.common.response.MyResponse;
 import com.originaldreams.common.response.ResultData;
 import com.originaldreams.common.router.*;
+import com.originaldreams.common.util.ConfigUtils;
 import com.originaldreams.common.util.StringUtils;
 import com.originaldreams.common.util.ValidUserName;
 import com.originaldreams.publicservicecenter.utils.SendEmailUtils;
@@ -76,12 +77,12 @@ public class EmailController {
         map.put("code",entity.getCode());
         map.put("result",entity.getResult());
         map.put("statusCode",entity.getStatusCode());
-        ResponseEntity<String> responseEntity = restTemplate.postForEntity(MyRouters.getRouterUrl(MyLogRouter.INSERT_SMS_SEND_LOG) +
+        ResponseEntity<String> responseEntity = restTemplate.postForEntity(MyRouters.getRouterUrl(MyLogRouter.INSERT_EMAIL_SEND_LOG) +
                 "?email={email}&type={type}&title={title}&content={content}" +
                 "&code={code}&result={result}&statusCode={statusCode}",null,String.class,map);
         logger.info("smsLog Ok  Response:" + responseEntity.getBody() + ",entity:" + entity);
 
-        if(SendSMSUtils.RESULT_SUCCESS_CODE.equals(entity.getStatusCode())){
+        if(entity.getStatusCode() == ConfigUtils.EMAIL_SEND_STATUSCODE_SUCCESS){
             return MyResponse.ok(ResultData.success());
         }else {
             return MyResponse.ok(ResultData.error("验证码发送失败"));

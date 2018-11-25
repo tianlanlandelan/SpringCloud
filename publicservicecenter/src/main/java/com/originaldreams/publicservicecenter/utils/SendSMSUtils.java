@@ -1,5 +1,6 @@
 package com.originaldreams.publicservicecenter.utils;
 import com.cloopen.rest.sdk.CCPRestSmsSDK;
+import com.originaldreams.common.entity.SMSLog;
 import com.originaldreams.common.util.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +49,7 @@ public class SendSMSUtils {
      * @param entity
      * @return
      */
-    public static SMSEntity sendSMS(SMSEntity entity){
+    public static SMSLog sendSMS(SMSLog entity){
         HashMap<String, Object> result;
         result = init().sendTemplateSMS(entity.getPhone(),entity.getTemplateId(),
                 new String[]{entity.getCodeStr(),entity.getMinuteStr()});
@@ -63,8 +64,8 @@ public class SendSMSUtils {
      * @param phone 手机号
      * @return
      */
-    public static SMSEntity sendVerificationCode(String phone){
-        SMSEntity entity = new SMSEntity();
+    public static SMSLog sendVerificationCode(String phone){
+        SMSLog entity = new SMSLog();
         entity.setType(MyConfigUtils.SMS_SEND_TYPE_REGISTER);
         entity.setPhone(phone);
         entity.setTemplateId(MyConfigUtils.SMS_SEND_TEMPLATE_ID_REGISTER);
@@ -77,7 +78,7 @@ public class SendSMSUtils {
      * @param args
      */
     public static void main(String[] args) {
-            SMSEntity entity = new SMSEntity();
+            SMSLog entity = new SMSLog();
             entity.setPhone("17600109114");
             entity.setTemplateId("1");
             entity.setCodeStr(StringUtils.getNumbserString(MyConfigUtils.SMS_SEND_LENGTH));
