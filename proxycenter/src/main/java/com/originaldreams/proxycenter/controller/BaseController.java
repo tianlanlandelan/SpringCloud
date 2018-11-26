@@ -2,6 +2,7 @@ package com.originaldreams.proxycenter.controller;
 
 import com.originaldreams.common.response.MyResponse;
 import com.originaldreams.common.response.MyResponseReader;
+import com.originaldreams.common.router.MyLogRouter;
 import com.originaldreams.common.router.MyPublicServiceRouter;
 import com.originaldreams.common.router.MyRouters;
 import com.originaldreams.common.router.MyUserManagerRouter;
@@ -132,6 +133,22 @@ public class BaseController {
             return getResponseFromException(e);
         }
     }
+    @RequestMapping(value = "/checkSMSCode",method = RequestMethod.GET)
+    public ResponseEntity checkSMSCode(String phone,String code){
+        try {
+            if(StringUtils.isEmpty(phone,code)){
+                return MyResponse.badRequest();
+            }
+            logger.info("checkEmailCode  p:" + phone + ",code:" + code);
+            ResponseEntity<String> responseEntity = restTemplate.getForEntity(
+                    MyRouters.getRouterUrl(MyLogRouter.CHECK_SMS_CODE)
+                            + "?phone=" + phone + "&code=" + code,String.class);
+            return  responseEntity;
+        }catch (HttpClientErrorException e){
+            logger.warn("HttpClientErrorException:" + e.getStatusCode());
+            return getResponseFromException(e);
+        }
+    }
 
     /**
      * 发送邮件验证码
@@ -147,6 +164,23 @@ public class BaseController {
             logger.info("sendEmailCode  :" + email );
             ResponseEntity<String> responseEntity = restTemplate.getForEntity(
                     MyRouters.getRouterUrl(MyPublicServiceRouter.SEND_VERIFICATION_CODE_EMAIL) + "?email=" + email,String.class);
+            return  responseEntity;
+        }catch (HttpClientErrorException e){
+            logger.warn("HttpClientErrorException:" + e.getStatusCode());
+            return getResponseFromException(e);
+        }
+    }
+
+    @RequestMapping(value = "/checkEmailCode",method = RequestMethod.GET)
+    public ResponseEntity checkEmailCode(String email,String code){
+        try {
+            if(StringUtils.isEmpty(email,code)){
+                return MyResponse.badRequest();
+            }
+            logger.info("checkEmailCode  email:" + email + ",code:" + code);
+            ResponseEntity<String> responseEntity = restTemplate.getForEntity(
+                    MyRouters.getRouterUrl(MyLogRouter.CHECK_EMAIL_CODE)
+                            + "?email=" + email + "&code=" + code,String.class);
             return  responseEntity;
         }catch (HttpClientErrorException e){
             logger.warn("HttpClientErrorException:" + e.getStatusCode());

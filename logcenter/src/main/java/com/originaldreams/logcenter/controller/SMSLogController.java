@@ -45,18 +45,18 @@ public class SMSLogController {
     /**
      * 验证短信验证码是否正确
      * @param phone 手机号
-     * @param codeStr 验证码
+     * @param code 验证码
      * @return
      */
-    @RouterAttribute(id = MyLogRouter.GET_VERIFICATION_BY_PHONE, description = "校验短信验证码：" +
+    @RouterAttribute(id = MyLogRouter.CHECK_SMS_CODE, description = "校验短信验证码：" +
             "校验上送的验证码是否是最新的没有用过的验证码，如果是:将其置为已使用状态;" +
             "如果不是:返回'验证码错误'的提示")
     @RequestMapping(value = "/checkVerificationCode",method = RequestMethod.GET)
-    ResponseEntity getByPhone(String phone,String codeStr){
-        if(StringUtils.isEmpty(phone,codeStr) || !ValidUserName.isValidPhoneNumber(phone)){
+    ResponseEntity getByPhone(String phone,String code){
+        if(StringUtils.isEmpty(phone,code) || !ValidUserName.isValidPhoneNumber(phone)){
             return MyResponse.badRequest();
         }
-        return MyResponse.ok(smsLogService.checkAndUpdateState(phone,codeStr));
+        return MyResponse.ok(smsLogService.checkAndUpdateState(phone,code));
     }
 
 

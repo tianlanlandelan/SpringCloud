@@ -38,15 +38,15 @@ public class EmailLogController {
         return MyResponse.ok(emailLogService.insert(entity));
     }
 
-    @RouterAttribute(id = MyLogRouter.GET_VERIFICATION_BY_EMAIL, description = "校验邮件验证码：" +
+    @RouterAttribute(id = MyLogRouter.CHECK_EMAIL_CODE, description = "校验邮件验证码：" +
             "校验上送的验证码是否是最新的没有用过的验证码，如果是:将其置为已使用状态;" +
             "如果不是:返回'验证码错误'的提示")
-    @RequestMapping(value = "/getVerificationByEmail", method = RequestMethod.GET)
-    ResponseEntity checkVerificationCode(String email,String codeStr){
-        if(StringUtils.isEmpty(email,codeStr) || !ValidUserName.isValidEmailAddress(email)){
+    @RequestMapping(value = "/checkVerificationCode", method = RequestMethod.GET)
+    public ResponseEntity checkVerificationCode(String email,String code){
+        if(StringUtils.isEmpty(email,code) || !ValidUserName.isValidEmailAddress(email)){
             return MyResponse.badRequest();
         }
-        return MyResponse.ok(emailLogService.checkVerificationCode(email,codeStr));
+        return MyResponse.ok(emailLogService.checkVerificationCode(email,code));
     }
 
 

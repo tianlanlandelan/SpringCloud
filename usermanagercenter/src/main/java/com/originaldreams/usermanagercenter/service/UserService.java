@@ -85,29 +85,31 @@ public class UserService {
         if(user != null){
             return ResultData.error("用户已存在");
         }
+        user = new User();
         if (ValidUserName.isValidPhoneNumber(userName)) {
             user.setPhone(userName);
             user.setPhoneLogon();
-            //TODO 去logCenter核对短信验证码发送记录
-            Map<String, Object> map = new HashMap<>();
-            map.put("phone",userName);
-            map.put("codeStr",verificationCode);
-            //验证短信验证码 TODO
+            //去logCenter核对短信验证码发送记录
             ResponseEntity<String> responseEntity = restTemplate.getForEntity(
-                    MyRouters.getRouterUrl(MyLogRouter.GET_VERIFICATION_BY_PHONE) +
-                            "?phone={phone}&codeStr={codeStr}",String.class,map);
+                    MyRouters.getRouterUrl(MyLogRouter.CHECK_SMS_CODE)
+                            + "?phone=" + userName + "&code=" + verificationCode,String.class);
             if(!MyResponseReader.isSuccess(responseEntity)){
                 return ResultData.error("验证码错误");
             }
         } else if (ValidUserName.isValidEmailAddress(userName)) {
             user.setEmail(userName);
             user.setEmailLogon();
-            //TODO 去logCenter核对邮件发送记录
-
+            //去logCenter核对邮件发送记录
+            ResponseEntity<String> responseEntity = restTemplate.getForEntity(
+                    MyRouters.getRouterUrl(MyLogRouter.CHECK_EMAIL_CODE)
+                            + "?email=" + userName + "&code=" + verificationCode,String.class);
+            if(!MyResponseReader.isSuccess(responseEntity)){
+                return ResultData.error("验证码错误");
+            }
         } else {
             return ResultData.error("仅支持手机号和邮箱注册");
         }
-        user.setPassword(MyMD5Utils.EncoderByMd5(user.getPassword()));
+        user.setPassword(MyMD5Utils.EncoderByMd5(password));
         userMapper.insert(user);
         UserInfo userInfo = new UserInfo(user.getId(),user.getPhone(),user.getEmail());
         userInfoMapper.insert(userInfo);
