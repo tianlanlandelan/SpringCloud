@@ -12,9 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -29,6 +27,9 @@ import static com.originaldreams.proxycenter.cache.CacheUtils.getResponseFromExc
  * @author yangkaile
  * @date 2018-11-23 14:34:52
  */
+@RestController
+@RequestMapping("/base")
+@CrossOrigin(origins = "*",allowedHeaders="*", maxAge = 3600)
 public class BaseController {
 
     private Logger logger = LoggerFactory.getLogger(BaseController.class);
