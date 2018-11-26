@@ -10,13 +10,13 @@ public class MyLogRouter {
      */
     public static final int INSERT_LOGON_LOG                 = 30001;
     /**
-     * 获取邮箱验证码
+     * 校验邮件验证码
      */
-    public final static int GET_VERIFICATION_BY_EMAIL        = 30002;
+    public final static int CHECK_EMAIL_CODE        = 30002;
     /**
-     * 获取短信验证码
+     * 校验短信验证码
      */
-    public final static int GET_VERIFICATION_BY_PHONE        = 30003;
+    public final static int CHECK_SMS_CODE        = 30003;
     /**
      * 添加邮件发送记录
      */
