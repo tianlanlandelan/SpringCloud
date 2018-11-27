@@ -7,8 +7,13 @@ import com.originaldreams.common.router.MyLogRouter;
 import com.originaldreams.common.router.MyRouters;
 import com.originaldreams.common.util.StringUtils;
 import com.originaldreams.common.util.ValidUserName;
+import com.originaldreams.usermanagercenter.config.MyConfig;
+import com.originaldreams.usermanagercenter.entity.Role;
 import com.originaldreams.usermanagercenter.entity.UserInfo;
+import com.originaldreams.usermanagercenter.entity.UserRoles;
+import com.originaldreams.usermanagercenter.mapper.RoleMapper;
 import com.originaldreams.usermanagercenter.mapper.UserInfoMapper;
+import com.originaldreams.usermanagercenter.mapper.UserRolesMapper;
 import com.originaldreams.usermanagercenter.utils.LogonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +40,9 @@ public class UserService {
 
     @Resource
     private UserInfoMapper userInfoMapper;
+
+    @Resource
+    private UserRolesMapper userRolesMapper;
 
     @Autowired
     RestTemplate restTemplate;
@@ -74,6 +82,8 @@ public class UserService {
     }
     /**
      *  注册
+     *  校验用户名是否已注册，校验验证码是否正确
+     *  校验通过后注册用户，并为其添加默认角色
      * @param userName
      * @param password
      * @param verificationCode
@@ -113,6 +123,8 @@ public class UserService {
         userMapper.insert(user);
         UserInfo userInfo = new UserInfo(user.getId(),user.getPhone(),user.getEmail());
         userInfoMapper.insert(userInfo);
+        UserRoles userRoles = new UserRoles(user.getId(),MyConfig.DEFAULT_ROLE_ID);
+        userRolesMapper.insert(userRoles);
         return ResultData.success(user.getId());
     }
 

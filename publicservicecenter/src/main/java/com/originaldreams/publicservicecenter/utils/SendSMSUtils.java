@@ -18,7 +18,7 @@ public class SendSMSUtils {
 
     private static Logger logger = LoggerFactory.getLogger(SendSMSUtils.class);
 
-//    private static final String SERVER_IP     = "sandboxapp.cloopen.com";
+//    private static final String SERVER_IP     = "app.cloopen.com";
 //    private static final String SERVER_PORT   = "8883";
 //    private static final String ACCOUNT_SID   = "8aaf07085b5fee9a015b85e01170103c";
 //    private static final String ACCOUNT_TOKEN = "07b5328498f943769fd1f631ef737fba";
