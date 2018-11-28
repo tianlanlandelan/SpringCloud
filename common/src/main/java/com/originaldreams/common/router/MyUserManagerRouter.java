@@ -84,4 +84,9 @@ public class MyUserManagerRouter {
      */
     public final static int CHECK_USER_REGISTERED = 10019;
 
+    /**
+     * 分页查询权限
+     */
+    public final static int GET_ROUTERS_BY_PAGE = 10020;
+
 }
