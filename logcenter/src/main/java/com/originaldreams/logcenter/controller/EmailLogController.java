@@ -1,11 +1,12 @@
 package com.originaldreams.logcenter.controller;
 
+import com.originaldreams.common.entity.EmailLog;
 import com.originaldreams.common.response.MyResponse;
 import com.originaldreams.common.response.ResultData;
 import com.originaldreams.common.router.MyLogRouter;
-import com.originaldreams.common.router.MyUserManagerRouter;
 import com.originaldreams.common.router.RouterAttribute;
-import com.originaldreams.logcenter.entity.EmailLog;
+import com.originaldreams.common.util.StringUtils;
+import com.originaldreams.common.util.ValidUserName;
 import com.originaldreams.logcenter.service.EmailLogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +36,17 @@ public class EmailLogController {
     public ResponseEntity insert(EmailLog entity){
         logger.info("mailSendLog received :" + entity.toString());
         return MyResponse.ok(emailLogService.insert(entity));
+    }
+
+    @RouterAttribute(id = MyLogRouter.CHECK_EMAIL_CODE, description = "校验邮件验证码：" +
+            "校验上送的验证码是否是最新的没有用过的验证码，如果是:将其置为已使用状态;" +
+            "如果不是:返回'验证码错误'的提示")
+    @RequestMapping(value = "/checkVerificationCode", method = RequestMethod.GET)
+    public ResponseEntity checkVerificationCode(String email,String code){
+        if(StringUtils.isEmpty(email,code) || !ValidUserName.isValidEmailAddress(email)){
+            return MyResponse.badRequest();
+        }
+        return MyResponse.ok(emailLogService.checkVerificationCode(email,code));
     }
 
 

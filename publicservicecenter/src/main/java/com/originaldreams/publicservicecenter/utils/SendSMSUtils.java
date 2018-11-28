@@ -1,7 +1,7 @@
 package com.originaldreams.publicservicecenter.utils;
 import com.cloopen.rest.sdk.CCPRestSmsSDK;
+import com.originaldreams.common.entity.SMSLog;
 import com.originaldreams.common.util.StringUtils;
-import com.originaldreams.publicservicecenter.entity.SMSEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,7 +18,7 @@ public class SendSMSUtils {
 
     private static Logger logger = LoggerFactory.getLogger(SendSMSUtils.class);
 
-//    private static final String SERVER_IP     = "sandboxapp.cloopen.com";
+//    private static final String SERVER_IP     = "app.cloopen.com";
 //    private static final String SERVER_PORT   = "8883";
 //    private static final String ACCOUNT_SID   = "8aaf07085b5fee9a015b85e01170103c";
 //    private static final String ACCOUNT_TOKEN = "07b5328498f943769fd1f631ef737fba";
@@ -49,7 +49,7 @@ public class SendSMSUtils {
      * @param entity
      * @return
      */
-    public static SMSEntity sendSMS(SMSEntity entity){
+    public static SMSLog sendSMS(SMSLog entity){
         HashMap<String, Object> result;
         result = init().sendTemplateSMS(entity.getPhone(),entity.getTemplateId(),
                 new String[]{entity.getCodeStr(),entity.getMinuteStr()});
@@ -64,13 +64,13 @@ public class SendSMSUtils {
      * @param phone 手机号
      * @return
      */
-    public static SMSEntity sendVerificationCode(String phone){
-        SMSEntity entity = new SMSEntity();
-        entity.setType(ConfigUtils.SMS_SEND_TYPE_REGISTER);
+    public static SMSLog sendVerificationCode(String phone){
+        SMSLog entity = new SMSLog();
+        entity.setType(MyConfigUtils.SMS_SEND_TYPE_REGISTER);
         entity.setPhone(phone);
-        entity.setTemplateId(ConfigUtils.SMS_SEND_TEMPLATE_ID_REGISTER);
-        entity.setCodeStr(StringUtils.getNumbserString(ConfigUtils.SMS_SEND_LENGTH));
-        entity.setMinuteStr(ConfigUtils.SMS_SEND_MINUTE_REGISTER);
+        entity.setTemplateId(MyConfigUtils.SMS_SEND_TEMPLATE_ID_REGISTER);
+        entity.setCodeStr(StringUtils.getNumbserString(MyConfigUtils.SMS_SEND_LENGTH));
+        entity.setMinuteStr(MyConfigUtils.SMS_SEND_MINUTE_REGISTER);
         return sendSMS(entity);
     }
 
@@ -78,10 +78,10 @@ public class SendSMSUtils {
      * @param args
      */
     public static void main(String[] args) {
-            SMSEntity entity = new SMSEntity();
+            SMSLog entity = new SMSLog();
             entity.setPhone("17600109114");
             entity.setTemplateId("1");
-            entity.setCodeStr(StringUtils.getNumbserString(ConfigUtils.SMS_SEND_LENGTH));
+            entity.setCodeStr(StringUtils.getNumbserString(MyConfigUtils.SMS_SEND_LENGTH));
             entity.setMinuteStr("10");
             sendSMS(entity);
 //        HashMap<String, Object> result = null;

@@ -3,9 +3,7 @@ package com.originaldreams.proxycenter.controller;
 import com.originaldreams.common.encryption.MyBase64Utils;
 import com.originaldreams.common.entity.MyRouterObject;
 import com.originaldreams.common.response.MyResponse;
-import com.originaldreams.common.response.MyResponseReader;
 import com.originaldreams.common.response.ResultData;
-import com.originaldreams.common.router.*;
 import com.originaldreams.common.util.ConfigUtils;
 import com.originaldreams.common.util.JsonUtils;
 import com.originaldreams.common.util.StringUtils;
@@ -13,7 +11,7 @@ import com.originaldreams.proxycenter.cache.CacheUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
@@ -24,6 +22,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.originaldreams.proxycenter.cache.CacheUtils.getResponseFromException;
+
 /**
  * @author 杨凯乐
  * @date   2018-07-28 19:00:16
@@ -31,15 +31,14 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api")
 @CrossOrigin(origins = "*",allowedHeaders="*", maxAge = 3600)
-public class HttpController {
-    private Logger logger = LoggerFactory.getLogger(HttpController.class);
+public class ApiController {
+    private Logger logger = LoggerFactory.getLogger(ApiController.class);
     @Autowired
     RestTemplate restTemplate;
 
     @Autowired
     private HttpServletRequest request;
 
-    private final static String USER_ID = "userId";
 
     /**
      * 客户端传参时，多个参数之间的分隔符
@@ -51,120 +50,7 @@ public class HttpController {
      */
     private final static String SPLIT_KEY_VALUE = ":";
 
-    /**
-     * 统一的登录接口
-     * @param json
-     * @param userName  用户名、手机号或邮箱
-     * @param password  密码
-     * @return
-     */
-    @RequestMapping(value = "/logon",method = RequestMethod.POST)
-    public ResponseEntity logon(@RequestBody String json,String userName,String password){
-        if(StringUtils.isEmpty(userName,password)){
-            userName = JsonUtils.getString(json,"userName");
-            password = JsonUtils.getString(json,"password");
-        }
-        logger.info("userName:" + userName + "，password:" + password);
-        try {
-            logger.info("logon  userName:" + userName);
-            if(StringUtils.isEmpty(userName,password)){
-                return MyResponse.badRequest();
-            }
-            Map<String, String> map = new HashMap<>(16);
-            map.put("userName", userName);
-            map.put("password",password);
-            ResponseEntity<String> responseEntity = restTemplate.postForEntity(
-                        MyRouters.getRouterUrl(MyUserManagerRouter.LOGON)
-                                + "?userName={userName}&password={password}",null,String.class,map);
-            if(!MyResponseReader.isSuccess(responseEntity)){
-                return MyResponse.badRequest();
-            }
-            //登录成功，缓存
-            setCacheForLogon(responseEntity);
-            return  responseEntity;
-        }catch (HttpClientErrorException e){
-            e.printStackTrace();
-            logger.warn("HttpClientErrorException:" + e.getStatusCode());
-            return getResponseFromException(e);
-        }
-    }
 
-    /**
-     * 注册接口
-     * @param json
-     * @param userName  用户名
-     * @param password  密码
-     * @param verificationCode  验证码
-     * @return
-     */
-    @RequestMapping(value = "/register",method = RequestMethod.POST)
-    public ResponseEntity register(@RequestBody String json,String userName,String password,String verificationCode){
-        if(StringUtils.isEmpty(userName,password,verificationCode)){
-            userName = JsonUtils.getString(json,"userName");
-            password = JsonUtils.getString(json,"password");
-            verificationCode = JsonUtils.getString(json,"verificationCode");
-        }
-        try {
-            logger.info("register  :" );
-            if(StringUtils.isEmpty(userName,password,verificationCode)){
-                return MyResponse.badRequest();
-            }
-            Map<String, String> map = new HashMap<>();
-            map.put("userName",userName);
-            map.put("password",password);
-            map.put("verificationCode",verificationCode);
-            ResponseEntity<String> responseEntity = restTemplate.postForEntity(
-                    MyRouters.getRouterUrl(MyUserManagerRouter.REGISTER)
-                            + "?userName={userName}&password={password}&verificationCode={verificationCode}",
-                    null,String.class,map);
-            return  responseEntity;
-        }catch (HttpClientErrorException e){
-            logger.warn("HttpClientErrorException:" + e.getStatusCode());
-            return getResponseFromException(e);
-        }
-    }
-
-    /**
-     * 发送短信验证码
-     * @param phone
-     * @return
-     */
-    @RequestMapping(value = "/sendSMSCode",method = RequestMethod.GET)
-    public ResponseEntity sendSMSCode(String phone){
-        try {
-            if(StringUtils.isEmpty(phone)){
-                return MyResponse.badRequest();
-            }
-            logger.info("sendSMSCode  :" + phone );
-            ResponseEntity<String> responseEntity = restTemplate.getForEntity(
-                    MyRouters.getRouterUrl(MyPublicServiceRouter.SEND_VERIFICATION_CODE_SMS) + "?phone=" + phone, String.class);
-            return  responseEntity;
-        }catch (HttpClientErrorException e){
-            logger.warn("HttpClientErrorException:" + e.getStatusCode());
-            return getResponseFromException(e);
-        }
-    }
-
-    /**
-     * 发送邮件验证码
-     * @param email
-     * @return
-     */
-    @RequestMapping(value = "/sendEmailCode",method = RequestMethod.GET)
-    public ResponseEntity sendEmailCode(String email){
-        try {
-            if(StringUtils.isEmpty(email)){
-                return MyResponse.badRequest();
-            }
-            logger.info("sendEmailCode  :" + email );
-            ResponseEntity<String> responseEntity = restTemplate.getForEntity(
-                    MyRouters.getRouterUrl(MyPublicServiceRouter.SEND_VERIFICATION_CODE_EMAIL) + "?email=" + email,String.class);
-            return  responseEntity;
-        }catch (HttpClientErrorException e){
-            logger.warn("HttpClientErrorException:" + e.getStatusCode());
-            return getResponseFromException(e);
-        }
-    }
     /**
      * 针对一般用户所有get请求的转发
      * 请求格式如：localhost:8805?methodName=USER_MANAGER_PERMISSION_GET_ROLES_BY_ROUTER_ID&parameters=routerId:MTAwMDE=
@@ -194,7 +80,7 @@ public class HttpController {
              */
 
             if(parameters == null){
-                responseEntity = restTemplate.getForEntity(routerUrl + "?" + USER_ID+ "=" + getUserId(),String.class);
+                responseEntity = restTemplate.getForEntity(routerUrl + "?" + CacheUtils.USER_ID+ "=" + getUserId(),String.class);
             }else{
                 if(isManager()){
                     //url后拼接的请求参数格式
@@ -413,7 +299,7 @@ public class HttpController {
      */
     private Map<String,Object> parseMapWithUserId(String parameters) throws Exception {
         Map<String ,Object> map = parseMap(parameters);
-        map.put(USER_ID,getUserId());
+        map.put(CacheUtils.USER_ID,getUserId());
         return map;
     }
 
@@ -444,67 +330,11 @@ public class HttpController {
      * @throws Exception
      */
     private String getUrlParametersWithUserId(String parameters) throws  Exception{
-        return getUrlParameters(parameters) + USER_ID +"={" + USER_ID + "}";
+        return getUrlParameters(parameters) + CacheUtils.USER_ID +"={" + CacheUtils.USER_ID + "}";
     }
 
-    /**
-     * 根据组件返回的错误码重组应答报文
-     * @param exception
-     * @return
-     */
-    private ResponseEntity getResponseFromException(HttpClientErrorException exception){
-        ResponseEntity response;
-        switch (exception.getStatusCode()){
-            case FORBIDDEN:  response = MyResponse.forbidden(); break;
-            case BAD_REQUEST: response = MyResponse.badRequest();break;
-            case UNAUTHORIZED: response = MyResponse.unauthorized();break;
-            default:{
-                ResultData resultData = ResultData.error("未知错误");
-                response = ResponseEntity.status(exception.getStatusCode()).contentType(MediaType.APPLICATION_JSON).body(resultData);
-            }
-        }
-        return  response;
-    }
 
-    /**
-     * 设置登录时的缓存
-     * 包含请求session和用户权限缓存
-     * @param response
-     */
-    private void setCacheForLogon(ResponseEntity<String> response){
-        logger.info("setCacheForLogon :" + response);
-        if(!MyResponseReader.isSuccess(response)){
-            return;
-        }
-        int userId = MyResponseReader.getDataObject(response,"id",Integer.class);
-        //将userId放入Session
-        request.getSession().setAttribute("userId",userId);
 
-        //查询用户的权限Id
-        ResponseEntity<String> responseEntity = restTemplate.getForEntity(
-                    MyRouters.getRouterUrl(MyUserManagerRouter.GET_ROUTER_IDS_BY_USER_ID)
-                            + "?" + USER_ID +"=" + userId,String.class);
-
-        logger.info("USER_MANAGER_PERMISSION_GET_ROUTER_IDS_BY_USER_ID response:" + responseEntity.getBody());
-        if(!MyResponseReader.isSuccess(responseEntity)){
-            return;
-        }
-        List<Integer> routerIds = MyResponseReader.getList(responseEntity,Integer.class);
-        logger.info("routerIds:" + routerIds);
-        //routerIds放入缓存
-        CacheUtils.userRouterMap.put(userId,routerIds);
-        //用户权限放入缓存
-        responseEntity = restTemplate.getForEntity(
-                    MyRouters.getRouterUrl(MyUserManagerRouter.GET_ROLE_BY_USER_ID)
-                            + "?" + USER_ID +"=" + userId,String.class);
-        if(!MyResponseReader.isSuccess(responseEntity)){
-            return;
-        }
-        String roleName = MyResponseReader.getDataObject(responseEntity,"name",String.class);
-        //角色名放入缓存
-            CacheUtils.userRoleMap.put(userId,roleName);
-            logger.info("logonWithUserName roleName :" + roleName + ", routerIds:" + routerIds);
-    }
 
     private Integer getUserId(){
         Object object = request.getSession().getAttribute("userId");
@@ -527,9 +357,9 @@ public class HttpController {
     private boolean isManager(){
         Integer userId = getUserId();
         String roleName = CacheUtils.userRoleMap.get(userId);
-        if(roleName == null || roleName.equals("User")){
+        if(roleName == null || roleName.equals(CacheUtils.ROLE_USER)){
             return false;
-        }else if(roleName.equals("Manager")){
+        }else if(roleName.equals(CacheUtils.ROLE_MANAGER)){
             return true;
         }
         return false;

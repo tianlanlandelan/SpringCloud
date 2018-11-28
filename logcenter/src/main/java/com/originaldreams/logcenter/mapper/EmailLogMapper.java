@@ -1,7 +1,6 @@
 package com.originaldreams.logcenter.mapper;
 
-import com.originaldreams.logcenter.entity.EmailLog;
-import org.apache.ibatis.annotations.Delete;
+import com.originaldreams.common.entity.EmailLog;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
@@ -30,7 +29,7 @@ public interface EmailLogMapper {
   * @param id
   * @return
   */
- @Update("UPDATE " + tableName + " SET state = 1 WHERE id = #{id}")
+ @Update("UPDATE " + tableName + " SET state = 1,updateTime = sysdate() WHERE id = #{id}")
  Integer update(Integer id);
 
  /**

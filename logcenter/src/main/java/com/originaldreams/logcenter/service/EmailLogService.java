@@ -1,8 +1,8 @@
 package com.originaldreams.logcenter.service;
 
+import com.originaldreams.common.entity.EmailLog;
 import com.originaldreams.common.response.ResultData;
 import org.springframework.stereotype.Service;
-import com.originaldreams.logcenter.entity.EmailLog;
 import com.originaldreams.logcenter.mapper.EmailLogMapper;
 
 import javax.annotation.Resource;
@@ -21,6 +21,15 @@ public class EmailLogService {
     public ResultData insert(EmailLog emailLog){
         emailLogMapper.insert(emailLog);
         return ResultData.success(emailLog.getId());
+    }
+
+    public ResultData checkVerificationCode(String email,String code){
+        EmailLog emailLog = emailLogMapper.getByEmail(email);
+        if(emailLog != null && emailLog.getCode() != null && emailLog.getCode().equals(code)){
+            emailLogMapper.update(emailLog.getId());
+            return ResultData.success();
+        }
+        return ResultData.error("验证码错误");
     }
 
 

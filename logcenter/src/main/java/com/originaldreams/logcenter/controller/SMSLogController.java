@@ -1,11 +1,11 @@
 package com.originaldreams.logcenter.controller;
 
+import com.originaldreams.common.entity.SMSLog;
 import com.originaldreams.common.response.MyResponse;
 import com.originaldreams.common.router.MyLogRouter;
-import com.originaldreams.common.router.MyUserManagerRouter;
 import com.originaldreams.common.router.RouterAttribute;
+import com.originaldreams.common.util.StringUtils;
 import com.originaldreams.common.util.ValidUserName;
-import com.originaldreams.logcenter.entity.SMSLog;
 import com.originaldreams.logcenter.service.SMSLogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,16 +45,18 @@ public class SMSLogController {
     /**
      * 验证短信验证码是否正确
      * @param phone 手机号
-     * @param codeStr 验证码
+     * @param code 验证码
      * @return
      */
-    @RouterAttribute(id = MyLogRouter.GET_VERIFICATION_BY_PHONE, description = "查询短信验证码：只会返回最新的没有用过的验证码，并将其置为已使用状态")
-    @RequestMapping(value = "/getByPhone",method = RequestMethod.GET)
-    ResponseEntity getByPhone(String phone,String codeStr){
-        if(phone == null || phone.isEmpty() || codeStr == null || codeStr.isEmpty() || !ValidUserName.isValidPhoneNumber(phone)){
+    @RouterAttribute(id = MyLogRouter.CHECK_SMS_CODE, description = "校验短信验证码：" +
+            "校验上送的验证码是否是最新的没有用过的验证码，如果是:将其置为已使用状态;" +
+            "如果不是:返回'验证码错误'的提示")
+    @RequestMapping(value = "/checkVerificationCode",method = RequestMethod.GET)
+    ResponseEntity getByPhone(String phone,String code){
+        if(StringUtils.isEmpty(phone,code) || !ValidUserName.isValidPhoneNumber(phone)){
             return MyResponse.badRequest();
         }
-        return MyResponse.ok(smsLogService.checkAndUpdateState(phone,codeStr));
+        return MyResponse.ok(smsLogService.checkAndUpdateState(phone,code));
     }
 
 

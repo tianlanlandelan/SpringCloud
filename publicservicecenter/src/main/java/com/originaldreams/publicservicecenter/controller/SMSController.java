@@ -1,12 +1,12 @@
 package com.originaldreams.publicservicecenter.controller;
 
+import com.originaldreams.common.entity.SMSLog;
 import com.originaldreams.common.response.MyResponse;
 import com.originaldreams.common.response.ResultData;
 import com.originaldreams.common.router.MyLogRouter;
 import com.originaldreams.common.router.MyPublicServiceRouter;
 import com.originaldreams.common.router.MyRouters;
 import com.originaldreams.common.router.RouterAttribute;
-import com.originaldreams.publicservicecenter.entity.SMSEntity;
 import com.originaldreams.publicservicecenter.utils.SendSMSUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,12 +43,11 @@ public class SMSController {
     @RouterAttribute(id = MyPublicServiceRouter.SEND_VERIFICATION_CODE_SMS, description = "发送验证码短信")
     @RequestMapping(value = "/sendVerificationCode",method = RequestMethod.GET)
     public ResponseEntity sendVerificationCode(String phone){
-        ResultData response =new ResultData();
         if(phone == null || phone.isEmpty()){
             return MyResponse.badRequest();
         }
-        SMSEntity entity = SendSMSUtils.sendVerificationCode(phone);
-        Map<String,Object> map = new HashMap<>();
+        SMSLog entity = SendSMSUtils.sendVerificationCode(phone);
+        Map<String,Object> map = new HashMap<>(16);
         map.put("phone",entity.getPhone());
         map.put("type",entity.getType());
         map.put("templateId",entity.getTemplateId());
@@ -59,14 +58,12 @@ public class SMSController {
         ResponseEntity<String> responseEntity = restTemplate.postForEntity(MyRouters.getRouterUrl(MyLogRouter.INSERT_SMS_SEND_LOG) +
                 "?phone={phone}&type={type}&templateId={templateId}&codeStr={codeStr}" +
                 "&minuteStr={minuteStr}&result={result}&statusCode={statusCode}",null,String.class,map);
-        logger.info("smsLog Ok  Response:" + responseEntity.getBody() + " com.originaldreams.serviceregistycenter.entity:" + entity);
+        logger.info("smsLog Ok  Response:" + responseEntity.getBody() + ",entity:" + entity);
 
         if(SendSMSUtils.RESULT_SUCCESS_CODE.equals(entity.getStatusCode())){
-            return MyResponse.ok(response);
+            return MyResponse.ok(ResultData.success());
         }else {
-            response.setSuccess(ResultData.SUCCESS_CODE_FAILED);
-            response.setMessage("验证码发送失败");
-            return MyResponse.ok(response);
+            return MyResponse.ok(ResultData.error("验证码发送失败"));
         }
 
     }

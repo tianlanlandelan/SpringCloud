@@ -77,13 +77,10 @@ public class LogonController {
             if (StringUtils.isEmpty(userName)) {
                 return MyResponse.badRequest();
             }
-            ResultData response = new ResultData();
             if(userService.checkUserRegistered(userName) == null){
-                return MyResponse.ok(response);
+                return MyResponse.ok(ResultData.success());
             }else {
-                response.setSuccess(ResultData.SUCCESS_CODE_FAILED);
-                response.setMessage("用户已注册");
-                return MyResponse.ok(response);
+                return MyResponse.ok(ResultData.error("用户已注册"));
             }
         } catch (Exception e) {
             e.printStackTrace();

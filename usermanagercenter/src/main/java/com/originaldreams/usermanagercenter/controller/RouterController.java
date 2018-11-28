@@ -37,6 +37,22 @@ public class RouterController {
         return MyResponse.ok(routerService.getAll());
     }
 
+
+    /**
+     * 分页查询权限
+     * @param currentPage 当前页码
+     * @param pageSize  每页记录数
+     * @return
+     */
+    @RouterAttribute(id = MyUserManagerRouter.GET_ROUTERS_BY_PAGE, description = "分页查询权限")
+    @RequestMapping(value = "/getPageList" , method = RequestMethod.GET)
+    public ResponseEntity getPageList(Integer currentPage,Integer pageSize){
+        if(currentPage == null || pageSize == null) {
+            return MyResponse.badRequest();
+        }
+        return MyResponse.ok(routerService.getPageList(currentPage,pageSize));
+    }
+
     /**
      * 查询某个角色的所有权限
      * @param roleId

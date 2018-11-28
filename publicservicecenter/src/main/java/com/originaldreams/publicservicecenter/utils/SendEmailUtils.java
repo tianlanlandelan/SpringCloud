@@ -1,7 +1,8 @@
 package com.originaldreams.publicservicecenter.utils;
 
+import com.originaldreams.common.entity.EmailLog;
+import com.originaldreams.common.util.ConfigUtils;
 import com.originaldreams.common.util.StringUtils;
-import com.originaldreams.publicservicecenter.entity.EmailEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,13 +61,13 @@ public class SendEmailUtils {
         transport.close();
     }
 
-    public static EmailEntity sendVerificationCode(String email){
-        String code = StringUtils.getAllCharString(ConfigUtils.EMAIL_VERIFICATIONCODE_LENGTH);
-        EmailEntity entity = new EmailEntity();
+    public static EmailLog sendVerificationCode(String email){
+        String code = StringUtils.getAllCharString(MyConfigUtils.EMAIL_VERIFICATIONCODE_LENGTH);
+        EmailLog entity = new EmailLog();
         entity.setEmail(email);
-        entity.setType(ConfigUtils.EMAIL_SEND_TYPE_REGISTER);
-        entity.setTitle(ConfigUtils.EMAIL_VERIFICATIONCODE_TITLE);
-        entity.setContent(String.format(ConfigUtils.EMAIL_VERIFICATIONCODE_BODY,code));
+        entity.setType(MyConfigUtils.EMAIL_SEND_TYPE_REGISTER);
+        entity.setTitle(MyConfigUtils.EMAIL_VERIFICATIONCODE_TITLE);
+        entity.setContent(String.format(MyConfigUtils.EMAIL_VERIFICATIONCODE_BODY,code));
         entity.setCode(code);
         try {
             sendSimpleMail(entity.getEmail(),entity.getTitle(),entity.getContent());

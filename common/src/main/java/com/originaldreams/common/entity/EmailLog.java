@@ -1,4 +1,6 @@
-package com.originaldreams.logcenter.entity;
+package com.originaldreams.common.entity;
+
+import com.originaldreams.common.util.ConfigUtils;
 
 import java.util.Date;
 
@@ -31,8 +33,12 @@ public class EmailLog {
 
 
      private String result;
-
-     private int statusCode;
+    /**
+     * 状态码
+     * 0 成功
+     * 1 失败
+     */
+     private int statusCode = ConfigUtils.EMAIL_SEND_STATUSCODE_SUCCESS;
 
     /**
      * 状态码
@@ -41,7 +47,10 @@ public class EmailLog {
      */
     private int state = 0;
 
-     private Date createTime = new Date();
+    private Date createTime = new Date();
+
+    private Date updateTime;
+
 
     public Integer getId() {
         return id;
@@ -122,18 +131,29 @@ public class EmailLog {
     public void setState(int state) {
         this.state = state;
     }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
     @Override
     public String toString() {
         return "EmailLog{" +
                 "id=" + id +
-                ", type='" + type + '\'' +
+                ", type=" + type +
                 ", email='" + email + '\'' +
                 ", title='" + title + '\'' +
                 ", content='" + content + '\'' +
                 ", code='" + code + '\'' +
                 ", result='" + result + '\'' +
                 ", statusCode=" + statusCode +
+                ", state=" + state +
                 ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
                 '}';
     }
 }
