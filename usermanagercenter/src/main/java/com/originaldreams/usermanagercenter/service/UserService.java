@@ -200,23 +200,6 @@ public class UserService {
         return ResultData.success(userMapper.getAllUserNameAndRoleName());
     }
 
-    public User getById(Integer id){
-
-        return userMapper.getById(id);
-    }
-
-    public List<User> getAll(){
-        return userMapper.getAll();
-    }
-
-    public Integer insert(User user){
-        return userMapper.insert(user);
-    }
-
-    public Integer deleteById(Integer id){
-        return userMapper.deleteById(id);
-    }
-
     public Integer update(User user){
         return userMapper.update(user);
     }

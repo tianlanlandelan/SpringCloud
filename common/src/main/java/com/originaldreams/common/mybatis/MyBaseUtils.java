@@ -59,6 +59,15 @@ public class MyBaseUtils {
     }
 
 
+    /**
+     * 统一的分页查询方法，可以在Service层直接调用
+     * @param currentPage
+     * @param pageSize
+     * @param mapper
+     * @param baseEntity
+     * @param <T>
+     * @return
+     */
     public static <T extends MyBaseMapper> ResultData getPageList(int currentPage, int pageSize, T mapper, MyBaseEntity baseEntity){
         if(currentPage < 1 || pageSize < 0 || pageSize > ConfigUtils.MAX_PAGE_SIZE){
             return ResultData.error("非法数据");
