@@ -64,13 +64,13 @@ public class RouterService {
         }else {
             MyBaseEntity baseEntity = MyBaseUtils.getBaseEntity(Router.class);
             PageList pageList = new PageList();
+            //查询第一页数据时返回记录总条数
             if(currentPage == 1){
                 pageList.setTotal(routerMapper.baseGetCount(baseEntity));
             }
-            pageList.setCurrentPage(currentPage);
-            pageList.setPageSize(pageSize);
+
             baseEntity.setPageSize(pageSize);
-            baseEntity.setStartRows(pageList.getStartRows());
+            baseEntity.setStartRows((currentPage - 1) * pageSize);
             pageList.setData(routerMapper.baseGetPageList(baseEntity));
             return ResultData.success(pageList);
         }
