@@ -1,5 +1,8 @@
 package com.originaldreams.common.mybatis;
 
+import com.originaldreams.common.response.ResultData;
+import com.originaldreams.common.util.ConfigUtils;
+
 import java.lang.reflect.Field;
 import java.util.HashMap;
 
@@ -53,6 +56,23 @@ public class MyBaseUtils {
         MyBaseEntity baseEntity = new MyBaseEntity(tableName,fieldsStr);
         baseEntityMap.put(key,baseEntity);
         return new MyBaseEntity(tableName,fieldsStr);
+    }
+
+
+    public static <T extends MyBaseMapper> ResultData getPageList(int currentPage, int pageSize, T mapper, MyBaseEntity baseEntity){
+        if(currentPage < 1 || pageSize < 0 || pageSize > ConfigUtils.MAX_PAGE_SIZE){
+            return ResultData.error("非法数据");
+        }else {
+            PageList pageList = new PageList();
+            //查询第一页数据时返回记录总条数
+            if(currentPage == 1){
+                pageList.setTotal(mapper.baseGetCount(baseEntity));
+            }
+            baseEntity.setPageSize(pageSize);
+            baseEntity.setStartRows((currentPage - 1) * pageSize);
+            pageList.setData(mapper.baseGetPageList(baseEntity));
+            return ResultData.success(pageList);
+        }
     }
 
     public static void main(String[] args){

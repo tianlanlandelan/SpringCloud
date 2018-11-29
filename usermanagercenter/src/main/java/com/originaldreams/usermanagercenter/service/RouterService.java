@@ -1,9 +1,11 @@
 package com.originaldreams.usermanagercenter.service;
 
 import com.originaldreams.common.mybatis.MyBaseEntity;
+import com.originaldreams.common.mybatis.MyBaseMapper;
 import com.originaldreams.common.mybatis.MyBaseUtils;
 import com.originaldreams.common.response.ResultData;
 import com.originaldreams.common.util.ConfigUtils;
+import com.originaldreams.usermanagercenter.entity.Role;
 import com.originaldreams.usermanagercenter.entity.RoleRouters;
 import com.originaldreams.usermanagercenter.entity.Router;
 import com.originaldreams.usermanagercenter.mapper.*;
@@ -28,11 +30,14 @@ public class RouterService {
     @Resource
     private RoleRoutersMapper roleRoutersMapper;
 
+    MyBaseEntity baseEntity =  MyBaseUtils.getBaseEntity(Router.class);
+
+
     private Logger logger = LoggerFactory.getLogger(RouterService.class);
 
 
     public ResultData getAll(){
-        return ResultData.success(routerMapper.baseGetAll(MyBaseUtils.getBaseEntity(Router.class)));
+        return ResultData.success(routerMapper.baseGetAll(baseEntity));
     }
     public ResultData getRoutersByRoleId(int roleId){
         return ResultData.success(routerMapper.getRoutersByRoleId(roleId));
@@ -59,20 +64,8 @@ public class RouterService {
      * @return
      */
     public ResultData getPageList(int currentPage,int pageSize){
-        if(currentPage < 1 || pageSize < 0 || pageSize > ConfigUtils.MAX_PAGE_SIZE){
-            return ResultData.error("非法数据");
-        }else {
-            MyBaseEntity baseEntity = MyBaseUtils.getBaseEntity(Router.class);
-            PageList pageList = new PageList();
-            //查询第一页数据时返回记录总条数
-            if(currentPage == 1){
-                pageList.setTotal(routerMapper.baseGetCount(baseEntity));
-            }
-
-            baseEntity.setPageSize(pageSize);
-            baseEntity.setStartRows((currentPage - 1) * pageSize);
-            pageList.setData(routerMapper.baseGetPageList(baseEntity));
-            return ResultData.success(pageList);
-        }
+        return MyBaseUtils.getPageList(currentPage,pageSize,routerMapper,baseEntity);
     }
+
+
 }

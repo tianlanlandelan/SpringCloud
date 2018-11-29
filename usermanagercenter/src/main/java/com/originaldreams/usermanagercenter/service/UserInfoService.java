@@ -1,5 +1,7 @@
 package com.originaldreams.usermanagercenter.service;
 
+import com.originaldreams.common.mybatis.MyBaseEntity;
+import com.originaldreams.common.mybatis.MyBaseUtils;
 import com.originaldreams.common.response.ResultData;
 import com.originaldreams.common.util.ConfigUtils;
 import com.originaldreams.usermanagercenter.view.PageList;
@@ -20,30 +22,23 @@ public class UserInfoService {
     @Resource
     private UserInfoMapper userInfoMapper;
 
+    MyBaseEntity baseEntity = MyBaseUtils.getBaseEntity(UserInfo.class);
+
     public ResultData getById(Integer id){
         if(id == null){
             return ResultData.error("用户ID为空");
         }
-        return ResultData.success(userInfoMapper.getById(id));
+
+        baseEntity.setId(id);
+        return ResultData.success(userInfoMapper.baseGetById(baseEntity));
     }
 
     public ResultData getAll(){
-        return ResultData.success(userInfoMapper.getAll());
+        return ResultData.success(userInfoMapper.baseGetAll(baseEntity));
     }
 
     public ResultData getPageList(int currentPage,int pageSize){
-        if(currentPage < 1 || pageSize < 0 || pageSize > ConfigUtils.MAX_PAGE_SIZE){
-            return ResultData.error("非法数据");
-        }else {
-            PageList pageList = new PageList();
-            if(currentPage == 1){
-                pageList.setTotal(userInfoMapper.getCount());
-            }
-            pageList.setCurrentPage(currentPage);
-            pageList.setPageSize(pageSize);
-            pageList.setData(userInfoMapper.getPageList(pageList));
-            return ResultData.success(pageList);
-        }
+        return MyBaseUtils.getPageList(currentPage,pageSize,userInfoMapper,baseEntity);
     }
 
     public Integer deleteById(Integer id){

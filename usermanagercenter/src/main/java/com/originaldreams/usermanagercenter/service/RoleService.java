@@ -20,6 +20,7 @@ import javax.annotation.Resource;
 public class RoleService {
     @Resource
     private RoleMapper roleMapper;
+    MyBaseEntity baseEntity =  MyBaseUtils.getBaseEntity(Role.class);
 
     @Resource
     private UserRolesMapper userRolesMapper;
@@ -28,7 +29,7 @@ public class RoleService {
     private RoleRoutersMapper roleRoutersMapper;
 
     public ResultData getAll(){
-        return ResultData.success(roleMapper.baseGetAll(MyBaseUtils.getBaseEntity(Role.class)));
+        return ResultData.success(roleMapper.baseGetAll(baseEntity));
     }
 
     public ResultData getRoleByUserId(int userId){
