@@ -1,31 +1,27 @@
 package com.originaldreams.usermanagercenter.mapper;
 
+import com.originaldreams.common.mybatis.MyBaseMapper;
 import com.originaldreams.usermanagercenter.entity.User;
 import com.originaldreams.usermanagercenter.view.UserView;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
+/**
+ * UserMapper继承自MyBaseMapper
+ * @author yangkaile
+ * @date 2018-11-29 19:51:15
+ */
 @Mapper
-public interface UserMapper {
+public interface UserMapper extends MyBaseMapper {
     String tableName = "user";
     String userRoles = "user_roles";
-
-     @Select("SELECT id, userName, phone, wxId, email, password, createTime, mask,isDelete FROM " + tableName
-             + " WHERE id = #{id} AND isDelete = 0")
-     User getById(Integer Id);
-
-     @Select("SELECT id, userName, phone, wxId, email, password, createTime, mask,isDelete FROM " + tableName
-             + " WHERE isDelete = 0 ")
-     List<User> getAll();
 
      @Insert("INSERT INTO " + tableName + "(userName, phone, wxId, email, password, createTime, mask,isDelete) "
              + " VALUES (#{userName}, #{phone}, #{wxId}, #{email}, #{password}, #{createTime}, #{mask},#{isDelete})")
      @Options(useGeneratedKeys = true)
      Integer insert(User user);
 
-     @Delete("UPDATE " + tableName + " SET isDelete = 1 , WHERE id = #{id}")
-     Integer deleteById(Integer id);
      @Update("UPDATE " + tableName
              + " SET userName=#{userName}, phone=#{phone}, wxId=#{wxId}, email=#{email}, password=#{password}, createTime=#{createTime}, mask=#{mask} "
              + "WHERE id = #{id}")

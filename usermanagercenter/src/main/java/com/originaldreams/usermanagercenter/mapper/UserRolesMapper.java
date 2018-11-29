@@ -1,5 +1,6 @@
 package com.originaldreams.usermanagercenter.mapper;
 
+import com.originaldreams.common.mybatis.MyBaseMapper;
 import com.originaldreams.usermanagercenter.entity.UserRoles;
 import org.apache.ibatis.annotations.*;
 
@@ -10,7 +11,7 @@ import java.util.List;
  * @date 2018-08-19 19:43:35
  */
 @Mapper
-public interface UserRolesMapper {
+public interface UserRolesMapper extends MyBaseMapper {
     String tableName = "user_roles";
 
      @Select("SELECT userId, roleId, createTime FROM " + tableName + " WHERE userId = #{userId}")
@@ -18,9 +19,6 @@ public interface UserRolesMapper {
 
      @Select("SELECT userId, roleId, createTime FROM " + tableName + " WHERE roleId = #{roleId}")
      UserRoles getByRoleId(Integer roleId);
-
-     @Select("SELECT userId, roleId, createTime FROM " + tableName)
-     List<UserRoles> getAll();
 
      @Insert("INSERT INTO " + tableName + "(userId, roleId, createTime) VALUES (#{userId}, #{roleId}, #{createTime})")
      Integer insert(UserRoles userRoles);

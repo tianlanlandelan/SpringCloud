@@ -1,21 +1,32 @@
 package com.originaldreams.usermanagercenter.entity;
 
+import com.originaldreams.common.mybatis.FieldAttribute;
+import com.originaldreams.common.mybatis.TableAttribute;
+
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @author yangkaile
+ * @date 2018-11-29 19:58:37
+ */
+@TableAttribute("user_roles")
 public class UserRoles {
 
     /**
     * 用户ID
     */
+    @FieldAttribute
      private Integer userId;
     /**
     * 角色ID
     */
+    @FieldAttribute
      private Integer roleId;
     /**
     * 创建时间
     */
+    @FieldAttribute
      private Date createTime ;
      public UserRoles(Integer userId,Integer roleId){
          this.userId = userId;
