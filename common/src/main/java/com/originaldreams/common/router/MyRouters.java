@@ -57,7 +57,19 @@ public class MyRouters {
     }
 
 
-
+    /**
+     * 初始化路由
+     * 解析传入的Controller对象，解析类名前的@RequestMapping注解
+     * 遍历该类的方法：
+     * 1.解析有@RouterAttribute注解的方法，
+     * 2.将@RouterAttribute和@RequestMapping注解信息取出
+     * 3.将方法名、参数类型、参数名取出
+     * 4.将解析出的信息组装成一个MyRouterObject对象
+     *
+     * @param serviceName 组件名
+     * @param controllers Controller类
+     * @return
+     */
     public static  List<MyRouterObject> initRouters(String serviceName,Class... controllers){
         cleanByServiceName(serviceName);
         Class[] controllerArray = controllers;
@@ -130,6 +142,11 @@ public class MyRouters {
     }
 
 
+    /**
+     * 获取RequestMapping里的value属性，并拼成一个字符串
+     * @param requestMapping
+     * @return
+     */
     public  static String getRequestMappingValueStr(RequestMapping requestMapping){
         if(requestMapping != null){
             StringBuilder requestMappingValues = new StringBuilder();
@@ -140,6 +157,12 @@ public class MyRouters {
         }
         return null;
     }
+
+    /**
+     *  获取RequestMapping里的method属性，并拼成一个字符串
+     * @param requestMapping
+     * @return
+     */
     public static  String getRequestMappingMethodStr(RequestMapping requestMapping){
         if(requestMapping != null){
             StringBuilder requestMappingMethods = new StringBuilder();

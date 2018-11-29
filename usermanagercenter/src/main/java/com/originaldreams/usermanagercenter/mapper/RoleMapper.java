@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 
 @Mapper
-public interface RoleMapper {
+public interface RoleMapper{
     String tableName = "role";
     String userRoles = "user_roles";
     String roleRouters = "role_routers";

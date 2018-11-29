@@ -1,11 +1,12 @@
 package com.originaldreams.usermanagercenter.service;
 
+import com.originaldreams.common.mybatis.MyBaseEntity;
+import com.originaldreams.common.mybatis.MyBaseUtils;
 import com.originaldreams.common.response.ResultData;
 import com.originaldreams.common.util.ConfigUtils;
 import com.originaldreams.usermanagercenter.entity.RoleRouters;
 import com.originaldreams.usermanagercenter.entity.Router;
-import com.originaldreams.usermanagercenter.mapper.RoleRoutersMapper;
-import com.originaldreams.usermanagercenter.mapper.RouterMapper;
+import com.originaldreams.usermanagercenter.mapper.*;
 import com.originaldreams.usermanagercenter.view.PageList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +32,7 @@ public class RouterService {
 
 
     public ResultData getAll(){
-        return ResultData.success(routerMapper.getAll());
+        return ResultData.success(routerMapper.baseGetAll(MyBaseUtils.getBaseEntity(Router.class)));
     }
     public ResultData getRoutersByRoleId(int roleId){
         return ResultData.success(routerMapper.getRoutersByRoleId(roleId));
@@ -61,13 +62,16 @@ public class RouterService {
         if(currentPage < 1 || pageSize < 0 || pageSize > ConfigUtils.MAX_PAGE_SIZE){
             return ResultData.error("非法数据");
         }else {
+            MyBaseEntity baseEntity = MyBaseUtils.getBaseEntity(Router.class);
             PageList pageList = new PageList();
             if(currentPage == 1){
-                pageList.setTotal(routerMapper.getCount());
+                pageList.setTotal(routerMapper.baseGetCount(baseEntity));
             }
             pageList.setCurrentPage(currentPage);
             pageList.setPageSize(pageSize);
-            pageList.setData(routerMapper.getPageList(pageList));
+            baseEntity.setPageSize(pageSize);
+            baseEntity.setStartRows(pageList.getStartRows());
+            pageList.setData(routerMapper.baseGetPageList(baseEntity));
             return ResultData.success(pageList);
         }
     }

@@ -1,0 +1,62 @@
+package com.originaldreams.common.mybatis;
+
+import java.lang.reflect.Field;
+import java.util.HashMap;
+
+/**
+ * 负责存储和解析MyBaseEntity对象
+ * @author yangkaile
+ * @date 2018-11-29 14:06:11
+ */
+public class MyBaseUtils {
+    private static HashMap<String,MyBaseEntity> baseEntityMap = new HashMap<>(16);
+
+    /**
+     * 获取指定的MyBaseEntity对象
+     * 每次获取都会返回一个新对象，不会有并发问题
+     * @param entity    Entity实体类 该类必须添加@TableAttribute注解 类中的属性要有@FieldAttribute注解
+     * @return
+     */
+    public static MyBaseEntity getBaseEntity(Class entity){
+        MyBaseEntity baseEntity = baseEntityMap.get(entity.getSimpleName());
+        if(baseEntity == null){
+           return  putBaseEntity(entity);
+        }
+        return new MyBaseEntity(baseEntity.getTableName(),baseEntity.getAllFields());
+    }
+
+    /**
+     * 将一个Entity对象解析成MyBaseEntity对象
+     * 从类前的@TableAttribute注解中解析出表名
+     * 从属性前的@FieldAttribute注解解析要查询的字段名
+     * @param entity
+     * @return
+     */
+    private static MyBaseEntity putBaseEntity(Class entity){
+        String key = entity.getSimpleName();
+        TableAttribute table = (TableAttribute) entity.getAnnotation(TableAttribute.class);
+        if(table == null){
+            return null;
+        }
+        String tableName =  table.value();
+        String fieldsStr = null;
+        Field[] fields = entity.getDeclaredFields();
+        StringBuilder builder = new StringBuilder();
+        for(Field field:fields){
+            if(field.getAnnotation(FieldAttribute.class) != null){
+                builder.append(field.getName()).append(",");
+            }
+        }
+        if(builder.length() > 0){
+            fieldsStr = builder.substring(0,builder.length() - 1);
+        }
+        MyBaseEntity baseEntity = new MyBaseEntity(tableName,fieldsStr);
+        baseEntityMap.put(key,baseEntity);
+        return new MyBaseEntity(tableName,fieldsStr);
+    }
+
+    public static void main(String[] args){
+        MyBaseEntity entity = MyBaseUtils.getBaseEntity(MyDemo.class);
+        System.out.println(entity);
+    }
+}

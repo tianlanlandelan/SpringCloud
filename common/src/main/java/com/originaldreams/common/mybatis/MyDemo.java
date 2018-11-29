@@ -1,33 +1,20 @@
-package com.originaldreams.usermanagercenter.entity;
-
-import com.originaldreams.common.mybatis.FieldAttribute;
-import com.originaldreams.common.mybatis.TableAttribute;
+package com.originaldreams.common.mybatis;
 
 /**
- * Router实体类 使用@TableAttribute注解指定表名，使用@FieLdAttribute注解指定要全量查询的字段
  * @author yangkaile
  * @date 2018-09-28 15:08:00
  */
 @TableAttribute("router")
-public class Router {
+public class MyDemo {
     @FieldAttribute
     private Integer id;
     @FieldAttribute
     private String name;
-    @FieldAttribute
     private String serviceName;
-    @FieldAttribute
     private String controllerName;
-    @FieldAttribute
     private String methodName;
-    @FieldAttribute
     private String routerUrl;
-    @FieldAttribute
     private String requestType;
-
-
-    public Router() {
-    }
 
 
     public Integer getId() {
@@ -88,14 +75,14 @@ public class Router {
 
     @Override
     public String toString() {
-        return "Router{" +
+        return "MyDemo{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", serviceName='" + serviceName + '\'' +
-                ", controllerName='" + controllerName + '\'' +
-                ", methodName='" + methodName + '\'' +
-                ", routerUrl='" + routerUrl + '\'' +
-                ", requestType='" + requestType + '\'' +
-                '}';
+                ", name=" + name  +
+                ", serviceName=" + serviceName  +
+                ", controllerName=" + controllerName  +
+                ", methodName=" + methodName +
+                ", routerUrl=" + routerUrl +
+                ", requestType=" + requestType +
+                "}";
     }
 }
