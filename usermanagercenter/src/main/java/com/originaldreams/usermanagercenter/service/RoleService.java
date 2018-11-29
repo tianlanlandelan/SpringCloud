@@ -1,5 +1,7 @@
 package com.originaldreams.usermanagercenter.service;
 
+import com.originaldreams.common.mybatis.MyBaseEntity;
+import com.originaldreams.common.mybatis.MyBaseUtils;
 import com.originaldreams.common.response.ResultData;
 import com.originaldreams.usermanagercenter.entity.UserRoles;
 import com.originaldreams.usermanagercenter.mapper.RoleRoutersMapper;
@@ -26,7 +28,7 @@ public class RoleService {
     private RoleRoutersMapper roleRoutersMapper;
 
     public ResultData getAll(){
-        return ResultData.success(roleMapper.getAll());
+        return ResultData.success(roleMapper.baseGetAll(MyBaseUtils.getBaseEntity(Role.class)));
     }
 
     public ResultData getRoleByUserId(int userId){
@@ -50,12 +52,6 @@ public class RoleService {
         roleRoutersMapper.deleteByroleId(id);
         roleMapper.deleteById(id);
         return ResultData.success("已删除");
-    }
-
-
-    public Role getById(Integer id){
-
-        return roleMapper.getById(id);
     }
 
     public ResultData insert(Role role){

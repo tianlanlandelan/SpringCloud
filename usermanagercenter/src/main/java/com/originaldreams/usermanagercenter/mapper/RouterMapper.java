@@ -22,9 +22,6 @@ public interface RouterMapper extends MyBaseMapper {
     String roleRouters = "role_routers";
     String allFields = "id,name, serviceName, controllerName, methodName, routerUrl,requestType,parameters,description,createTime";
 
-     @Select("SELECT " + allFields + " FROM " + tableName + " WHERE id = #{id}")
-     Router getById(Integer Id);
-
      @Select({"SELECT a.id,a.name, a.serviceName, a.controllerName, a.methodName, a.routerUrl,a.requestType "
              + " FROM " + tableName + " a ," + roleRouters + " b "
              + " WHERE a.id = b.routerId AND b.roleId = #{roleId}"

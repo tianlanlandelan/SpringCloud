@@ -6,6 +6,7 @@ package com.originaldreams.common.mybatis;
  * @date 2018-11-29 14:10:24
  */
 public class MyBaseEntity {
+    private int id;
     private int pageSize ;
     private int startRows ;
     private String allFields;
@@ -40,10 +41,19 @@ public class MyBaseEntity {
         return tableName;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Override
     public String toString() {
         return "MyBaseEntity{" +
-                "pageSize=" + pageSize +
+                "id=" + id +
+                ", pageSize=" + pageSize +
                 ", startRows=" + startRows +
                 ", allFields='" + allFields + '\'' +
                 ", tableName='" + tableName + '\'' +

@@ -75,19 +75,4 @@ public class RouterService {
             return ResultData.success(pageList);
         }
     }
-
-
-    public Router getById(Integer id){
-
-        return routerMapper.getById(id);
-    }
-
-
-
-    public Integer insert(Router router){
-        return routerMapper.insert(router);
-    }
-
-
-
 }

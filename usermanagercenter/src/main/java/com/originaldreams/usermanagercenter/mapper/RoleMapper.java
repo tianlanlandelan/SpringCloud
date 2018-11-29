@@ -1,20 +1,16 @@
 package com.originaldreams.usermanagercenter.mapper;
 
+import com.originaldreams.common.mybatis.MyBaseMapper;
 import com.originaldreams.usermanagercenter.entity.Role;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
 @Mapper
-public interface RoleMapper{
+public interface RoleMapper extends MyBaseMapper {
     String tableName = "role";
     String userRoles = "user_roles";
     String roleRouters = "role_routers";
-     @Select("SELECT id, name, description, createTime FROM " + tableName + " WHERE id = #{id}")
-     Role getById(Integer Id);
-
-     @Select("SELECT id, name, description, createTime FROM " + tableName)
-     List<Role> getAll();
 
      @Select("SELECT id, name, description, createTime FROM " + tableName + " WHERE name = #{name}")
      Role getByName(Role role);

@@ -18,6 +18,12 @@ import java.util.Map;
  */
 public interface MyBaseMapper {
 
+    /**
+     *
+     * @param map
+     * @param <T> 包含allFields(查询字段列表)、tableName(表名)、id(记录ID)属性的对象
+     * @return
+     */
     @Select("SELECT #{allFields} FROM #{tableName} WHERE id = #{id}")
     <T> Map<String,Object> baseGetById(T map);
 
@@ -26,7 +32,7 @@ public interface MyBaseMapper {
      * 查询全量列表
      * 使用${}方式解析表名和查询字段列表，避免mybatis解析时将其加上单引号
      * @param map
-     * @param <T>
+     * @param <T> 包含allFields(查询字段列表)和tableName(表名)属性的对象
      * @return 返回一个Map对象的List
      */
     @Select("SELECT ${allFields} FROM ${tableName}")
@@ -35,7 +41,7 @@ public interface MyBaseMapper {
     /**
      * 分页查询
      * @param map
-     * @param <T>
+     * @param <T> 包含allFields(查询字段列表)、tableName(表名)、startRows(分页查询开始记录行号)、pageSize(页面大小)属性的对象
      * @return
      */
     @Select("SELECT ${allFields} FROM ${tableName} router LIMIT #{startRows},#{pageSize}")
@@ -44,7 +50,7 @@ public interface MyBaseMapper {
     /**
      * 查询总记录数
      * @param map
-     * @param <T>
+     * @param <T> 包含tableName(表名)属性的对象
      * @return
      */
     @Select("SELECT COUNT(1) FROM  ${tableName}")
