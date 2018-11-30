@@ -1,5 +1,6 @@
 package com.originaldreams.common.mybatis;
 
+import com.originaldreams.common.entity.Router;
 import com.originaldreams.common.response.ResultData;
 import com.originaldreams.common.util.ConfigUtils;
 
@@ -31,7 +32,7 @@ public class MyBaseUtils {
     /**
      * 将一个Entity对象解析成MyBaseEntity对象
      * 从类前的@TableAttribute注解中解析出表名
-     * 从属性前的@FieldAttribute注解解析要查询的字段名
+     * 从属性前的@FieldAttribute注解解析要查询的字段名,当所有属性都没有@FieldAttribute注解时，解析所有属性名作为字段名
      * @param entity
      * @return
      */
@@ -42,16 +43,25 @@ public class MyBaseUtils {
             return null;
         }
         String tableName =  table.value();
-        String fieldsStr = null;
+        String fieldsStr;
         Field[] fields = entity.getDeclaredFields();
+        //带@FieldAttribute注解的属性名
         StringBuilder builder = new StringBuilder();
+        //所有属性名
+        StringBuilder allFields = new StringBuilder();
         for(Field field:fields){
+            allFields.append(field.getName()).append(",");
             if(field.getAnnotation(FieldAttribute.class) != null){
                 builder.append(field.getName()).append(",");
             }
         }
+
         if(builder.length() > 0){
             fieldsStr = builder.substring(0,builder.length() - 1);
+        }else if(allFields.length() > 0){
+            fieldsStr = allFields.substring(0,allFields.length() - 1);
+        }else {
+            return  null;
         }
         MyBaseEntity baseEntity = new MyBaseEntity(tableName,fieldsStr);
         baseEntityMap.put(key,baseEntity);
@@ -85,7 +95,7 @@ public class MyBaseUtils {
     }
 
     public static void main(String[] args){
-        MyBaseEntity entity = MyBaseUtils.getBaseEntity(MyDemo.class);
+        MyBaseEntity entity = MyBaseUtils.getBaseEntity(Router.class);
         System.out.println(entity);
     }
 }

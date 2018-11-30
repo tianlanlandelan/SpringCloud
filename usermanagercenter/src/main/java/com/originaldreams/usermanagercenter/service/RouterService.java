@@ -1,15 +1,11 @@
 package com.originaldreams.usermanagercenter.service;
 
+import com.originaldreams.common.entity.Router;
 import com.originaldreams.common.mybatis.MyBaseEntity;
-import com.originaldreams.common.mybatis.MyBaseMapper;
 import com.originaldreams.common.mybatis.MyBaseUtils;
 import com.originaldreams.common.response.ResultData;
-import com.originaldreams.common.util.ConfigUtils;
-import com.originaldreams.usermanagercenter.entity.Role;
 import com.originaldreams.usermanagercenter.entity.RoleRouters;
-import com.originaldreams.usermanagercenter.entity.Router;
 import com.originaldreams.usermanagercenter.mapper.*;
-import com.originaldreams.usermanagercenter.view.PageList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;

@@ -10,56 +10,46 @@ import java.util.Date;
  * @date 2018-08-02 09:33:01
  */
 @TableAttribute("router")
-public class MyRouterObject {
+public class Router {
     /**
      * 接口ID
      */
-    @FieldAttribute
     private Integer id;
     /**
      * 接口名称
      */
-    @FieldAttribute
     private String name;
     /**
      * 组件名称
      */
-    @FieldAttribute
     private String serviceName;
     /**
      * Controller名称
      */
-    @FieldAttribute
     private String controllerName;
     /**
      * 方法名称
      */
-    @FieldAttribute
     private String methodName;
     /**
      * 路由
      */
-    @FieldAttribute
     private String routerUrl;
     /**
      * 请求类型
      */
-    @FieldAttribute
     private String requestType;
     /**
      * 请求参数
      */
-    @FieldAttribute
     private String parameters;
     /**
      * 描述
      */
-    @FieldAttribute
     private String description;
     /**
      * 创建时间
      */
-    @FieldAttribute
     private Date createTime = new Date();
 
     public Integer getId() {
@@ -144,7 +134,7 @@ public class MyRouterObject {
 
     @Override
     public String toString() {
-        return "MyRouterObject{" +
+        return "Router{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", serviceName='" + serviceName + '\'' +

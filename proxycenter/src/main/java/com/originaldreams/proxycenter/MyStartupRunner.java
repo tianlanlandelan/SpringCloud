@@ -1,6 +1,6 @@
 package com.originaldreams.proxycenter;
 
-import com.originaldreams.common.entity.MyRouterObject;
+import com.originaldreams.common.entity.Router;
 import com.originaldreams.common.router.MyRouters;
 import com.originaldreams.proxycenter.cache.CacheUtils;
 import org.slf4j.Logger;
@@ -25,7 +25,7 @@ public class MyStartupRunner implements CommandLineRunner {
     public void run(String... args)
     {
         while(true){
-            List<MyRouterObject> list = MyRouters.getRouters();
+            List<Router> list = MyRouters.getRouters();
             CacheUtils.initRouterMap(list);
             try {
                 Thread.sleep(30000L);

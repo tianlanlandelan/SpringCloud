@@ -1,7 +1,7 @@
 package com.originaldreams.proxycenter.controller;
 
 import com.originaldreams.common.encryption.MyBase64Utils;
-import com.originaldreams.common.entity.MyRouterObject;
+import com.originaldreams.common.entity.Router;
 import com.originaldreams.common.response.MyResponse;
 import com.originaldreams.common.response.ResultData;
 import com.originaldreams.common.util.ConfigUtils;
@@ -248,7 +248,7 @@ public class ApiController {
         }
         List<Integer> routerIdList = CacheUtils.userRouterMap.get(getUserId());
 
-        MyRouterObject routerObject = CacheUtils.getRouterMap().get(methodName);
+        Router routerObject = CacheUtils.getRouterMap().get(methodName);
         /*
          * 拿不到路由
          */

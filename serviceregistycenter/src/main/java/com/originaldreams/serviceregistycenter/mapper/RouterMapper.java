@@ -1,6 +1,6 @@
 package com.originaldreams.serviceregistycenter.mapper;
 
-import com.originaldreams.common.entity.MyRouterObject;
+import com.originaldreams.common.entity.Router;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -13,14 +13,14 @@ public interface RouterMapper {
      String tableName = "router";
 
      @Select("SELECT id,name, serviceName, controllerName, methodName, routerUrl,requestType,parameters,description FROM " + tableName + " WHERE id = #{id}")
-     MyRouterObject getById(Integer Id);
+     Router getById(Integer Id);
 
      @Select("SELECT id,name, serviceName, controllerName, methodName, routerUrl,requestType,parameters,description FROM " + tableName)
-     List<MyRouterObject> getAll();
+     List<Router> getAll();
 
      @Insert("INSERT INTO " + tableName + "(id,name, serviceName, controllerName, methodName, routerUrl,requestType,parameters,description,createTime) " +
              "VALUES (#{id},#{name}, #{serviceName}, #{controllerName}, #{methodName}, #{routerUrl},#{requestType},#{parameters},#{description},#{createTime})")
-     Integer insert(MyRouterObject router);
+     Integer insert(Router router);
 
      @Delete("DELETE FROM " + tableName  + " WHERE serviceName = #{serviceName}")
      Integer deleteByServiceName(String serviceName);

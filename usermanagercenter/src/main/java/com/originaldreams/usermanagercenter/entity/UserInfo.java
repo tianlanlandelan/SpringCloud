@@ -1,10 +1,8 @@
 package com.originaldreams.usermanagercenter.entity;
 
-import com.originaldreams.common.mybatis.FieldAttribute;
 import com.originaldreams.common.mybatis.TableAttribute;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author yangkaile
@@ -15,57 +13,46 @@ public class UserInfo {
     /**
     * id
     */
-    @FieldAttribute
      private Integer id;
     /**
     * 用户昵称
     */
-    @FieldAttribute
      private String nickName;
     /**
     * 生日
     */
-    @FieldAttribute
      private Date birthday;
     /**
     * 性别（男:0，女:1）
     */
-    @FieldAttribute
      private Integer gender = 0;
     /**
     * 地址
     */
-    @FieldAttribute
      private String address;
     /**
     * 签名
     */
-    @FieldAttribute
      private String signature;
     /**
     * 用户头像
     */
-    @FieldAttribute
      private String userPortrait;
     /**
     * 邮箱
     */
-    @FieldAttribute
      private String email;
     /**
     * 手机号
     */
-    @FieldAttribute
      private String phone;
     /**
     * 创建时间
     */
-    @FieldAttribute
      private Date createTime = new Date();
     /**
     * 掩码值，用来表示一系列开关
     */
-    @FieldAttribute
      private Long mask;
 
      public UserInfo(){
