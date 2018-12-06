@@ -1,7 +1,10 @@
 package com.originaldreams.logcenter.service;
 
+import com.originaldreams.common.entity.LogonLog;
+import com.originaldreams.common.mybatis.MyBaseEntity;
+import com.originaldreams.common.mybatis.MyBaseUtils;
+import com.originaldreams.common.response.ResultData;
 import org.springframework.stereotype.Service;
-import com.originaldreams.logcenter.entity.LogonLog;
 import com.originaldreams.logcenter.mapper.LogonLogMapper;
 
 import javax.annotation.Resource;
@@ -16,14 +19,21 @@ public class LogonLogService {
     @Resource
     private LogonLogMapper logonLogMapper;
 
-    public Integer insert(LogonLog logonLog){
-        return logonLogMapper.insert(logonLog);
+    MyBaseEntity myBaseEntity = MyBaseUtils.getBaseEntity(LogonLog.class);
+
+    public ResultData insert(LogonLog logonLog){
+        return ResultData.success(logonLogMapper.insert(logonLog));
     }
 
-    public LogonLog getById(Integer id){
 
-        return logonLogMapper.getById(id);
+    public ResultData getAll(){
+        return ResultData.success(logonLogMapper.baseGetAll(myBaseEntity));
     }
+
+    public ResultData getPageList(int currentPage,int pageSize){
+        return MyBaseUtils.getPageList(currentPage,pageSize,logonLogMapper,myBaseEntity);
+    }
+
 
     public LogonLog getByUserId(Integer userId){
         return logonLogMapper.getByUserId(userId);
@@ -32,23 +42,4 @@ public class LogonLogService {
     public LogonLog getByType(Integer type){
         return logonLogMapper.getByType(type);
     }
-
-
-
-
-    public List<LogonLog> getAll(){
-        return logonLogMapper.getAll();
-    }
-
-
-
-    public Integer deleteById(Integer id){
-        return logonLogMapper.deleteById(id);
-    }
-
-    public Integer update(LogonLog logonLog){
-        return logonLogMapper.update(logonLog);
-    }
-
-
 }

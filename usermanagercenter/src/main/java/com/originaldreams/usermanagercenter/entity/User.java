@@ -1,8 +1,16 @@
 package com.originaldreams.usermanagercenter.entity;
 
+import com.originaldreams.common.mybatis.FieldAttribute;
+import com.originaldreams.common.mybatis.TableAttribute;
+
 import java.util.Date;
 import java.util.List;
 
+/**
+ * @author yangkaile
+ * @date 2018-11-29 19:54:56
+ */
+@TableAttribute("user")
 public class User {
     /**
      * 允许使用用户名登录
@@ -23,38 +31,47 @@ public class User {
     /**
     * id
     */
+    @FieldAttribute
      private Integer id;
     /**
     * 用户名,不重复，可用于登录
     */
+    @FieldAttribute
      private String userName;
     /**
     * 手机号，不重复，可用于登录
     */
+    @FieldAttribute
      private String phone;
     /**
     * 微信号，不重复，可用于登录
     */
+    @FieldAttribute
      private String wxId;
     /**
     * 邮箱，不重复，可用于登录
     */
+    @FieldAttribute
      private String email;
     /**
     * 密码
     */
+    @FieldAttribute
      private String password;
     /**
     * 创建时间
     */
+    @FieldAttribute
      private Date createTime = new Date();
     /**
     * 掩码值，用来表示一系列开关（如：是否开启用户名登录、是否已删除、是否开启邮箱登录等）
     */
-     private long mask = 0l;
+    @FieldAttribute
+     private long mask = 0L;
     /**
      * 是否已删除 0:未删除 1:已删除
      */
+    @FieldAttribute
      private int isDelete = 0;
      public Integer getId(){
            return this.id;

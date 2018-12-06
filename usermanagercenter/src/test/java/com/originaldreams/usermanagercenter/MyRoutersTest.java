@@ -2,7 +2,7 @@ package com.originaldreams.usermanagercenter;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.originaldreams.common.entity.MyRouterObject;
+import com.originaldreams.common.entity.Router;
 import com.originaldreams.common.util.ConfigUtils;
 import org.junit.Test;
 import org.springframework.http.HttpStatus;
@@ -17,7 +17,7 @@ public class MyRoutersTest {
     @Test
     public  void readRouters() {
 
-//        List<MyRouterObject> list = MyRouters.getInstance().initRouters(MyServiceName.USER_MANAGER_CENTER,
+//        List<Router> list = MyRouters.getInstance().initRouters(MyServiceName.USER_MANAGER_CENTER,
 //                LogonController.class,
 //                PermissionController.class,
 //                PermissionManagerController.class,
@@ -37,9 +37,9 @@ public class MyRoutersTest {
 //        System.out.println("registerRouters:" + responseEntity.getBody());
 //        System.out.println("===================");
 //        if(isSuccess(responseEntity)){
-//            List<MyRouterObject> list =  getEntity(responseEntity,MyRouterObject.class);
+//            List<Router> list =  getEntity(responseEntity,Router.class);
 //
-//            for(MyRouterObject object : list){
+//            for(Router object : list){
 //                System.out.println(object);
 //            }
 //        }

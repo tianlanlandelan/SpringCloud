@@ -1,12 +1,14 @@
 package com.originaldreams.usermanagercenter.entity;
 
+import com.originaldreams.common.mybatis.TableAttribute;
+
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author  杨凯乐
  * @date 2018-08-11 13:30:33
  */
+@TableAttribute("role")
 public class Role {
     /**
     * 角色ID
@@ -21,7 +23,7 @@ public class Role {
     */
      private String description;
     /**
-    * 角色描述
+    * 创建时间
     */
      private Date createTime;
      public Role(){

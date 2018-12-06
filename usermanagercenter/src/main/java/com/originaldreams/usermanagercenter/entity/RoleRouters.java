@@ -1,8 +1,14 @@
 package com.originaldreams.usermanagercenter.entity;
 
-import java.util.Date;
-import java.util.List;
+import com.originaldreams.common.mybatis.TableAttribute;
 
+import java.util.Date;
+
+/**
+ * @author yangkaile
+ * @date 2018-11-29 19:54:04
+ */
+@TableAttribute("role_routers")
 public class RoleRouters {
     /**
     * 角色ID

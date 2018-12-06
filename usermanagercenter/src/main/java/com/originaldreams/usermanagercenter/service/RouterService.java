@@ -1,12 +1,11 @@
 package com.originaldreams.usermanagercenter.service;
 
+import com.originaldreams.common.entity.Router;
+import com.originaldreams.common.mybatis.MyBaseEntity;
+import com.originaldreams.common.mybatis.MyBaseUtils;
 import com.originaldreams.common.response.ResultData;
-import com.originaldreams.common.util.ConfigUtils;
 import com.originaldreams.usermanagercenter.entity.RoleRouters;
-import com.originaldreams.usermanagercenter.entity.Router;
-import com.originaldreams.usermanagercenter.mapper.RoleRoutersMapper;
-import com.originaldreams.usermanagercenter.mapper.RouterMapper;
-import com.originaldreams.usermanagercenter.view.PageList;
+import com.originaldreams.usermanagercenter.mapper.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -27,11 +26,14 @@ public class RouterService {
     @Resource
     private RoleRoutersMapper roleRoutersMapper;
 
+    MyBaseEntity baseEntity =  MyBaseUtils.getBaseEntity(Router.class);
+
+
     private Logger logger = LoggerFactory.getLogger(RouterService.class);
 
 
     public ResultData getAll(){
-        return ResultData.success(routerMapper.getAll());
+        return ResultData.success(routerMapper.baseGetAll(baseEntity));
     }
     public ResultData getRoutersByRoleId(int roleId){
         return ResultData.success(routerMapper.getRoutersByRoleId(roleId));
@@ -58,32 +60,8 @@ public class RouterService {
      * @return
      */
     public ResultData getPageList(int currentPage,int pageSize){
-        if(currentPage < 1 || pageSize < 0 || pageSize > ConfigUtils.MAX_PAGE_SIZE){
-            return ResultData.error("非法数据");
-        }else {
-            PageList pageList = new PageList();
-            if(currentPage == 1){
-                pageList.setTotal(routerMapper.getCount());
-            }
-            pageList.setCurrentPage(currentPage);
-            pageList.setPageSize(pageSize);
-            pageList.setData(routerMapper.getPageList(pageList));
-            return ResultData.success(pageList);
-        }
+        return MyBaseUtils.getPageList(currentPage,pageSize,routerMapper,baseEntity);
     }
-
-
-    public Router getById(Integer id){
-
-        return routerMapper.getById(id);
-    }
-
-
-
-    public Integer insert(Router router){
-        return routerMapper.insert(router);
-    }
-
 
 
 }

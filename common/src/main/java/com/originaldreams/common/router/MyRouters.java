@@ -1,6 +1,6 @@
 package com.originaldreams.common.router;
 
-import com.originaldreams.common.entity.MyRouterObject;
+import com.originaldreams.common.entity.Router;
 import com.originaldreams.common.response.MyResponseReader;
 import com.originaldreams.common.util.ConfigUtils;
 import com.originaldreams.common.util.StringUtils;
@@ -23,11 +23,11 @@ import java.util.Map;
  * @date 2018-10-09 09:37:33
  */
 public class MyRouters {
-    public static Map<Integer,MyRouterObject> routerMap = new HashMap();
-    public static void initRouterMap(List<MyRouterObject> list){
+    public static Map<Integer,Router> routerMap = new HashMap();
+    public static void initRouterMap(List<Router> list){
         routerMap.clear();
-        for (MyRouterObject myRouterObject:list){
-            routerMap.put(myRouterObject.getId(),myRouterObject);
+        for (Router router:list){
+            routerMap.put(router.getId(),router);
         }
     }
 
@@ -57,11 +57,23 @@ public class MyRouters {
     }
 
 
-
-    public static  List<MyRouterObject> initRouters(String serviceName,Class... controllers){
+    /**
+     * 初始化路由
+     * 解析传入的Controller对象，解析类名前的@RequestMapping注解
+     * 遍历该类的方法：
+     * 1.解析有@RouterAttribute注解的方法，
+     * 2.将@RouterAttribute和@RequestMapping注解信息取出
+     * 3.将方法名、参数类型、参数名取出
+     * 4.将解析出的信息组装成一个Router对象
+     *
+     * @param serviceName 组件名
+     * @param controllers Controller类
+     * @return
+     */
+    public static  List<Router> initRouters(String serviceName, Class... controllers){
         cleanByServiceName(serviceName);
         Class[] controllerArray = controllers;
-        List<MyRouterObject> list = new ArrayList<>();
+        List<Router> list = new ArrayList<>();
         for(Class t:controllerArray){
             //获取Class上的RequestMapping信息（路由前缀）
 
@@ -72,7 +84,7 @@ public class MyRouters {
                 //获取@RouterAttribute注解信息
                 RouterAttribute routerAttribute = method.getAnnotation(RouterAttribute.class);
                 if(routerAttribute != null){
-                    MyRouterObject routerObject = new MyRouterObject();
+                    Router routerObject = new Router();
                     routerObject.setId(routerAttribute.id());
                     routerObject.setName(method.getName() + routerObject.getId());
                     routerObject.setDescription(routerAttribute.description());
@@ -102,16 +114,16 @@ public class MyRouters {
         restTemplate.getForEntity(
                 ConfigUtils.CLEAN_ROUTERS_BY_SERVICENAME + "?serviceName=" + serviceName,String.class);
     }
-    private static void registerRouters(MyRouterObject object){
+    private static void registerRouters(Router object){
         RestTemplate restTemplate = getRestTemplate();
         restTemplate.postForObject(ConfigUtils.ROUTER_REGISTER_URL,object,String.class);
     }
 
 
-    public static List<MyRouterObject> getRouters(){
+    public static List<Router> getRouters(){
         RestTemplate restTemplate = getRestTemplate();
         ResponseEntity<String> responseEntity = restTemplate.getForEntity(ConfigUtils.GET_ROUTERS_URL,String.class);
-        List<MyRouterObject> list = MyResponseReader.getList(responseEntity,MyRouterObject.class);
+        List<Router> list = MyResponseReader.getList(responseEntity,Router.class);
         MyRouters.initRouterMap(list);
         return list;
     }
@@ -130,6 +142,11 @@ public class MyRouters {
     }
 
 
+    /**
+     * 获取RequestMapping里的value属性，并拼成一个字符串
+     * @param requestMapping
+     * @return
+     */
     public  static String getRequestMappingValueStr(RequestMapping requestMapping){
         if(requestMapping != null){
             StringBuilder requestMappingValues = new StringBuilder();
@@ -140,6 +157,12 @@ public class MyRouters {
         }
         return null;
     }
+
+    /**
+     *  获取RequestMapping里的method属性，并拼成一个字符串
+     * @param requestMapping
+     * @return
+     */
     public static  String getRequestMappingMethodStr(RequestMapping requestMapping){
         if(requestMapping != null){
             StringBuilder requestMappingMethods = new StringBuilder();

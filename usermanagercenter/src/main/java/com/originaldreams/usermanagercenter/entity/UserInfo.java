@@ -1,8 +1,14 @@
 package com.originaldreams.usermanagercenter.entity;
 
-import java.util.Date;
-import java.util.List;
+import com.originaldreams.common.mybatis.TableAttribute;
 
+import java.util.Date;
+
+/**
+ * @author yangkaile
+ * @date 2018-11-29 19:57:04
+ */
+@TableAttribute("user_info")
 public class UserInfo {
     /**
     * id

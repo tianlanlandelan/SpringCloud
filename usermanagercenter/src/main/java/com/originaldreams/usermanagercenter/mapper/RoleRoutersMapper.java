@@ -19,8 +19,6 @@ public interface RoleRoutersMapper {
     @Select("SELECT  roleId, routerId, createTime FROM " + tableName + " WHERE routerId = #{routerId}")
     List<RoleRouters> getByRouterId(Integer routerId);
 
-    @Select("SELECT  roleId, routerId, createTime FROM " + tableName)
-    List<RoleRouters> getAll();
 
     @Insert("INSERT INTO " + tableName + "(roleId, routerId, createTime) VALUES (#{roleId}, #{routerId}, #{createTime})")
     Integer insert(RoleRouters roleRouters);

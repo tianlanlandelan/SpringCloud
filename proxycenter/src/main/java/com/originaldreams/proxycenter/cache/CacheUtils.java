@@ -1,6 +1,6 @@
 package com.originaldreams.proxycenter.cache;
 
-import com.originaldreams.common.entity.MyRouterObject;
+import com.originaldreams.common.entity.Router;
 import com.originaldreams.common.response.MyResponse;
 import com.originaldreams.common.response.ResultData;
 import org.springframework.http.MediaType;
@@ -22,21 +22,21 @@ public class CacheUtils {
     public final static String ROLE_MANAGER = "Manager";
     public final static String ROLE_USER = "User";
 
-    private static Map<String,MyRouterObject> routerMap = new HashMap<>();
+    private static Map<String,Router> routerMap = new HashMap<>();
     public static Map<Integer,List<Integer>> userRouterMap = new HashMap<>();
     public static Map<Integer,String> userRoleMap = new HashMap<>();
 
     private static String lock = "lock";
-    public static Map<String,MyRouterObject> getRouterMap(){
+    public static Map<String,Router> getRouterMap(){
         synchronized (lock){
             return routerMap;
         }
     }
 
-    public static void initRouterMap(List<MyRouterObject> list){
+    public static void initRouterMap(List<Router> list){
         synchronized (lock){
             routerMap.clear();
-            for(MyRouterObject object:list){
+            for(Router object:list){
                 routerMap.put(object.getName(),object);
             }
         }

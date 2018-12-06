@@ -1,6 +1,6 @@
 package com.originaldreams.serviceregistycenter.controller;
 
-import com.originaldreams.common.entity.MyRouterObject;
+import com.originaldreams.common.entity.Router;
 import com.originaldreams.common.response.MyResponse;
 import com.originaldreams.serviceregistycenter.service.RouterService;
 import org.slf4j.Logger;
@@ -25,7 +25,7 @@ public class RouterController {
     RouterService routerService;
 
     @RequestMapping(value = "/routerRegister",method = RequestMethod.POST)
-    public ResponseEntity routerRegister(@RequestBody MyRouterObject entity){
+    public ResponseEntity routerRegister(@RequestBody Router entity){
         logger.info("routerRegister:" + entity.toString());
         return MyResponse.ok(routerService.insert(entity));
     }

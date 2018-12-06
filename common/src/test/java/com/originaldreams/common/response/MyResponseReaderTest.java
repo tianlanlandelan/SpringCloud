@@ -1,6 +1,6 @@
 package com.originaldreams.common.response;
 
-import com.originaldreams.common.entity.MyRouterObject;
+import com.originaldreams.common.entity.Router;
 import org.junit.Test;
 import org.springframework.http.ResponseEntity;
 
@@ -17,19 +17,19 @@ public class MyResponseReaderTest {
     @Test
     public void getObject(){
         ResultData resultData = new ResultData();
-        MyRouterObject object = new MyRouterObject();
+        Router object = new Router();
         object.setRouterUrl("你大爷");
         object.setId(123);
         resultData.setData(object);
         ResponseEntity response = MyResponse.ok(resultData);
-        System.out.println(MyResponseReader.getObject(response,MyRouterObject.class));
+        System.out.println(MyResponseReader.getObject(response,Router.class));
     }
 
     @Test
     public void getList(){
         ResultData resultData = new ResultData();
-        List<MyRouterObject> list = new ArrayList<>();
-        MyRouterObject object = new MyRouterObject();
+        List<Router> list = new ArrayList<>();
+        Router object = new Router();
         object.setRouterUrl("你大爷");
         object.setId(123);
         list.add(object);
@@ -39,7 +39,7 @@ public class MyResponseReaderTest {
         list.add(object);
         resultData.setData(list);
         ResponseEntity response = MyResponse.ok(resultData);
-        System.out.println(MyResponseReader.getList(response,MyRouterObject.class));
+        System.out.println(MyResponseReader.getList(response,Router.class));
     }
 
     @Test
@@ -52,8 +52,8 @@ public class MyResponseReaderTest {
 
     @Test
     public void getRouters(){
-//        List<MyRouterObject> list =  MyRouters.getInstance().getRouters();
-//        for(MyRouterObject object:list){
+//        List<Router> list =  MyRouters.getInstance().getRouters();
+//        for(Router object:list){
 //            System.out.println(object);
 //        }
 

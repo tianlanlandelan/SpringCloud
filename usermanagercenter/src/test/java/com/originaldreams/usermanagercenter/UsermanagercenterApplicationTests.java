@@ -38,14 +38,14 @@ public class UsermanagercenterApplicationTests {
     @Test
     public  void readRouters() {
 
-//        List<MyRouterObject> list = MyRouters.getInstance().initRouters(MyServiceName.USER_MANAGER_CENTER,
+//        List<Router> list = MyRouters.getInstance().initRouters(MyServiceName.USER_MANAGER_CENTER,
 //                LogonController.class,
 //                PermissionController.class,
 //                PermissionManagerController.class,
 //                UserInfoController.class);
 //        RestTemplate restTemplate = new RestTemplate();
 //        restTemplate.getMessageConverters().add(new StringHttpMessageConverter(Charset.forName("utf-8")));
-//        for(MyRouterObject object:list){
+//        for(Router object:list){
 //            String responseEntity = (String)restTemplate.postForObject("http://127.0.0.1:8801/test", object, String.class, new Object[0]);
 //            System.out.println("registerRouters:" + responseEntity);
 //        }

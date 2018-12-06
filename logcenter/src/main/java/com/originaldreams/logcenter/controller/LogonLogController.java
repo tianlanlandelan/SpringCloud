@@ -1,11 +1,9 @@
 package com.originaldreams.logcenter.controller;
 
+import com.originaldreams.common.entity.LogonLog;
 import com.originaldreams.common.response.MyResponse;
-import com.originaldreams.common.response.ResultData;
 import com.originaldreams.common.router.MyLogRouter;
-import com.originaldreams.common.router.MyUserManagerRouter;
 import com.originaldreams.common.router.RouterAttribute;
-import com.originaldreams.logcenter.entity.LogonLog;
 import com.originaldreams.logcenter.service.LogonLogService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-import java.util.List;
 /**
  * @author 董晨龙
  * @date 2018-08-15 10:05:40
@@ -28,65 +25,45 @@ public class LogonLogController {
 
     @Resource
     private LogonLogService logonLogService;
+
     @RouterAttribute(id = MyLogRouter.INSERT_LOGON_LOG, description = "添加登录日志")
     @RequestMapping(value = "/insert",method = RequestMethod.POST)
-    ResponseEntity insert(LogonLog logonLog){
-        ResultData response =new ResultData();
-        try{
-            Integer rows = logonLogService.insert(logonLog);
-            response.setSuccess(ResultData.SUCCESS_CODE_SUCCESS);
-            logger.info("新增了登陆日志:"+rows+"条\t id:"+logonLog.getId());
-        }catch(Exception e){
-            e.printStackTrace();
-            return MyResponse.serverError();
+    public ResponseEntity insert(LogonLog logonLog){
+        return MyResponse.ok(logonLogService.insert(logonLog));
+    }
+
+
+    @RouterAttribute(id = MyLogRouter.GET_ALL_LOGON_LOG ,description = "查询所有登录日志")
+    @RequestMapping(value = "/getAll",method = RequestMethod.GET)
+    public ResponseEntity getAll(){
+        return ResponseEntity.ok(logonLogService.getAll());
+    }
+
+    @RouterAttribute(id = MyLogRouter.GET_LOGON_LOG_BY_PAGE ,description = "分页查询登录日志")
+    @RequestMapping(value = "/getPageList",method = RequestMethod.GET)
+    public ResponseEntity getPageList(Integer currentPage,Integer pageSize){
+        if(currentPage == null || pageSize == null){
+            return MyResponse.badRequest();
         }
-        return MyResponse.ok(response);
+        return ResponseEntity.ok(logonLogService.getPageList(currentPage,pageSize));
     }
 
 
-//    @RequestMapping(value = "/list",method = RequestMethod.GET)
-//    public ResponseEntity list(LogonLog log, String startDate, String endDate, Integer page_num, Integer page_size){
-//        Map<String,Object> params = new HashMap<>();
-//        ResultData response =new ResultData();
-//        if(page_num!=null||page_size!=null){
-//            Integer offset=(page_num-1)*page_size;
-//            params.put("offset",offset);
-//            params.put("rows",page_size);
-//        }else{
-//            params.put("offset",0);
-//            params.put("rows",10);
-//        }
-//        params.put("startDate",startDate);
-//        params.put("endDate",endDate);
-//        params.put("com.originaldreams.serviceregistycenter.entity",log);
-//        response.setData(logonLogService.getListByCondition(params));
-//        return MyResponse.ok(response);
-//    }
 
-    @RequestMapping(value = "/getById",method = RequestMethod.GET)
-    ResponseEntity getById(Integer id){
-        LogonLog result = logonLogService.getById(id);
-        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(result);
-    }
 
     @RequestMapping(value = "/getByUserId",method = RequestMethod.GET)
-    ResponseEntity getByUserId(Integer userId){
+    public ResponseEntity getByUserId(Integer userId){
         LogonLog result = logonLogService.getByUserId(userId);
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(result);
     }
 
     @RequestMapping(value = "/getByType",method = RequestMethod.GET)
-    ResponseEntity getByType(Integer type){
+    public ResponseEntity getByType(Integer type){
         LogonLog result = logonLogService.getByType(type);
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(result);
     }
 
 
-    @RequestMapping(value = "/getAll",method = RequestMethod.GET)
-    ResponseEntity getAll(){
-        List<LogonLog> result = logonLogService.getAll();
-        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(result);
-    }
 
 
 

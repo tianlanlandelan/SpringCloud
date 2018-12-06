@@ -1,12 +1,16 @@
 package com.originaldreams.common.entity;
 
+import com.originaldreams.common.mybatis.FieldAttribute;
+import com.originaldreams.common.mybatis.TableAttribute;
+
 import java.util.Date;
 
 /**
  * @author 杨凯乐
  * @date 2018-08-02 09:33:01
  */
-public class MyRouterObject {
+@TableAttribute("router")
+public class Router {
     /**
      * 接口ID
      */
@@ -35,8 +39,17 @@ public class MyRouterObject {
      * 请求类型
      */
     private String requestType;
+    /**
+     * 请求参数
+     */
     private String parameters;
+    /**
+     * 描述
+     */
     private String description;
+    /**
+     * 创建时间
+     */
     private Date createTime = new Date();
 
     public Integer getId() {
@@ -121,7 +134,7 @@ public class MyRouterObject {
 
     @Override
     public String toString() {
-        return "MyRouterObject{" +
+        return "Router{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", serviceName='" + serviceName + '\'' +
