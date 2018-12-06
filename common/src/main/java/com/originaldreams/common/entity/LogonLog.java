@@ -1,4 +1,6 @@
-package com.originaldreams.logcenter.entity;
+package com.originaldreams.common.entity;
+
+import com.originaldreams.common.mybatis.TableAttribute;
 
 import java.util.Date;
 
@@ -6,6 +8,7 @@ import java.util.Date;
  * @author 董晨龙
  * @date 2018-08-18 10:04:12
  */
+@TableAttribute("logon_log")
 public class LogonLog {
     /**
     * id

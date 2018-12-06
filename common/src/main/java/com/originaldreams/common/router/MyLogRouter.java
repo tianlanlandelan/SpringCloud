@@ -26,4 +26,19 @@ public class MyLogRouter {
      */
     public final static int INSERT_SMS_SEND_LOG = 30005;
 
+    /**
+     * 查询所有登录日志
+     */
+    public final static int GET_ALL_LOGON_LOG = 30006;
+
+    /**
+     * 查询用户的登录日志
+     */
+    public final static int GET_LOGON_LOG_BY_USER_ID = 30007;
+
+    /**
+     * 分页查询登录日志
+     */
+    public final static int GET_LOGON_LOG_BY_PAGE = 30008;
+
 }

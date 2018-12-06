@@ -1,5 +1,6 @@
 package com.originaldreams.logcenter;
 
+import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -23,7 +24,8 @@ public class LogcenterApplication {
      */
     RestTemplate restTemplate(){
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
+        restTemplate.getMessageConverters().clear();
+        restTemplate.getMessageConverters().add(new FastJsonHttpMessageConverter());
         return restTemplate;
 
     }

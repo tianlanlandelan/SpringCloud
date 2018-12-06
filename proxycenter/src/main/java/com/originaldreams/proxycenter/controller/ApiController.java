@@ -39,7 +39,6 @@ public class ApiController {
     @Autowired
     private HttpServletRequest request;
 
-
     /**
      * 客户端传参时，多个参数之间的分隔符
      */

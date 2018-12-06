@@ -3,7 +3,6 @@ package com.originaldreams.logcenter;
 import com.originaldreams.common.router.MyRouters;
 import com.originaldreams.common.router.MyServiceName;
 import com.originaldreams.logcenter.controller.EmailLogController;
-import com.originaldreams.logcenter.controller.HttpController;
 import com.originaldreams.logcenter.controller.LogonLogController;
 import com.originaldreams.logcenter.controller.SMSLogController;
 import org.slf4j.Logger;
@@ -28,7 +27,6 @@ public class MyStartupRunner implements CommandLineRunner {
         //初始化路由表
         MyRouters.initRouters(MyServiceName.LOG_CENTER,
                 EmailLogController.class,
-                HttpController.class,
                 LogonLogController.class,
                 SMSLogController.class
                 );
